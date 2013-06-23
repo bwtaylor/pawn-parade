@@ -53,6 +53,7 @@ GEM
       cucumber (>= 1.2.0)
       nokogiri (>= 1.5.0)
       rails (~> 3.0)
+    database_cleaner (1.0.1)
     diff-lcs (1.2.4)
     erubis (2.7.0)
     execjs (1.4.0)
@@ -144,6 +145,7 @@ PLATFORMS
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
   cucumber-rails (>= 0.3.2)
+  database_cleaner (>= 0.7.0)
   jquery-rails
   rails (= 3.2.13)
   rspec-rails (>= 2.0.0)
