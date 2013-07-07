@@ -22,7 +22,7 @@ end
 
 group :development, :test do
   gem "rspec-rails", ">= 2.0.0"
-  gem "cucumber-rails", ">= 0.3.2"
+  gem "cucumber-rails", ">= 0.3.2", :require => false
   gem "webrat", ">= 0.7.2"
   gem "database_cleaner", ">= 0.7.0"
 end
