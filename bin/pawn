@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+
+APP_PATH = File.expand_path('../../config/application',  __FILE__)
+require File.expand_path('../../config/boot',  __FILE__)
+require APP_PATH
+
+# set Rails.env here if desired
+Rails.application.require_environment!
+
+require 'gli'
+require 'awesome_print'
+
+include GLI::App
+
+program_desc 'command line administration for a pawn parade deployment'
+
+desc 'pawn CLI for managing chess league entities'
+
+command :schedule do |schedule|
+
+  desc 'manage schedules'
+  long_desc <<END
+The schedule command manipulates named schedules of tournaments, around
+which leagues are built.
+END
+
+  schedule.command :create do |create|
+    create.desc 'add a new schedule'
+    create.long_desc 'add a new named schedule'
+    create.action do | global_options, options, args |
+      raise 'you must specify a schedule_name to create' if args.length < 1
+      schedule_name = args[0]
+      existing_schedules = Schedule.all( :conditions => {:name => schedule_name} )
+      if existing_schedules.length > 0
+        ap existing_schedules
+        raise "schedule #{existing_schedules[0].name} already exists"
+      end
+      new_schedule = Schedule.create!( :name => schedule_name)
+      puts "schedule #{new_schedule.name} created" if new_schedule
+    end
+  end
+
+  schedule.command :list do |list|
+    list.desc 'list schedules'
+    list.long_desc 'show the list of existing schedules'
+    schedules = Schedule.order('name').all
+    list.action do | global_options, options, args |
+      schedules.each do |schedule|
+        puts schedule.name
+      end
+      puts "#{schedules.length} schedules found"
+    end
+  end
+
+end
+
+exit run(ARGV)
+
+
+

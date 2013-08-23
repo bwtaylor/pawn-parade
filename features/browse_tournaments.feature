@@ -5,10 +5,9 @@ Feature: Browse Tournaments
   So that I can discover tournaments I may be interested in
 
 Scenario: See upcoming tournaments on a schedule
-  Given a schedule named "testschedule" exists 
-    And the schedule has tournaments:
+  Given a schedule named "testschedule" exists with tournaments:
         | location                 | date       |
-        | John Jay High School     | 2013-9-28  |   
+        | John Jay High School     | 2013-9-28  |
         | Harmony Hills Elementary | 2013-10-19 |
         | Briscoe Middle School    | 2013-9-14  |
    When the date is "2013-7-7"
