@@ -13,7 +13,6 @@ end
 
 Given(/^(?:a|the) schedule named "(.*?)" does not exist$/) do |schedule_name|
   Schedule.delete_all(["name = ?", schedule_name] )
-  matches = Schedule.all( :conditions => {:name => schedule_name} )
 end
 
 Given /^the schedule has tournaments:$/ do |tournaments|

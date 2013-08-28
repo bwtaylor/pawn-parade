@@ -23,3 +23,22 @@ Scenario: Application admin lists schedules via CLI
         2 schedules found
         """
 
+  @wip
+  Scenario: Add tournament to schedule
+    Given a schedule named "testschedule" exists with tournaments:
+      | slug            | location                 | event_date |
+      | briscoe_ms      | Briscoe Middle School    | 2013-9-14  |
+      | harmony_hills   | Harmony Hills Elementary | 2013-10-19 |
+    And a tournament exists:
+      | slug            | location                 | event_date |
+      | jayhs-fall-2013 | John Jay High School     | 2013-9-28  |
+    When I run `pawn schedule testschedule --add jayhs-fall-2013 `
+    And I run `pawn schedule show testschedule`
+    And the date is "2013-7-7"
+    Then the output should contain:
+    """
+    Briscoe Middle School 2013-09-14
+    John Jay High School 2013-09-28
+    Harmony Hills Elementary 2013-10-19
+    3 tournaments found
+    """

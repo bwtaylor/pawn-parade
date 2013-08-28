@@ -6,10 +6,10 @@ Feature: Browse Tournaments
 
 Scenario: See upcoming tournaments on a schedule
   Given a schedule named "testschedule" exists with tournaments:
-        | location                 | date       |
-        | John Jay High School     | 2013-9-28  |
-        | Harmony Hills Elementary | 2013-10-19 |
-        | Briscoe Middle School    | 2013-9-14  |
+        | slug            | location                 | event_date |
+        | JayHS-Fall-2013 | John Jay High School     | 2013-9-28  |
+        | harmony_hills   | Harmony Hills Elementary | 2013-10-19 |
+        | briscoe_ms      | Briscoe Middle School    | 2013-9-14  |
    When the date is "2013-7-7"
     And I navigate to "/schedules/testschedule"
    Then I should see the tournament-schedule table matching

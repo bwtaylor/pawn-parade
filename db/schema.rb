@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(:version => 20130708001808) do
   end
 
   create_table "tournaments", :force => true do |t|
+    t.string   "slug",       :null => false
     t.string   "location",   :null => false
     t.date     "event_date", :null => false
     t.datetime "created_at", :null => false

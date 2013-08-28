@@ -27,6 +27,7 @@ END
   schedule.command :create do |create|
     create.desc 'add a new schedule'
     create.long_desc 'add a new named schedule'
+    create.arg_name 'schedule_name'
     create.action do | global_options, options, args |
       raise 'you must specify a schedule_name to create' if args.length < 1
       schedule_name = args[0]
@@ -36,7 +37,7 @@ END
         raise "schedule #{existing_schedules[0].name} already exists"
       end
       new_schedule = Schedule.create!( :name => schedule_name)
-      puts "schedule #{new_schedule.name} created" if new_schedule
+      $stderr.puts "schedule #{new_schedule.name} created" if new_schedule
     end
   end
 
@@ -48,9 +49,59 @@ END
       schedules.each do |schedule|
         puts schedule.name
       end
-      puts "#{schedules.length} schedules found"
+      $stderr.puts "#{schedules.length} schedules found"
     end
   end
+
+  schedule.command :show do |show|
+    show.desc 'show a tournament schedule'
+    show.long_desc 'show future tournaments for named schedule'
+    show.arg_name 'schedule_name'
+    show.action do | global_options, options, args |
+      raise 'you must specify a schedule_name to create' if args.length < 1
+      schedule_name = args[0]
+      schedule = Schedule.find_by_name(schedule_name)
+      raise "schedule #{schedule_name} does not exist" if schedule.nil?
+      schedule.tournaments.sort_by!{|t| t[:event_date]}.each do |tournament|
+        puts "#{tournament.location} #{tournament.event_date}"
+      end
+      $stderr.puts "#{schedule.tournaments.length} tournaments found"
+    end
+  end
+
+  schedule.action do | global_options, options, args |
+
+  end
+
+end
+
+command :tournament do |tournament|
+
+  desc 'manage tournaments'
+  long_desc <<END
+The tournament command is used to manage tournaments.
+END
+
+  tournament.command :create do |create|
+    create.desc 'add a new tournament'
+    create.long_desc 'add a new tournament'
+    create.arg_name 'slug'
+    create.arg_name 'location'
+    create.arg_name 'event_date'
+    create.action do | global_options, options, args |
+      arguments_error_message =  'you must specify a slug, location, and event_date to create a tournament'
+      raise arguments_error_message if args.length < 3
+      slug = args[0].downcase
+      raise "Tournament #{slug} already exists." if Tournament.find_by_slug(slug)
+      location = args[1]
+      event_date = Date::strptime(args[2], "%Y-%m-%d")
+      duplicates = Tournament.all(:conditions => {:location => location, :event_date => event_date})
+      raise "Tournament duplicates location and event date of tournament #{duplicates[0].slug}." if duplicates.length > 0
+      new_tournament = Tournament.create!(:slug=>slug, :location=>location, :event_date=>event_date)
+      $stderr.puts "tournament #{new_tournament.slug} created" if new_tournament
+    end
+  end
+
 
 end
 

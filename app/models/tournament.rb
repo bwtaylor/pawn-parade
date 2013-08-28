@@ -1,3 +1,3 @@
 class Tournament < ActiveRecord::Base
-  attr_accessible :location, :event_date
+  attr_accessible :slug, :location, :event_date
 end

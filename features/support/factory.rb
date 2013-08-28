@@ -4,10 +4,21 @@ def create_schedule(schedule_name)
 end
 
 def create_schedule_tournaments(schedule,tournaments)
-  tournaments.rows.each  do |tournament|
+  tournaments.hashes.each do |tournament|
     schedule.tournaments << Tournament.create!(
-        :location => tournament[0],
-        :event_date => Date::strptime(tournament[1], "%Y-%m-%d")
+      :slug => tournament['slug'],
+      :location => tournament['location'],
+      :event_date => Date::strptime(tournament['event_date'], '%Y-%m-%d')
+    )
+  end
+end
+
+def create_tournaments(tournaments)
+  tournaments.hashes.each do |tournament|
+    Tournament.create!(
+        :slug => tournament['slug'],
+        :location => tournament['location'],
+        :event_date => Date::strptime(tournament['event_date'], '%Y-%m-%d')
     )
   end
 end
