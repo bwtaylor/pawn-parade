@@ -10,13 +10,13 @@ Tournament directors will have an easier time getting the roster of people toget
 
 ## Status
 
-Basically vaporware. The first feature, browsing a schedule of tournaments exists, but there's no way to create a tournament yet through the app, and no real work has been done on the layout and style.
+Nowhere near a minimal viable product, but not vaporware anymore. Eight features are passing, most of which are local admin command line manipulation of tournaments and schedules.
 
 We just got started. The good news is that this project was born free under a GPL'd open source license. The bad news is that it's still a newborn. We'll be adding features as we go, and intend have a very tight release cycle. 
 
 ## Development Methodology
 
-We intend this project to be run using the best practices of software development. In summer of 2013, this means open source, holistic devops, continuous integration / continuous delivery, 100% test driven development using a behavior driven development approach.
+We intend this project to be run using the best practices of software development. In Fall 2013, this means open source, holistic devops, continuous integration / continuous delivery, 100% test driven development using a behavior driven development approach.
 
 ## How to Contribute
 
