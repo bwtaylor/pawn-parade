@@ -10,9 +10,23 @@ Tournament directors will have an easier time getting the roster of people toget
 
 ## Status
 
-Nowhere near a minimal viable product, but not vaporware anymore. Eight features are passing, most of which are local admin command line manipulation of tournaments and schedules.
+Aug-27-2013: Nowhere near a minimal viable product, but not vaporware anymore. Eight features are passing, most of which are the bin/pawn CLI for local admins to manage tournaments and schedules. Examine the [feature files](https://github.com/bwtaylor/pawn-parade/tree/master/features) to see what's working and what's work in progress (labelled @wip).
 
 We just got started. The good news is that this project was born free under a GPL'd open source license. The bad news is that it's still a newborn. We'll be adding features as we go, and intend have a very tight release cycle. 
+
+## Releases, Installation, Usage
+
+We push to github master when new features pass and are complete, or when documentation changes. This is a "release", and it is very fine grained. When the total feature set reaches that of a "minimum viable product", we will begin using tags every now and then to label noteworthy feature set advances. We will begin automatic deployment of a public instance of the web application (with supporting tiers like DB and/or directory) then.
+
+For now, installation is just a git clone of the repository:
+
+    git clone git@github.com:bwtaylor/pawn-parade.git
+
+As mentioned above, the current release isn't a viable product -- it's basically just the CLI command bin/pawn. Running:
+
+    bin/pawn --help
+
+will provide cli usage for this command. It requires local shell access on the database box because the only mechanism that exists yet for authentication is the local shell and the MySQL user defined in the rails environment. Examples can be found in the [feature files](https://github.com/bwtaylor/pawn-parade/tree/master/features) directory.
 
 ## Development Methodology
 
