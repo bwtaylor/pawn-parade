@@ -1,13 +1,19 @@
 
-<table class="tournament-schedule">
+<table class="tournament-schedule" border="1">
+  <tr>
+    <th>Date</th>
+    <th>Tournament</th>
+    <th>Location</th>
+    <th>Description</th>
+  </tr>
 
 <% @schedule.tournaments.sort_by!{|t| t[:event_date]}.each do |tournament| %>
-
 <tr>
-  <td><%= tournament.location %></td>
   <td><%= tournament.event_date %></td>
+  <td><%= link_to "#{tournament.name}", tournament%></td>
+  <td><%= tournament.location %></td>
+  <td><%= tournament.short_description %></td>
 </tr>
-
 <% end %>
 
 </table>
