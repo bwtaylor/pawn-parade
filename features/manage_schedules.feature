@@ -23,7 +23,6 @@ Scenario: Application admin lists schedules via CLI
         2 schedules found
         """
 
-  @wip
   Scenario: Add tournament to schedule
     Given a schedule named "testschedule" exists with tournaments:
       | slug            | location                 | event_date |
@@ -32,7 +31,7 @@ Scenario: Application admin lists schedules via CLI
     And a tournament exists:
       | slug            | location                 | event_date |
       | jayhs-fall-2013 | John Jay High School     | 2013-9-28  |
-    When I run `pawn schedule testschedule --add jayhs-fall-2013 `
+    When I run `pawn schedule add --to testschedule jayhs-fall-2013 `
     And I run `pawn schedule show testschedule`
     And the date is "2013-7-7"
     Then the output should contain:

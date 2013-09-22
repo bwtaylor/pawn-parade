@@ -5,7 +5,7 @@ class CreateScheduleTournaments < ActiveRecord::Migration
       t.integer :tournament_id, :null => false
       t.timestamps
     end
-    add_index :schedule_tournaments, :schedule_id
+    add_index :schedule_tournaments, [:schedule_id, :tournament_id], :unique => true, :name => 'schedule_tournament_index'
   end
   
   def self.down

@@ -14,19 +14,12 @@ include GLI::App
 
 program_desc 'command line administration for a pawn parade deployment'
 
-desc 'pawn CLI for managing chess league entities'
-
+desc 'manage schedules'
+long_desc 'The schedule command manipulates named schedules of tournaments, around which leagues are built.'
 command :schedule do |schedule|
-
-  desc 'manage schedules'
-  long_desc <<END
-The schedule command manipulates named schedules of tournaments, around
-which leagues are built.
-END
-
+  schedule.desc 'add a new schedule'
+  schedule.long_desc 'add a new named schedule'
   schedule.command :create do |create|
-    create.desc 'add a new schedule'
-    create.long_desc 'add a new named schedule'
     create.arg_name 'schedule_name'
     create.action do | global_options, options, args |
       raise 'you must specify a schedule_name to create' if args.length < 1
@@ -41,9 +34,9 @@ END
     end
   end
 
+  schedule.desc 'list schedules'
+  schedule.long_desc 'show the list of existing schedules'
   schedule.command :list do |list|
-    list.desc 'list schedules'
-    list.long_desc 'show the list of existing schedules'
     schedules = Schedule.order('name').all
     list.action do | global_options, options, args |
       schedules.each do |schedule|
@@ -53,9 +46,9 @@ END
     end
   end
 
+  schedule.desc 'show a tournament schedule'
+  schedule.long_desc 'show future tournaments for named schedule'
   schedule.command :show do |show|
-    show.desc 'show a tournament schedule'
-    show.long_desc 'show future tournaments for named schedule'
     show.arg_name 'schedule_name'
     show.action do | global_options, options, args |
       raise 'you must specify a schedule_name to create' if args.length < 1
@@ -69,25 +62,48 @@ END
     end
   end
 
+  schedule.desc 'include a tournament on a schedule'
+  schedule.long_desc 'take an already existing tournament, identified by it\'s slug, and add it to a schedule'
+  schedule.arg_name 'tournament_slug'
+  schedule.command :add do |add|
+    add.desc 'schedule to add the tournament to'
+    add.arg_name 'SCHEDULE'
+    add.flag [:s,:to]
+    add.action do | global_options, options, args |
+      schedule_name=options[:to]
+      slug=args[0]
+      raise 'must specify a schedule with -s or --to' if schedule_name.nil?
+      to_schedule=Schedule.find_by_name(schedule_name)
+      raise "schedule #{schedule_name} does not exist" if to_schedule.nil?
+      raise 'must specify a tournament\'s slug' if slug.nil?
+      tournament=Tournament.find_by_slug(slug)
+      raise "Tournament #{slug} does not exist" if tournament.nil?
+      puts "including tournament #{tournament.slug} on schedule #{to_schedule.name}"
+      to_schedule.tournaments << tournament
+    end
+  end
+
+
+
   schedule.action do | global_options, options, args |
 
   end
 
 end
 
+desc 'manage tournaments'
+long_desc 'This command is used to create and manage tournaments.'
 command :tournament do |tournament|
 
-  desc 'manage tournaments'
-  long_desc <<END
-The tournament command is used to manage tournaments.
+  tournament.desc 'add a new tournament'
+  tournament.long_desc <<END
+Add a new tournament by specifying it's SLUG, LOCATION, and EVENT_DATE, defined as: \n
+SLUG - a unique identifier for the tournament fit for use in a URI path  \n
+LOCATION - general name for where the tournament will occur (not the address) \n
+EVENT_DATE - the date on which the event starts, format: "%Y-%m-%d"
 END
-
+  tournament.arg_name 'SLUG LOCATION EVENT_DATE'
   tournament.command :create do |create|
-    create.desc 'add a new tournament'
-    create.long_desc 'add a new tournament'
-    create.arg_name 'slug'
-    create.arg_name 'location'
-    create.arg_name 'event_date'
     create.action do | global_options, options, args |
       arguments_error_message =  'you must specify a slug, location, and event_date to create a tournament'
       raise arguments_error_message if args.length < 3
