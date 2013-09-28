@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20130708001808) do
   add_index "schedule_tournaments", ["schedule_id", "tournament_id"], :name => "schedule_tournament_index", :unique => true
 
   create_table "schedules", :force => true do |t|
+    t.string   "slug",       :null => false
     t.string   "name",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false

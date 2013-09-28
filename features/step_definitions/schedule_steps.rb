@@ -3,10 +3,9 @@ Given /^(?:a|the) schedule named "(.*?)" exists$/ do |schedule_name|
 end
 
 Given(/^The existing schedules are:$/) do |table|
-  schedules = table.raw.flatten
-  Schedule.delete_all()
-  schedules.each do |schedule_name|
-    create_schedule(schedule_name)
+  table.hashes.each do |schedule|
+    schedule[:name].nil? ? create_schedule_from_slug(schedule[:slug])
+                         : create_schedule(schedule[:slug], schedule[:name])
   end
 end
 
@@ -20,7 +19,7 @@ Given /^the schedule has tournaments:$/ do |tournaments|
 end
 
 Given /^(?:a|the) schedule named "(.*?)" exists with tournaments:$/ do |schedule_name, tournaments|
-  @schedule = create_schedule(schedule_name)
+  @schedule = create_schedule_from_slug(schedule_name)
   create_schedule_tournaments(@schedule, tournaments)
 end
 

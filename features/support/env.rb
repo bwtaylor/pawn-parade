@@ -40,6 +40,10 @@ end
 
 Cucumber::Rails::Database.javascript_strategy = :truncation
 
+Before do
+  @aruba_timeout_seconds = 5
+end
+
 After do
   Timecop.return
 end

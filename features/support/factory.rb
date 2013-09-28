@@ -1,6 +1,10 @@
 
-def create_schedule(schedule_name)
-  Schedule.create!( :name => schedule_name)
+def create_schedule_from_slug(slug)
+  create_schedule(nil, slug)   #use slug as schedule name, since we don't care
+end
+
+def create_schedule(slug, schedule_name)
+  Schedule.create!( :slug => slug, :name => schedule_name)
 end
 
 def create_tournament(tournament)

@@ -1,0 +1,12 @@
+<table class="schedules" border="1">
+  <tr>
+    <th>Schedule</th>
+  </tr>
+
+  <% @schedules.sort_by!{|s| s[:name]}.each do |schedule| %>
+      <tr>
+        <td><%= link_to "#{schedule.name}", schedule %></td>
+      </tr>
+  <% end %>
+
+</table>
