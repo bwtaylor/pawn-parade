@@ -1,0 +1,11 @@
+<% if object && object.errors.size > 0 %>
+  <div id="error-messages">
+    <h2>Save Failed, Due to Errors!</h2>
+    <p> The following problems occurred:</p>
+    <ul>
+      <% object.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

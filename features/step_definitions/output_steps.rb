@@ -10,3 +10,21 @@ Then(/^I should see content (?:matching|containing)$/) do |expected_table|
     expect(page).to have_content expected_text
   end
 end
+
+Then /^I should see content "(.*)"$/ do |expected_text|
+  expect(page).to have_content expected_text
+end
+
+Then /^I should not see content "(.*)"$/ do |expected_text|
+  page.should_not have_content expected_text
+end
+
+Then /^I should see "(.*)" selected for (.*)$/ do |value, field|
+  page.should have_select(field.gsub(' ', '_'), selected: value)
+end
+
+Then /^I should not see "(.*)" selected for (.*)$/ do |value, field|
+  page.should_not have_select(field.gsub(' ', '_'), selected: value)
+end
+
+

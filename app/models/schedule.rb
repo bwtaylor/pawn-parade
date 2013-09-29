@@ -10,7 +10,7 @@ class Schedule < ActiveRecord::Base
   before_create :set_slug
 
   def set_slug
-    self.slug = Schedule.to_slug(self.name) if self.slug.nil?
+    self.slug ||= Schedule.to_slug(self.name)
   end
 
   def self.to_slug(text)

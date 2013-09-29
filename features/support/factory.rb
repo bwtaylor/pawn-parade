@@ -23,8 +23,10 @@ def create_schedule_tournaments(schedule,tournaments)
   end
 end
 
-def create_tournaments(tournaments)
-  tournaments.hashes.each do |tournament|
-    create_tournament(tournament)
+def create_tournaments(tournament_table)
+  tournaments = []
+  tournament_table.hashes.each do |tournament|
+    tournaments << create_tournament(tournament)
   end
+  tournaments
 end

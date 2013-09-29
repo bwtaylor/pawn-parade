@@ -7,5 +7,6 @@ Then(/^exactly one tournament with slug "(.*?)" should exist$/) do |tournament_s
 end
 
 Given /^(?:a|the)? tournaments? exists?:$/ do |tournaments|
-  create_tournaments(tournaments)
+  @tournaments = create_tournaments(tournaments)
+  @tournament = @tournaments[0] if @tournaments.size == 1
 end
