@@ -30,13 +30,14 @@ ActiveRecord::Schema.define(:version => 20130708001808) do
   end
 
   create_table "tournaments", :force => true do |t|
-    t.string   "slug",              :null => false
-    t.string   "name",              :null => false
-    t.string   "location",          :null => false
-    t.date     "event_date",        :null => false
-    t.string   "short_description", :null => false
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.string   "slug",                                 :null => false
+    t.string   "name",                                 :null => false
+    t.string   "location",                             :null => false
+    t.date     "event_date",                           :null => false
+    t.string   "short_description",                    :null => false
+    t.string   "description_asciidoc", :limit => 4000
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
   end
 
 end

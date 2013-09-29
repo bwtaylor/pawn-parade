@@ -7,6 +7,7 @@ class CreateTournaments < ActiveRecord::Migration
       t.string :location, :null => false
       t.date :event_date, :null => false
       t.string :short_description, :null => false
+      t.string :description_asciidoc, :limit => 4000
       t.timestamps
     end
   end

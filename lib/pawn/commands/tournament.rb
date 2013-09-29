@@ -36,4 +36,35 @@ ________
       $stderr.puts "tournament #{new_tournament.slug} created" if new_tournament
     end
   end
+
+  tournament.desc 'upload a flier in asciidoc format'
+  tournament.long_desc <<________
+Upload a flier in asciidoc format.
+________
+
+  require 'open-uri'
+  tournament.arg_name 'SLUG'
+  tournament.command :flier do |flier|
+    flier.arg_name 'FILENAME'
+    flier.flag [:f,:file]
+    flier.arg_name 'URI'
+    flier.flag [:u,:uri]
+    flier.action do | global_options, options, args |
+      filename=options[:file]
+      uri=options[:uri]
+      raise 'You must specify an input location from either a file or uri' if filename.nil? & uri.nil?
+      raise 'You cannot specify both a file and a uri' unless filename.nil? | uri.nil?
+      io_source = uri.nil? ? filename : uri
+      io_stream = open(io_source)
+      raise 'content cannot exceed 4000 characters' if io_stream.size > 4000
+      content = io_stream.read(4000)
+      tournament_slug=args[0]
+      raise 'you must specify tournament slug' if tournament_slug.nil?
+      tournament = Tournament.find_by_slug(tournament_slug)
+      raise "no tournament exists with slug #{tournament_slug}"  if tournament.nil?
+      tournament.description_asciidoc = content
+      tournament.save!
+      puts "uploaded description for tournament #{tournament.slug} from #{io_source}"
+    end
+  end
 end

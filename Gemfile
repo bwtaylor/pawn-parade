@@ -33,6 +33,7 @@ gem 'jquery-rails'
 gem 'awesome_print'
 gem 'gli'
 gem 'aruba'
+gem 'asciidoctor'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

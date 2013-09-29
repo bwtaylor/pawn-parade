@@ -30,7 +30,7 @@ Feature: Add a Schedule
         test3
         2 schedules found
         """
-  @wip
+
   Scenario: Add tournament to schedule
     Given a schedule named "Test Schedule" exists with tournaments:
       | slug            | name                                 | location                 | event_date | short_description |

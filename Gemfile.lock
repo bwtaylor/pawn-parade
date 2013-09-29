@@ -33,6 +33,7 @@ GEM
       childprocess (>= 0.3.6)
       cucumber (>= 1.1.1)
       rspec-expectations (>= 2.7.0)
+    asciidoctor (0.1.4)
     awesome_print (1.1.0)
     builder (3.0.4)
     capybara (2.1.0)
@@ -157,6 +158,7 @@ PLATFORMS
 
 DEPENDENCIES
   aruba
+  asciidoctor
   awesome_print
   coffee-rails (~> 3.2.1)
   cucumber-rails (>= 0.3.2)

@@ -9,6 +9,7 @@ require 'database_cleaner'
 require 'database_cleaner/cucumber'
 require 'aruba/cucumber'
 require 'capybara/rspec'
+require 'fileutils'
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
@@ -41,7 +42,7 @@ end
 Cucumber::Rails::Database.javascript_strategy = :truncation
 
 Before do
-  @aruba_timeout_seconds = 5
+  @aruba_timeout_seconds = 5000
 end
 
 After do
