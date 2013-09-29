@@ -4,7 +4,7 @@ Feature: Manage Tournament Fliers
   I want to manage tournament flier documents
   So that the scholastic chess community can see web and printable views of tournament details
 
-  @wip
+
   Scenario: Upload flier from local asciidoc file
   Given a tournament exists:
       | slug | name                       | location     | event_date | short_description                                              |
@@ -13,7 +13,6 @@ Feature: Manage Tournament Fliers
    When I run `pawn tournament flier --file rax_flier rax`
    Then the output should contain "uploaded description for tournament rax from rax_flier"
 
-  @wip
   Scenario: Upload flier from asciidoc file via URI
   Given a tournament exists:
       | slug | name                       | location     | event_date | short_description                                              |
