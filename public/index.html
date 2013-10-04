@@ -1,241 +1,218 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Ruby on Rails: Welcome aboard</title>
-    <style type="text/css" media="screen">
-      body {
-        margin: 0;
-        margin-bottom: 25px;
-        padding: 0;
-        background-color: #f0f0f0;
-        font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana";
-        font-size: 13px;
-        color: #333;
-      }
+  <title>Rackspace Chess</title>
+  <style type="text/css">
 
-      h1 {
-        font-size: 28px;
-        color: #000;
-      }
+div.page {
+  margin-left: auto;
+  margin-right: auto;
+  width: 900px;
+  background-repeat: no-repeat;
+  background-position: center top;
+}  
+    
+div.ceiling { 
+  width: 100%;
+  height: 75px;
+  position: center top;
+} 
 
-      a  {color: #03c}
-      a:hover {
-        background-color: #03c;
-        color: white;
-        text-decoration: none;
-      }
+div.left-half {
+  float: left;
+  width: 50%;
+}
 
+div.right-half {
+  float: right;
+  width: 50%;
+  text-align: right;
+}
 
-      #page {
-        background-color: #f0f0f0;
-        width: 750px;
-        margin: 0;
-        margin-left: auto;
-        margin-right: auto;
-      }
+div.raxlogo {
+  width: 50%;
+  height: 75px;
+  background-repeat: no-repeat;
+  background-position: left;
+  background-image: url(http://images.cdn.rackspace.com/header/logo-rackspace.png);
+} 
 
-      #content {
-        float: left;
-        background-color: white;
-        border: 3px solid #aaa;
-        border-top: none;
-        padding: 25px;
-        width: 500px;
-      }
+div.banner-text {  
+  font-size: 48pt;
+}
 
-      #sidebar {
-        float: right;
-        width: 175px;
-      }
+div #centerpiece {
+  position: relative;
+  width: 100%;
+  height: 225px;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-image: url(images/pawn900.jpg);
+}
 
-      #footer {
-        clear: both;
-      }
+div.main-content { 
+  width: 100%;
+  position: center top;
+} 
 
-      #header, #about, #getting-started {
-        padding-left: 75px;
-        padding-right: 30px;
-      }
-
-
-      #header {
-        background-image: url("assets/rails.png");
-        background-repeat: no-repeat;
-        background-position: top left;
-        height: 64px;
-      }
-      #header h1, #header h2 {margin: 0}
-      #header h2 {
-        color: #888;
-        font-weight: normal;
-        font-size: 16px;
-      }
+div.main-event {
+  height: 300px;
+  text-align: center;
+}
 
 
-      #about h3 {
-        margin: 0;
-        margin-bottom: 10px;
-        font-size: 14px;
-      }
+div.main-right {
+  float: right;
+  width: 30%;
+}
 
-      #about-content {
-        background-color: #ffd;
-        border: 1px solid #fc0;
-        margin-left: -55px;
-        margin-right: -10px;
-      }
-      #about-content table {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        font-size: 11px;
-        border-collapse: collapse;
-      }
-      #about-content td {
-        padding: 10px;
-        padding-top: 3px;
-        padding-bottom: 3px;
-      }
-      #about-content td.name  {color: #555}
-      #about-content td.value {color: #000}
+div.main-left {
+  float: left;
+  width: 20%;
+  margin-right: 2%;
+}
 
-      #about-content ul {
-        padding: 0;
-        list-style-type: none;
-      }
-
-      #about-content.failure {
-        background-color: #fcc;
-        border: 1px solid #f00;
-      }
-      #about-content.failure p {
-        margin: 0;
-        padding: 10px;
-      }
+div.main-central {
+  float: left;
+  width: 45%;
+}
 
 
-      #getting-started {
-        border-top: 1px solid #ccc;
-        margin-top: 25px;
-        padding-top: 15px;
-      }
-      #getting-started h1 {
-        margin: 0;
-        font-size: 20px;
-      }
-      #getting-started h2 {
-        margin: 0;
-        font-size: 14px;
-        font-weight: normal;
-        color: #333;
-        margin-bottom: 25px;
-      }
-      #getting-started ol {
-        margin-left: 0;
-        padding-left: 0;
-      }
-      #getting-started li {
-        font-size: 18px;
-        color: #888;
-        margin-bottom: 25px;
-      }
-      #getting-started li h2 {
-        margin: 0;
-        font-weight: normal;
-        font-size: 18px;
-        color: #333;
-      }
-      #getting-started li p {
-        color: #555;
-        font-size: 13px;
-      }
+div.vision-text {
+  font: ariel;
+  font-size: 14pt;
+  text-align: justify;
+}
+
+div.headline {
+  float: top;
+  font-size: 14pt;
+}
 
 
-      #sidebar ul {
-        margin-left: 0;
-        padding-left: 0;
-      }
-      #sidebar ul h3 {
-        margin-top: 25px;
-        font-size: 16px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #ccc;
-      }
-      #sidebar li {
-        list-style-type: none;
-      }
-      #sidebar ul.links li {
-        margin-bottom: 5px;
-      }
+div.image-link {
+  float: bottom;                                                                                                        
+}
 
-      .filename {
-        font-style: italic;
-      }
-    </style>
-    <script type="text/javascript">
-      function about() {
-        info = document.getElementById('about-content');
-        if (window.XMLHttpRequest)
-          { xhr = new XMLHttpRequest(); }
-        else
-          { xhr = new ActiveXObject("Microsoft.XMLHTTP"); }
-        xhr.open("GET","rails/info/properties",false);
-        xhr.send("");
-        info.innerHTML = xhr.responseText;
-        info.style.display = 'block'
-      }
-    </script>
+div.left-nav {
+  vertical-align:top;
+  text-align:left;
+  border: 1px solid black;
+  margin: 0;
+  background-color: #903030;
+  color: white;
+  height: 500px;
+}
+
+div.nav-label {
+  margin: 0;
+  font-family: sans-serif;
+  color: white;
+  text-align:left;
+  padding-top: 2%;
+  padding-left: 5%;
+}
+
+div.left-nav ul {
+    padding: 0; 
+    list-style: none; 
+    overflow: visible; 
+} 
+
+div.left-nav li {
+    font-family: sans-serif;
+    margin: 40;
+    padding-top: 5px;
+    width:225;
+} 
+
+div.left-nav a ,
+div.left-nav a:visited
+{
+    background: url('../images/arrow.png') 8px center no-repeat;
+    background-color: #cc4444;
+    padding: 2% 0 2% 20%;
+    color: white;
+    display: block;
+    text-decoration: none;
+    font-size: 16px;
+    text-align: left;
+    verticle-text-align: center;
+}
+
+div.left-nav a.active,  
+div.left-nav a:hover
+{
+    background: #ee8888 url('../images/arrow.png') 8px center no-repeat;
+    color: white;
+}
+
+
+
+  </style>
+    
   </head>
-  <body>
-    <div id="page">
-      <div id="sidebar">
-        <ul id="sidebar-items">
-          <li>
-            <h3>Browse the documentation</h3>
-            <ul class="links">
-              <li><a href="http://guides.rubyonrails.org/">Rails Guides</a></li>
-              <li><a href="http://api.rubyonrails.org/">Rails API</a></li>
-              <li><a href="http://www.ruby-doc.org/core/">Ruby core</a></li>
-              <li><a href="http://www.ruby-doc.org/stdlib/">Ruby standard library</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-
-      <div id="content">
-        <div id="header">
-          <h1>Welcome aboard</h1>
-          <h2>You&rsquo;re riding Ruby on Rails!</h2>
-        </div>
-
-        <div id="about">
-          <h3><a href="rails/info/properties" onclick="about(); return false">About your application&rsquo;s environment</a></h3>
-          <div id="about-content" style="display: none"></div>
-        </div>
-
-        <div id="getting-started">
-          <h1>Getting started</h1>
-          <h2>Here&rsquo;s how to get rolling:</h2>
-
-          <ol>
-            <li>
-              <h2>Use <code>rails generate</code> to create your models and controllers</h2>
-              <p>To see all available options, run it without parameters.</p>
-            </li>
-
-            <li>
-              <h2>Set up a default route and remove <span class="filename">public/index.html</span></h2>
-              <p>Routes are set up in <span class="filename">config/routes.rb</span>.</p>
-            </li>
-
-            <li>
-              <h2>Create your database</h2>
-              <p>Run <code>rake db:create</code> to create your database. If you're not using SQLite (the default), edit <span class="filename">config/database.yml</span> with your username and password.</p>
-            </li>
-          </ol>
+  <body>                                                                                                                    
+    <div class="page">
+    
+    <div class="ceiling">
+      <div class="left-half raxlogo"></div>
+      <div class="right-half banner-text">Rackspace Chess</div>
+    </div>
+    <div id="centerpiece"></div>
+    
+    <div class="main-content">
+    
+      <div class="main-left">
+        <div class="left-nav">
+          <div class="nav-label">Chess Resources</div>
+          <ul>
+            <li><a href="/tournaments/rax">Rackspace Chess Tournament</a></li>
+          </ul>
+          <div class="nav-label">Scholastic Chess Tournament Schedules</div>
+          <ul>
+            <li><a href="/schedules/san_antonio">San Antonio</a></li>
+          </ul>
+          <div class="nav-label">Learn to Play!</div>
+          <ul>
+            <li><a href="http://www.chesskid.com/learn-how-to-play-chess.html">Video from Chesskid.com</a></li>
+            <li><a href="http://www.uschess.org/content/view/7324/28/">US Chess Federation: Learn to Play Chess</a></li>
+          </ul>
         </div>
       </div>
-
-      <div id="footer">&nbsp;</div>
+    
+      <div id="vision-wrapper">
+      <div id="vision" class="vision-text main-central">
+      <h3>Why Rackspace Support Scholastic Chess</h3>
+      <p>As a leader in the technology industry, Rackspace wants to build a 
+      culture around chess as a scholastic mind sport, so that our young
+      adults enter the workforce with the technical thinking skills that matter 
+      to us.</p>
+      <p>If a kid can throw a ball well or swim across the pool quickly, 
+      they can, at a young age, join a community that will cultivate and coach 
+      their athletic talents and reward them well with a deserved sense of 
+      accomplishment. The results are spectacular, and our top atheletes can 
+      compete with anyone in the world. </p>
+      <p>Unfortunately, athletic skills aren't what makes a tech company like 
+      Rackspace successful. We need people with logical thinking skills, 
+      problem solving ability, and technical creativity. Chess develops all 
+      these skills.</p>
+      </div>
+      </div>
+      
+      <div class="main-event main-right">
+        <div class="image-link">
+          <p/>
+          <a href="/tournaments/rax">
+            <img border="0" src="images/rchesslogo240x319.png" height="319px" width="250px"/>
+          </a>
+        </div>
+        <div class="headline"><p>Click the Logo to Read About<br/>The Rackspace Chess
+        Tournament</p></div>
+      </div>
+    
+    </div>
+    
     </div>
   </body>
 </html>
