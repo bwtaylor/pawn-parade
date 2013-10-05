@@ -1,3 +1,63 @@
 // Place all the styles related to the tournament controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$blue: #3bbfce;
+$darkred:  #903030;
+$lightred: #cc4444;
+$palered:  #ee8888;
+
+$button-rounding-radius: 8px;
+
+table.tournament-header {
+  border: 0;
+}
+
+div.registration-link {
+  margin-top: 10px;
+}
+
+div.registration-link a {
+  text-decoration: none;
+  background-color: $lightred;
+  color: white;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+
+  -moz-border-radius-bottomleft:      $button-rounding-radius;
+  -webkit-border-bottom-left-radius:  $button-rounding-radius;
+  border-bottom-left-radius:          $button-rounding-radius;
+
+  -moz-border-radius-bottomright:     $button-rounding-radius;
+  -webkit-border-bottom-right-radius: $button-rounding-radius;
+  border-bottom-right-radius:         $button-rounding-radius;
+
+  -moz-border-radius-topright:        $button-rounding-radius;
+  -webkit-border-top-right-radius:    $button-rounding-radius;
+  border-top-right-radius:            $button-rounding-radius;
+
+  -moz-border-radius-topleft:         $button-rounding-radius;
+  -webkit-border-top-left-radius:     $button-rounding-radius;
+  border-top-left-radius:             $button-rounding-radius;
+}
+
+div.registration-link a.active,
+div.registration-link a:hover {
+  background-color: $palered;
+}
+
+
+div.sect2 h3 {
+  background-color: $palered;
+}
+
+div.sect2 div.ulist ul {
+  line-height: 0em;
+}
+
+div.sect2 div.ulist li {
+  line-height: 0em;
+}
