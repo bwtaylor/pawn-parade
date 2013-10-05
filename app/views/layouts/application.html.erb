@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>PawnParade</title>
+  <title><%= @page_title %></title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
+<div class="header">
+  <div class="button"><a href="/">Home</a></div>
+</div>
+
+<% if flash[:notice] %>
+  <div class="flash-notice"><%= flash[:notice] %></div>
+<% end %>
+
 <%= yield %>
+
+<div class="footer">
+  Powered by <a href="http://github.com/bwtaylor/pawn-parade">PawnParade</a>
+</div>
 
 </body>
 </html>

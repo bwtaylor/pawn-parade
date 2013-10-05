@@ -1,0 +1,28 @@
+$blue: #3bbfce;
+$darkred: #903030;
+$lightred: #cc4444;
+$header_footer_color: $darkred;
+
+div.header {
+  width: 100%;
+  height: 25px;
+  background-color: $header_footer_color;
+  vertical-align: center;
+}
+
+div.header div.button {
+  width: auto;
+  background-color: $lightred;
+}
+
+div.footer {
+  width: 100%;
+  height: 25px;
+  background-color: $header_footer_color;
+}
+
+
+div.flash-notice {
+
+}
+

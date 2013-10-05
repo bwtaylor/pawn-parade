@@ -1,6 +1,5 @@
-<% if flash[:notice] %>
-    <div class="flash-notice"><%= flash[:notice] %></div>
-<% end %>
+<% @page_title = "Tournament: #{@tournament.name}"%>
+
 
 <h1><%= @tournament.name %></h1>
 
