@@ -13,7 +13,10 @@
 </div>
 
 <% if flash[:notice] %>
-  <div class="flash-notice"><%= flash[:notice] %></div>
+    <div class="flash-notice"><%= flash[:notice] %></div>
+<% end %>
+<% if flash[:registered] %>
+    <div class="flash-registered"><%= flash[:registered] %></div>
 <% end %>
 
 <%= yield %>
@@ -21,7 +24,10 @@
 
 <p/>
 <div class="footer">
-  Powered by <a href="http://github.com/bwtaylor/pawn-parade">PawnParade</a>
+  <div class="powered-by">
+    Powered by <a href="http://github.com/bwtaylor/pawn-parade">PawnParade</a>, <a href="http://rubyonrails.org/">Ruby on Rails</a>,
+    and <a href="http://www.rackspace.com/application-deployment/">Rackspace Cloud Deployments</a>.
+  </div>
 </div>
 
 </body>

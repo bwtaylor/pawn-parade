@@ -21,7 +21,7 @@ Feature: Manage Tournament Fliers
    When I run `pawn tournament flier rax --uri https://raw.github.com/wiki/bwtaylor/pawn-parade/Sample-Flier-AsciiDoc.asciidoc`
     And I navigate to "/tournaments/rax"
    Then I should see content matching
-      | Rackspace Scholastic Chess Tournament |
-      | Free Entry!!! Free Food!!! Great Prizes |
-      | Elementary Rated JV |
+      | Rackspace Fall 2013 Scholastic Chess Tournament |
+      | Free Entry!!! Free Food!!! Great Prizes!!! |
+      | Elementary (K-5) Rated JV |
       | All games are G/25, d5. Bring a clock if at all possible. |

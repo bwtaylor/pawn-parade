@@ -21,5 +21,5 @@ Then(/^(?:a )?registration should exist for (.*) (.*) in the "(.*)" section for 
   tournament = Tournament.find_by_slug(tournament_slug)
   found = false
   tournament.registrations.each { |reg| found ||= (reg.first_name == first_name) }
-  assert found
+  assert found, "Registration for #{first_name} #{last_name} does not exist"
 end

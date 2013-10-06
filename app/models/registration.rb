@@ -6,6 +6,7 @@ class Registration < ActiveRecord::Base
                   :school,
                   :grade,
                   :uscf_member_id,
+                  :shirt_size,
                   :status,
                   :rating,
                   :score,
@@ -22,6 +23,9 @@ class Registration < ActiveRecord::Base
 
   validates_inclusion_of :grade,  :in => %w(K 1 2 3 4 5 6 7 8 9 10 11 12)
 
+  validates_inclusion_of :shirt_size,
+    :in => ['Youth Small (6-8)', 'Youth Medium (10-12)', 'Youth Large (14-16)', 'Adult Small', 'Adult Medium', 'Adult Large', 'Adult XL']
+
   validates_inclusion_of :status, :allow_nil => true,
     :in => [
       'request',                 # submitted through website, needing admin approval
@@ -34,6 +38,26 @@ class Registration < ActiveRecord::Base
       'no show',                 # preregistered by has not check in by end of check in
       'withdraw'                 # voluntarily withdraw, before or after playing
     ]
+
+  validate :section_eligibility
+
+  def section_eligibility
+    section_names = self.tournament.sections.collect {|section| section.name}
+    errors.add(:section, 'Ineligible for Section') if ! section_names.include? self.section
+
+    min_grade = self.section[ /\((K|\d{1,2})-(K|\d{1,2})\)/ , 1]
+    max_grade = self.section[ /\((K|\d{1,2})-(K|\d{1,2})\)/ , 2]
+
+    if (!min_grade.nil? & !max_grade.nil?)
+      min_grade = min_grade == 'K' ? 0 : min_grade.to_i;
+      max_grade = max_grade == 'K' ? 0 : max_grade.to_i;
+      grade = self.grade == 'K' ? 0 : self.grade.to_i;
+
+      errors.add(:grade, 'Grade Too High for Section') if grade > max_grade
+      errors.add(:grade, 'Grade Too Low for Section')  if grade < min_grade
+    end
+
+  end
 
   before_save :default_values
 

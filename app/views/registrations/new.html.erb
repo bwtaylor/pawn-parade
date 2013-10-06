@@ -37,11 +37,22 @@
         <li>
           <%= f.label :uscf_member_id, 'USCF Member Id'%>
           <%= f.text_field :uscf_member_id %>
+          <span class="info">Needed for Rated Sections Only (see below)</span>
+        </li>
+        <li>
+          <%= f.label :shirt_size, 'Shirt Size'%>
+          <%= f.select :shirt_size, ['Youth Small (6-8)', 'Youth Medium (10-12)', 'Youth Large (14-16)', 'Adult Small', 'Adult Medium', 'Adult Large', 'Adult XL'],
+              {:include_blank => true} %>
         </li>
       </ol>
     </fieldset>
-    <%= f.submit 'Submit' %>
+    <%= f.submit 'Submit' %> <span class="privacy-policy">Participation in a public tournament is inherently not private. <br/>
+  All tournament data, including registration information, is public.</span>
   <% end %>
 </div>
+
+<p><span class="info">Forgotten your USCF Member Id? Use the <a href="http://www.uschess.org/component/option,com_wrapper/Itemid,181/">USCF Player Lookup</a>.
+Need to purchase a USCF membership to play in the rated sections? Do it <a href="https://secure2.uschess.org/webstore/member.php">online</a> or
+at the tournament.</span> </p>
 
 Return to <%= link_to @tournament.name,  tournament_path(@tournament), :class => 'btn', :id => 'Return' %>

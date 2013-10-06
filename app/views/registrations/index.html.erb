@@ -1,2 +1,34 @@
-<h1>Registrations#index</h1>
-<p>Find me in app/views/registrations/index.html.erb</p>
+<h1>Registrations for <%= @tournament.name %></h1>
+
+<p/>
+<table class="tournament-schedule grid" border="1">
+  <thead>
+  <tr>
+    <th>Section</th>
+    <th>Name</th>
+    <th>School</th>
+    <th>Grade</th>
+    <th>USCF Member ID</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% rownum = 0 %>
+  <% @registrations.sort_by!{|r| [r[:section_name],r[:first_name],r[:last_name]] }.each do |registration| %>
+      <% rownum += 1 %>
+      <% if rownum%2 == 1 %>
+          <tr>
+      <% else %>
+          <tr class="alt">
+      <% end %>
+      <td><%= registration.section %></td>
+      <td><%= "#{registration.first_name} #{registration.last_name}" %></td>
+      <td><%= registration.school %></td>
+      <td><%= registration.grade %></td>
+      <td><%= registration.uscf_member_id %></td>
+      </tr>
+  <% end %>
+  </tbody>
+
+</table>
+

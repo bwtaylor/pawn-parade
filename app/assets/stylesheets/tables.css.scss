@@ -1,0 +1,64 @@
+$dark_blue: #227799;
+$light_blue: #88ddee;
+$blue: #3bbfce;
+$darkred:  #903030;
+$lightred: #cc4444;
+$palered:  #ee8888;
+$verypalered: #ffbbbb;
+$chocolate: #774411;
+$brown: #885522;
+$lightbrown: #aa7755;
+$verylightbrown: #ffbb88;
+
+$table_dark: $brown;
+$table_light: $lightbrown;
+$table_pale: $verylightbrown;
+
+table.grid {
+  border-collapse: collapse;
+  text-align: left;
+  width: 100%;
+  font: normal Arial, Helvetica, sans-serif;
+  background: #fff;
+  overflow: hidden;
+  border: 3px solid $table_dark;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px; }
+
+table.grid td, table.tournament-schedule th {
+  padding: 4px 5px;
+}
+
+table.grid thead th {
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, $table_dark), color-stop(1, $table_light) );
+  background:-moz-linear-gradient( center top, $table_dark 5%, $table_light 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='$table_dark', endColorstr='$table_light');
+  background-color: $table_light;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border-left: 0px solid $table_light
+}
+
+table.grid table thead th:first-child {
+  border: none;
+}
+
+table.grid tbody tr td {
+  color: $table_dark;
+  border-left: 1px solid $table_dark;
+  font-size: 14px;
+  font-weight: bold; }
+
+table.grid tbody tr.alt td {
+  background: $table_pale;
+  color: $table_dark; }
+
+table.grid tbody td:first-child {
+  border-left: none;
+}
+
+table.grid tbody tr:last-child td {
+  border-bottom: none;
+}

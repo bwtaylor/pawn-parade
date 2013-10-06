@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20130930060839) do
     t.string   "grade",          :limit => 2
     t.string   "section",        :limit => 40
     t.string   "uscf_member_id", :limit => 16
+    t.string   "shirt_size",     :limit => 40
     t.integer  "rating"
     t.string   "status",         :limit => 40
     t.decimal  "score",                        :precision => 8, :scale => 1

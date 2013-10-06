@@ -11,9 +11,15 @@ $button-rounding-radius: 8px;
 
 table.tournament-header {
   border: 0;
+  font-weight: bold;
+}
+
+table.tournament-header td:first-child {
+  text-align: right;
 }
 
 div.registration-link {
+  float: right;
   margin-top: 10px;
 }
 
@@ -55,9 +61,8 @@ div.sect2 h3 {
 }
 
 div.sect2 div.ulist ul {
-  line-height: 0em;
 }
 
 div.sect2 div.ulist li {
-  line-height: 0em;
+  line-height: 0px;
 }

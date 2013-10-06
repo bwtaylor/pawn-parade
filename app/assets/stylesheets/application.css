@@ -11,5 +11,6 @@
  *= require_self
  *= require_tree .
  *= require forms
+ *= require tables
  *= require application_layout
  */

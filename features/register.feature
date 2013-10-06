@@ -41,33 +41,35 @@ Feature: Preregister for Tournament
       | registration last name       | Kamsky                 |
       | registration school          | Hard Knocks Elementary |
       | registration uscf member id  | 12528459               |
-    And I select "2" for registration grade
+      | select: registration grade   | 2                      |
+      | select: registration shirt size | Adult XL            |
     And I click the "Submit" button
     Then a registration should exist for Gata Kamsky in the "Primary Rated Open" section for tournament rax
-    And I should see content "Gata Kamsky is preregistered in section Primary Rated Open of Rackspace Chess Tournament"
+    And I should see content "Gata Kamsky is preregistered in the "Primary Rated Open" section of Rackspace Chess Tournament"
 
   Scenario: Register for an Unrated Section
     Given a tournament exists:
       | slug | name                       | location     | event_date | short_description                                              |
       | rax  | Rackspace Chess Tournament | Rackspace    | 2013-10-26 | One-day scholastic tournament with rated and unrated sections. |
     And the tournament has sections:
-      | Primary Rated Open         |
-      | Elementary Rated Open      |
-      | Primary Unrated Open       |
+      | Primary (K-2) Rated Open         |
+      | Elementary (K-5) Rated Open      |
+      | Primary (K-2) Unrated Open       |
     And registration for the tournament is on
     When I navigate to "/tournaments/rax/registrations/new"
-    And I select "Primary Unrated Open" for registration_section
     And I enter the following:
-      | registration first name      | Johny                  |
-      | registration last name       | Chester                |
-      | registration school          | Bishop Elementary      |
-      | registration uscf member id  |                        |
-    And I select "2" for registration grade
+      | select: registration section     | Primary (K-2) Rated Open |
+      | registration first name          | Johny                |
+      | registration last name           | Chester              |
+      | registration school              | Bishop Elementary    |
+      | registration uscf member id      |                      |
+      | select: registration shirt size  | Youth Medium (10-12) |
+      | select: registration grade       | K                    |
     And I click the "Submit" button
-    Then a registration should exist for Johny Chester in the "Primary Unrated Open" section for tournament rax
-    And I should see content "Johny Chester is preregistered in section Primary Unrated Open of Rackspace Chess Tournament"
+    Then a registration should exist for Johny Chester in the "Primary (K-2) Rated Open" section for tournament rax
+    And I should see content "Johny Chester is preregistered in the "Primary (K-2) Rated Open" section of Rackspace Chess Tournament"
 
-  Scenario: Select Sections from Registration Form
+  Scenario: Select Sections on Registration Form
     Given a tournament exists:
         | slug | name                       | location     | event_date | short_description                                              |
         | rax  | Rackspace Chess Tournament | Rackspace    | 2013-10-26 | One-day scholastic tournament with rated and unrated sections. |
@@ -100,3 +102,4 @@ Feature: Preregister for Tournament
       And I select "Novice Unrated" for registration section
      Then I should see "Novice Unrated" selected for registration section
       And I should not see "High School Unrated Open" selected for registration section
+

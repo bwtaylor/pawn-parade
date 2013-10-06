@@ -2,13 +2,13 @@ $blue: #3bbfce;
 $darkred:  #903030;
 $lightred: #cc4444;
 $palered:  #ee8888;
+$faintyellow: #ffffcc;
 $header_footer_color: $darkred;
 
 div.header {
   width: 100%;
   height: 30px;
   background-color: $header_footer_color;
-  vertical-align: center;
 }
 
 div.header div.button {
@@ -36,14 +36,30 @@ div.footer {
   color: white;
   background-color: $header_footer_color;
   line-height: 20px;
+  font-size: 12px;
+  text-align: right;
+  line-height: 30px;
 }
 
 div.footer a {
   color: white;
 }
 
-
-div.flash-notice {
-
+dev.powered_by {
+  margin-right: 10px;
 }
+
+div.flash-registered {
+  height: 32px;
+  background: url('/images/check.jpg') no-repeat;
+  background-color: $faintyellow;
+  padding: 5px 0 5px 50px;
+  color: black;
+  display: block;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: left;
+}
+
 

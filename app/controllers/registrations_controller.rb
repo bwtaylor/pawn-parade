@@ -12,8 +12,8 @@ class RegistrationsController < ApplicationController
     @tournament = Tournament.find_by_slug(params[:tournament_id])
     @registration = @tournament.registrations.build(params[:registration])
     if @registration.save
-       flash[:notice] = "#{@registration.first_name} #{@registration.last_name} is preregistered " +
-                        " in section #{@registration.section} of #{@tournament.name}"
+       flash[:registered] = "#{@registration.first_name} #{@registration.last_name} is preregistered " +
+                            " in the \"#{@registration.section}\" section of #{@tournament.name}"
       redirect_to @tournament, :action => :show
     else
       render :new
@@ -21,6 +21,8 @@ class RegistrationsController < ApplicationController
   end
 
   def index
+    @tournament = Tournament.find_by_slug(params[:tournament_id])
+    @registrations = @tournament.registrations
   end
 
   # MOVE THIS TO SOMEWHERE BETTER
