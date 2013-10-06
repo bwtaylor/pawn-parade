@@ -2,7 +2,13 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-input#registration_uscf_member_id {
+div#error-messages {
+  border: 1px;
+}
+
+div#error-messages ul li {
+  color: #993333;
+  font-weight: bold;
 }
 
 span.info {
