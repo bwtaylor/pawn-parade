@@ -24,4 +24,4 @@ Feature: Manage Tournament Fliers
       | Rackspace Fall 2013 Scholastic Chess Tournament |
       | Free Entry!!! Free Food!!! Great Prizes!!! |
       | Elementary (K-5) Rated JV |
-      | All games are G/25, d5. Bring a clock if at all possible. |
+      | All games are G/25, d5. |
