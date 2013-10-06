@@ -24,10 +24,14 @@ test: &test
   password: mydb
 
 production:
-  adapter: sqlite3
-  database: db/production.sqlite3
+  adapter: mysql2
+  username: rails_app
+  password: <%= begin IO.read("/home/rails/.rails_db.pwd") rescue "" end %>
+  host: backend01
+  encoding: utf8
+  reconnect: false
+  database: rails_db
   pool: 5
-  timeout: 5000
 
 cucumber:
   <<: *test
