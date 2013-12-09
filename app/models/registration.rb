@@ -29,6 +29,7 @@ class Registration < ActiveRecord::Base
   validates_inclusion_of :status, :allow_nil => true,
     :in => [
       'request',                 # submitted through website, needing admin approval
+      'waiting list',            # section is full
       'duplicate',               # automated or manually discarded as duplicate
       'preregistered',           # approved preregistration request, spot is held for player
       'uscf membership expired', # request for rated section, but USCF membership is expired: must renew by tny time or withdraw
@@ -62,8 +63,12 @@ class Registration < ActiveRecord::Base
   before_save :default_values
 
   def default_values
-    self.status ||= 'request'
+    self.status ||= self.get_section.full? ? 'waiting list' : 'request'
     self.uscf_member_id = nil if self.uscf_member_id.blank?
+  end
+
+  def get_section
+    Section.find_by_tournament_id_and_name(self.tournament.id, self.section)
   end
 
 end

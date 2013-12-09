@@ -101,3 +101,46 @@ Feature: Preregister for Tournament
      Then I should see "Novice Unrated" selected for registration section
       And I should not see "High School Unrated Open" selected for registration section
 
+    @wip
+   Scenario: Register for a Section with a Quota that is not Full
+    Given a tournament exists:
+        | slug | name                       | location     | event_date | short_description                                              |
+        | rax  | Rackspace Chess Tournament | Rackspace    | 2013-10-26 | One-day scholastic tournament with rated and unrated sections. |
+      And the tournament has sections:
+        | Primary Rated Open         |
+      And registration for the tournament is on
+      And the quota for section "Primary Rated Open" is 30
+      And no registrations exist for the tournament
+     When I navigate to "/tournaments/rax/registrations/new"
+      And I select "Primary Rated Open" for registration_section
+      And I enter the following:
+        | registration first name      | Gata                   |
+        | registration last name       | Kamsky                 |
+        | registration school          | Hard Knocks Elementary |
+        | registration uscf member id  | 12528459               |
+        | select: registration grade   | 2                      |
+      And I click the "Submit" button
+     Then a registration should exist for Gata Kamsky in the "Primary Rated Open" section for tournament rax
+      And I should see content "Gata Kamsky is preregistered in the "Primary Rated Open" section of Rackspace Chess Tournament"
+
+      @wip
+  Scenario: Register for a Section with a Quota that is Full
+    Given a tournament exists:
+      | slug | name                       | location     | event_date | short_description                                              |
+      | rax  | Rackspace Chess Tournament | Rackspace    | 2013-10-26 | One-day scholastic tournament with rated and unrated sections. |
+    And the tournament has sections:
+      | Primary Rated Open         |
+    And registration for the tournament is on
+    And the quota for section "Primary Rated Open" is 0
+    And no registrations exist for the tournament
+    When I navigate to "/tournaments/rax/registrations/new"
+    And I select "Primary Rated Open" for registration_section
+    And I enter the following:
+      | registration first name      | Gata                   |
+      | registration last name       | Kamsky                 |
+      | registration school          | Hard Knocks Elementary |
+      | registration uscf member id  | 12528459               |
+      | select: registration grade   | 2                      |
+    And I click the "Submit" button
+    Then a registration should exist for Gata Kamsky in the "Primary Rated Open" section for tournament rax
+    And I should see content "SECTION FULL!! Gata Kamsky is on the waiting list in the "Primary Rated Open" section of Rackspace Chess Tournament"

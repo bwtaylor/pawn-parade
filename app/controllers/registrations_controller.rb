@@ -11,9 +11,15 @@ class RegistrationsController < ApplicationController
   def create
     @tournament = Tournament.find_by_slug(params[:tournament_id])
     @registration = @tournament.registrations.build(params[:registration])
+
     if @registration.save
+      if @registration.status == 'request'
        flash[:registered] = "#{@registration.first_name} #{@registration.last_name} is preregistered " +
                             " in the \"#{@registration.section}\" section of #{@tournament.name}"
+      elsif @registration.status == 'waiting list'
+        flash[:registered] = "SECTION FULL!! #{@registration.first_name} #{@registration.last_name} is on the waiting list " +
+            " in the \"#{@registration.section}\" section of #{@tournament.name}"
+      end
       redirect_to @tournament, :action => :show
     else
       render :new

@@ -67,8 +67,7 @@ ________
       raise 'must specify a tournament by passing its slug to --for' if tournament_slug.nil?
       tournament = Tournament.find_by_slug(tournament_slug)
       raise "no tournament with slug #{tournament_slug} exists" if tournament.nil?
-      arguments_error_message =
-          'you must specify the SECTION_SLUG argument'
+      arguments_error_message = 'you must specify the SECTION_SLUG argument'
       raise arguments_error_message if args.length < 1
       section_slug = args[0].downcase
       section = Section.find_by_tournament_id_and_slug(tournament.id, section_slug)
@@ -81,7 +80,30 @@ ________
   end
 
   #pawn section quota primary_jtp --for jayhs-fall-2013 --max 32
-
+  section.arg_name 'SECTION_SLUG'
+  section.command :quota do |quota|
+    quota.desc 'max quota for section'
+    quota.arg_name 'QUOTA'
+    quota.flag :max
+    quota.action do | global_options, options, args |
+      tournament_slug=options[:for]
+      raise 'must specify a tournament by passing its slug to --for' if tournament_slug.nil?
+      tournament = Tournament.find_by_slug(tournament_slug)
+      raise "no tournament with slug #{tournament_slug} exists" if tournament.nil?
+      arguments_error_message = 'you must specify the SECTION_SLUG argument'
+      raise arguments_error_message if args.length < 1
+      section_slug = args[0].downcase
+      section = Section.find_by_tournament_id_and_slug(tournament.id, section_slug)
+      raise "No section #{section_slug} exists for tournament #{tournament_slug} " if section.nil?
+      raise "Argument #{options[:max]} for --max is not a non-negative integer" unless options[:max].to_i >= 0
+      max=options[:max].to_i
+      section.max = max
+      section.save!
+      current_count = Registration.find_all_by_tournament_id_and_section(tournament.id,section.name).length
+      rating_type = section.rated ? 'rated' : 'unrated'
+      puts "#{section.slug} [#{rating_type}] [#{current_count}/#{section.max}]"
+    end
+  end
 
 end
 

@@ -39,7 +39,6 @@ Feature: Manage Sections
      Then the output should contain "primary_jtp [rated]"
       And section primary_jtp should be rated
 
-    @wip
   Scenario: Set a Section Quota via CLI
     Given a tournament exists:
         | slug            | name                                 | location                 | event_date | short_description |
@@ -48,4 +47,4 @@ Feature: Manage Sections
         | Primary JTP |
       And no registrations exist for the tournament
      When I run `pawn section quota primary_jtp --for jayhs-fall-2013 --max 32`
-     Then the output should contain "primary_jtp [rated] [0/32]"
+     Then the output should contain "primary_jtp [unrated] [0/32]"
