@@ -1,34 +1,41 @@
 <h1>Registrations for <%= @tournament.name %></h1>
 
 <p/>
-<table class="tournament-schedule grid" border="1">
-  <thead>
-  <tr>
-    <th>Section</th>
-    <th>Name</th>
-    <th>School</th>
-    <th>Grade</th>
-    <th>USCF Member ID</th>
-  </tr>
-  </thead>
 
-  <tbody>
-  <% rownum = 0 %>
-  <% @registrations.sort_by!{|r| [r[:section_name],r[:first_name],r[:last_name]] }.each do |registration| %>
+<% @tournament.sections.each do |section| %>
+  <h3>Section: <%= section.name %> [<%= section.registration_count %> players <%= " of #{section.max} max" if section.max %>] </h3>
+
+  <table class="tournament-schedule grid" border="1">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Initials</th>
+      <th>School</th>
+      <th>Grade</th>
+      <th>Rating</th>
+      <th>Status</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% rownum = 0 %>
+    <% section_registrations = @registrations.select { |r| r[:section] == section.name }  %>
+    <% section_registrations.sort_by!{|r| r[:created_at] }.each do |registration| %>
       <% rownum += 1 %>
       <% if rownum%2 == 1 %>
           <tr>
       <% else %>
           <tr class="alt">
       <% end %>
-      <td><%= registration.section %></td>
-      <td><%= "#{registration.first_name} #{registration.last_name}" %></td>
+      <td><%= rownum %></td>
+      <td><%= "#{registration.first_name[0]}#{registration.last_name[0]}" %></td>
       <td><%= registration.school %></td>
       <td><%= registration.grade %></td>
-      <td><%= registration.uscf_member_id %></td>
+      <td><%= registration.rating %></td>
+      <td><%= registration.status %></td>
       </tr>
-  <% end %>
-  </tbody>
-
-</table>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
 
