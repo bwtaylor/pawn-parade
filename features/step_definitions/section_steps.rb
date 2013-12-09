@@ -23,3 +23,11 @@ Given(/^the tournament has sections:$/) do |section_table|
   end
   @tournament.save!
 end
+
+Then(/^section (.*) should be rated$/) do |section_slug|
+  Section.find_by_tournament_id_and_slug(@tournament.id, section_slug).rated.should be true
+end
+
+Then(/^section (.*) should be unrated$/) do |section_slug|
+  Section.find_by_tournament_id_and_slug(@tournament.id, section_slug).rated.should be false
+end

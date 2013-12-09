@@ -5,7 +5,7 @@ command :tournament do |tournament|
 
   tournament.desc 'add a new tournament'
   tournament.long_desc <<________
-Add a new tournament by specifying it's SLUG, LOCATION, and EVENT_DATE, defined as: \n
+Add a new tournament by specifying it's SLUG, NAME, LOCATION, EVENT_DATE, and SHORT_DESCRIPTION defined as: \n
 SLUG - a unique identifier for the tournament fit for use in a URI path  \n
 NAME - the title of the tournament, as defined by its hosts \n
 LOCATION - general name for where the tournament will occur (not the address) \n

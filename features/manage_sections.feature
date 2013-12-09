@@ -29,3 +29,23 @@ Feature: Manage Sections
       And the output should contain "elementary_unrated [unrated]"
       And the output should contain "Tournament jayhs-fall-2013 has 3 sections, 2 rated, 1 unrated"
 
+  Scenario: Make a Section Rated via CLI
+    Given a tournament exists:
+        | slug            | name                                 | location                 | event_date | short_description |
+        | jayhs-fall-2013 | John Jay Scholastic Chess Tournament | John Jay High School     | 2013-9-28  | One day, 5SS, G/30 d5, in 4 sections |
+      And the tournament has sections:
+        | Primary JTP |
+     When I run `pawn section rated primary_jtp --for jayhs-fall-2013`
+     Then the output should contain "primary_jtp [rated]"
+      And section primary_jtp should be rated
+
+    @wip
+  Scenario: Set a Section Quota via CLI
+    Given a tournament exists:
+        | slug            | name                                 | location                 | event_date | short_description |
+        | jayhs-fall-2013 | John Jay Scholastic Chess Tournament | John Jay High School     | 2013-9-28  | One day, 5SS, G/30 d5, in 4 sections |
+      And the tournament has sections:
+        | Primary JTP |
+      And no registrations exist for the tournament
+     When I run `pawn section quota primary_jtp --for jayhs-fall-2013 --max 32`
+     Then the output should contain "primary_jtp [rated] [0/32]"

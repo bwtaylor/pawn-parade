@@ -39,14 +39,14 @@ ________
 
   # pawn section list --for jayhs-fall-2013
   section.command :list do |list|
-    list.desc ''
+    list.desc 'tournament to list sections for'
     list.arg_name 'TOURNAMENT_SLUG'
     list.flag :for
     list.action do | global_options, options, args |
       tournament_slug=options[:for]
-      raise 'must specify a tournament by passing its slug to --to' if tournament_slug.nil?
+      raise 'must specify a tournament by passing its slug to --for' if tournament_slug.nil?
       tournament = Tournament.find_by_slug(tournament_slug)
-      raise "no tournament with slug #{tournament_slug} eixsts" if tournament.nil?
+      raise "no tournament with slug #{tournament_slug} exists" if tournament.nil?
       total_count = rated_count = unrated_count = 0
       Section.find_all_by_tournament_id(tournament.id).each do |section|
         rating_type = section.rated ? 'rated' : 'unrated'
@@ -58,6 +58,30 @@ ________
       puts "Tournament #{tournament.slug} has #{total_count} sections, #{rated_count} rated, #{unrated_count} unrated"
     end
   end
+
+  #pawn section rated primary_jtp --for jayhs-fall-2013
+  section.arg_name 'SECTION_SLUG'
+  section.command :rated do |rated|
+    rated.action do | global_options, options, args |
+      tournament_slug=options[:for]
+      raise 'must specify a tournament by passing its slug to --for' if tournament_slug.nil?
+      tournament = Tournament.find_by_slug(tournament_slug)
+      raise "no tournament with slug #{tournament_slug} exists" if tournament.nil?
+      arguments_error_message =
+          'you must specify the SECTION_SLUG argument'
+      raise arguments_error_message if args.length < 1
+      section_slug = args[0].downcase
+      section = Section.find_by_tournament_id_and_slug(tournament.id, section_slug)
+      raise "No section #{section_slug} exists for tournament #{tournament_slug} " if section.nil?
+      section.rated = true
+      section.save!
+      rating_type = section.rated ? 'rated' : 'unrated'
+      puts "#{section.slug} [#{rating_type}]"
+    end
+  end
+
+  #pawn section quota primary_jtp --for jayhs-fall-2013 --max 32
+
 
 end
 
