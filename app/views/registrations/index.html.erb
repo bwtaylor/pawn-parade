@@ -3,7 +3,7 @@
 <p/>
 
 <% @tournament.sections.each do |section| %>
-  <h3>Section: <%= section.name %> [<%= section.registration_count %> players <%= " of #{section.max} max" if section.max %>] </h3>
+  <h3>Section: <%= section.name %> [<%= section.registration_count %> players<%= " of #{section.max} max" if section.max %>] </h3>
 
   <table class="tournament-schedule grid" border="1">
     <thead>
