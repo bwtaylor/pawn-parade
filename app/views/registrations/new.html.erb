@@ -39,11 +39,6 @@
           <%= f.text_field :uscf_member_id %>
           <span class="info">Needed for Rated Sections Only (see below)</span>
         </li>
-        <li>
-          <%= f.label :shirt_size, 'Shirt Size'%>
-          <%= f.select :shirt_size, ['Youth Small (6-8)', 'Youth Medium (10-12)', 'Youth Large (14-16)', 'Adult Small', 'Adult Medium', 'Adult Large', 'Adult XL'],
-              {:include_blank => true} %>
-        </li>
       </ol>
     </fieldset>
     <%= f.submit 'Submit' %> <span class="privacy-policy">Participation in a public tournament is inherently not private. <br/>

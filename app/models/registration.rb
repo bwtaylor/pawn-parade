@@ -23,7 +23,7 @@ class Registration < ActiveRecord::Base
 
   validates_inclusion_of :grade,  :in => %w(K 1 2 3 4 5 6 7 8 9 10 11 12)
 
-  validates_inclusion_of :shirt_size,
+  validates_inclusion_of :shirt_size, :allow_nil => true,
     :in => ['Youth Small (6-8)', 'Youth Medium (10-12)', 'Youth Large (14-16)', 'Adult Small', 'Adult Medium', 'Adult Large', 'Adult XL']
 
   validates_inclusion_of :status, :allow_nil => true,

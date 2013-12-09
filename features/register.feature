@@ -42,7 +42,6 @@ Feature: Preregister for Tournament
       | registration school          | Hard Knocks Elementary |
       | registration uscf member id  | 12528459               |
       | select: registration grade   | 2                      |
-      | select: registration shirt size | Adult XL            |
     And I click the "Submit" button
     Then a registration should exist for Gata Kamsky in the "Primary Rated Open" section for tournament rax
     And I should see content "Gata Kamsky is preregistered in the "Primary Rated Open" section of Rackspace Chess Tournament"
@@ -63,7 +62,6 @@ Feature: Preregister for Tournament
       | registration last name           | Chester              |
       | registration school              | Bishop Elementary    |
       | registration uscf member id      |                      |
-      | select: registration shirt size  | Youth Medium (10-12) |
       | select: registration grade       | K                    |
     And I click the "Submit" button
     Then a registration should exist for Johny Chester in the "Primary (K-2) Unrated Open" section for tournament rax
