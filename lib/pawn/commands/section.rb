@@ -37,4 +37,27 @@ ________
     end
   end
 
+  # pawn section list --for jayhs-fall-2013
+  section.command :list do |list|
+    list.desc ''
+    list.arg_name 'TOURNAMENT_SLUG'
+    list.flag :for
+    list.action do | global_options, options, args |
+      tournament_slug=options[:for]
+      raise 'must specify a tournament by passing its slug to --to' if tournament_slug.nil?
+      tournament = Tournament.find_by_slug(tournament_slug)
+      raise "no tournament with slug #{tournament_slug} eixsts" if tournament.nil?
+      total_count = rated_count = unrated_count = 0
+      Section.find_all_by_tournament_id(tournament.id).each do |section|
+        rating_type = section.rated ? 'rated' : 'unrated'
+        puts "#{section.slug} [#{rating_type}]"
+        total_count += 1
+        rated_count += 1 if section.rated
+        unrated_count += 1 if !section.rated
+      end
+      puts "Tournament #{tournament.slug} has #{total_count} sections, #{rated_count} rated, #{unrated_count} unrated"
+    end
+  end
+
 end
+
