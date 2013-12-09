@@ -1,8 +1,8 @@
 
 Feature: Preregister for Tournament
   As a web user
-  I want to pre-register for a tournament
-  So that I can play in
+  I want to pre-register someone for a tournament
+  So that they can play in it
 
   Scenario: Navigate to Tournament Registration Page
     Given a tournament exists:
@@ -58,7 +58,7 @@ Feature: Preregister for Tournament
     And registration for the tournament is on
     When I navigate to "/tournaments/rax/registrations/new"
     And I enter the following:
-      | select: registration section     | Primary (K-2) Rated Open |
+      | select: registration section     | Primary (K-2) Unrated Open |
       | registration first name          | Johny                |
       | registration last name           | Chester              |
       | registration school              | Bishop Elementary    |
@@ -66,8 +66,8 @@ Feature: Preregister for Tournament
       | select: registration shirt size  | Youth Medium (10-12) |
       | select: registration grade       | K                    |
     And I click the "Submit" button
-    Then a registration should exist for Johny Chester in the "Primary (K-2) Rated Open" section for tournament rax
-    And I should see content "Johny Chester is preregistered in the "Primary (K-2) Rated Open" section of Rackspace Chess Tournament"
+    Then a registration should exist for Johny Chester in the "Primary (K-2) Unrated Open" section for tournament rax
+    And I should see content "Johny Chester is preregistered in the "Primary (K-2) Unrated Open" section of Rackspace Chess Tournament"
 
   Scenario: Select Sections on Registration Form
     Given a tournament exists:

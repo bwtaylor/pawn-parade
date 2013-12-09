@@ -22,6 +22,6 @@ Feature: Manage Tournament Fliers
     And I navigate to "/tournaments/rax"
    Then I should see content matching
       | Rackspace Fall 2013 Scholastic Chess Tournament |
-      | Free Entry!!! Free Food!!! Great Prizes!!! |
+      | Free Entry!!! Free Food!!! |
       | Elementary (K-5) Rated JV |
       | All games are G/25, d5. |
