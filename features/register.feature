@@ -101,7 +101,6 @@ Feature: Preregister for Tournament
      Then I should see "Novice Unrated" selected for registration section
       And I should not see "High School Unrated Open" selected for registration section
 
-    @wip
    Scenario: Register for a Section with a Quota that is not Full
     Given a tournament exists:
         | slug | name                       | location     | event_date | short_description                                              |
@@ -123,7 +122,6 @@ Feature: Preregister for Tournament
      Then a registration should exist for Gata Kamsky in the "Primary Rated Open" section for tournament rax
       And I should see content "Gata Kamsky is preregistered in the "Primary Rated Open" section of Rackspace Chess Tournament"
 
-      @wip
   Scenario: Register for a Section with a Quota that is Full
     Given a tournament exists:
       | slug | name                       | location     | event_date | short_description                                              |
