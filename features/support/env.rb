@@ -11,6 +11,8 @@ require 'aruba/cucumber'
 require 'capybara/rspec'
 require 'fileutils'
 
+include Warden::Test::Helpers
+
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
 # selectors in your step definitions to use the XPath syntax.
@@ -36,16 +38,18 @@ ActionController::Base.allow_rescue = false
 begin
   DatabaseCleaner.strategy = :truncation
 rescue NameError
-  raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
+  raise 'You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it.'
 end
 
 Cucumber::Rails::Database.javascript_strategy = :truncation
 
 Before do
   @aruba_timeout_seconds = 5000
+  Warden.test_mode!
 end
 
 After do
   Timecop.return
+  Warden.test_reset!
 end
 
