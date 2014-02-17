@@ -9,7 +9,7 @@ Given(/^user (.*?) exists with password "(.*?)"$/) do |email_address, starting_p
   User.create!(:email=>email_address, :password=>starting_password)
 end
 
-Given(/^I have an authentication session$/) do
+Given(/^I have an authenticated session$/) do
   user_email = 'testuser@example.com'
   password = 'testpassword'
   step "user #{user_email} exists with password \"#{password}\""
@@ -17,7 +17,7 @@ Given(/^I have an authentication session$/) do
   login_as(user, :scope=>:user)
 end
 
-Given(/^I have no authentication session$/) do
+Given(/^I have no authenticated session$/) do
   user_email = 'testuser@example.com'
   password = 'testpassword'
   step "user #{user_email} exists with password \"#{password}\""

@@ -1,7 +1,8 @@
 PawnParade::Application.routes.draw do
 
-  resources :teams
+  get "dashboard/index", :as => 'user_root'
 
+  resources :teams
 
   devise_for :users
 
