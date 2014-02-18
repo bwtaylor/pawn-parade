@@ -9,11 +9,12 @@
 <body>
 
 <div class="header">
-  <div class="button"><a href="/">Home</a></div>
   <% if user_signed_in? %>
+    <div class="button"><%= link_to 'Home', user_root_path %></div>
     <div class="button-right"><%= link_to 'Sign Out', destroy_user_session_path, :method => :delete %></div>
     <div class="button-right"><%= link_to 'Teams', teams_path %></div>
   <% else %>
+     <div class="button"><%= link_to 'Home', root_path %></div>
      <div class="button-right"><a href="/users/sign_in">Sign In</a></div>
   <% end %>
 </div>

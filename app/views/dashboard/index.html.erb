@@ -1,2 +1,14 @@
 <h1>Dashboard#index</h1>
 <p>Find me in app/views/dashboard/index.html.erb</p>
+
+<h2>Teams you Manage</h2>
+<% if @teams.size > 0 %>
+    <table>
+      <% @teams.each do |team| %>
+          <tr><td><%= link_to team.name, team %></td></tr>
+      <% end %>
+    </table>
+<% else %>
+    You have no managed teams.
+<% end %>
+

@@ -2,6 +2,10 @@ class TeamsController < ApplicationController
 
   before_filter :authenticate_user!
 
+  def team_by_slug
+    @team = Team.find_by_slug(params[:id])
+  end
+
   # GET /teams
   # GET /teams.json
   def index
@@ -16,7 +20,7 @@ class TeamsController < ApplicationController
   # GET /teams/1
   # GET /teams/1.json
   def show
-    @team = Team.find(params[:id])
+    team_by_slug
 
     respond_to do |format|
       format.html # show.html.erb
@@ -37,7 +41,7 @@ class TeamsController < ApplicationController
 
   # GET /teams/1/edit
   def edit
-    @team = Team.find(params[:id])
+    team_by_slug
   end
 
   # POST /teams
@@ -59,7 +63,7 @@ class TeamsController < ApplicationController
   # PUT /teams/1
   # PUT /teams/1.json
   def update
-    @team = Team.find(params[:id])
+    team_by_slug
 
     respond_to do |format|
       if @team.update_attributes(params[:team])
@@ -75,7 +79,7 @@ class TeamsController < ApplicationController
   # DELETE /teams/1
   # DELETE /teams/1.json
   def destroy
-    @team = Team.find(params[:id])
+    team_by_slug
     @team.destroy
 
     respond_to do |format|

@@ -1,7 +1,8 @@
 pages = {
-    "home" => "/",
-    "sign in" => "/user/sign_in",
-    "team" => "/teams"
+    'home' => '/',
+    'sign in' => '/user/sign_in',
+    'team' => '/teams',
+    'dashboard' => '/dashboard/index'
 }
 
 When(/^I navigate to "(.*?)"$/) do |uri_path|
@@ -35,10 +36,10 @@ When(/^I (?:sleep|wait) (?:for)? (\d+) milliseconds?$/) do |digit_string|
 end
 
 page_check = {
-    "sign in" => "Sign in",
-    "home" => "Why Rackspace Supports Scholastic Chess",
-    "personal home" => "Dashboard#index",
-    "team" => "Listing teams"
+    'sign in' => 'Sign in',
+    'home' => 'Why Rackspace Supports Scholastic Chess',
+    'personal home' => 'Dashboard#index',
+    'team' => 'Listing teams'
 }
 
 Then(/^I should see (?:the|my) (.*) page$/) do |page_name|
