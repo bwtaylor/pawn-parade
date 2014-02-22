@@ -11,7 +11,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140217062931) do
+ActiveRecord::Schema.define(:version => 20140218035854) do
+
+  create_table "players", :force => true do |t|
+    t.string   "first_name",    :limit => 40
+    t.string   "last_name",     :limit => 40
+    t.string   "grade",         :limit => 2
+    t.string   "uscf_id",       :limit => 10
+    t.date     "date_of_birth"
+    t.string   "address",       :limit => 80
+    t.string   "address2",      :limit => 80
+    t.string   "city",          :limit => 40
+    t.string   "state",         :limit => 12
+    t.string   "zip_code",      :limit => 10
+    t.string   "county",        :limit => 32
+    t.string   "gender",        :limit => 1
+    t.string   "school_year",   :limit => 10
+    t.integer  "team_id"
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
+  end
+
+  add_index "players", ["team_id"], :name => "index_players_on_team_id"
 
   create_table "registrations", :force => true do |t|
     t.integer  "tournament_id"
@@ -66,10 +87,16 @@ ActiveRecord::Schema.define(:version => 20140217062931) do
   end
 
   create_table "teams", :force => true do |t|
-    t.string   "name",       :limit => 32
-    t.string   "slug",       :limit => 6
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
+    t.string   "name",              :limit => 32
+    t.string   "slug",              :limit => 6
+    t.string   "full_name",         :limit => 64
+    t.string   "city",              :limit => 32
+    t.string   "county",            :limit => 32
+    t.string   "state",             :limit => 2
+    t.string   "school_district",   :limit => 32
+    t.string   "uscf_affiliate_id", :limit => 12
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
   end
 
   create_table "tournaments", :force => true do |t|

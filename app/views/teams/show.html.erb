@@ -1,14 +1,50 @@
-<p id="notice"><%= notice %></p>
+<h2><%= @team.name %> Team Roster</h2>
 
-<p>
-  <b>Name:</b>
-  <%= @team.name %>
+<b><%= @team.full_name %> (<%= @team.name %>)</b>
+<%= @team.city %>, <%= @team.state %>
+  <%= " - #{@team.county} County" if @team.county %>
+  <%= "(#{@team.school_district})" if @team.school_district %>
+  <% if @team.uscf_affiliate_id %>
+    <a href="http://www.uschess.org/msa/AffDtlMain.php?<%= @team.uscf_affiliate_id %>">(<%= @team.uscf_affiliate_id %>)</a>
+  <% end %>
 </p>
 
-<p>
-  <b>Slug:</b>
-  <%= @team.slug %>
-</p>
+<% if @team.players.first  %>
+    <table>
+      <% @team.players.each do |player| %>
+          <% if !player.new_record?   %>
+          <tr><td><%= player.first_name %> <%= player.last_name %></td></tr>
+          <% end %>
+      <% end %>
+    </table>
+<% end %>There are <%= @team.players.select{|p| !p.new_record? }.length %> players on this team. <p/>
+
+<%= form_for @player, :url => create_player_team_path(@team),
+             html: {multipart: true, class: 'registration_form'} do |f| %>
+    <fieldset>
+      <legend>Player Information: Add a Player to <%= @team.name %> Team</legend>
+      <ol>
+        <li>
+          <%= f.label :first_name %>
+          <%= f.text_field :first_name %>
+        </li>
+        <li>
+          <%= f.label :last_name %>
+          <%= f.text_field :last_name %>
+        </li>
+        <li>
+          <%= f.label :grade %>
+          <%= f.select :grade, %w(K 1 2 3 4 5 6 7 8 9 10 11 12), {:include_blank => true} %>
+        </li>
+        <li>
+          <%= f.label :uscf_id, 'USCF Id'%>
+          <%= f.text_field :uscf_id %>
+          <span class="info">Needed to play in a Rated Event</span>
+        </li>
+      </ol>
+    </fieldset>
+    <%= f.submit 'Add Player to Team' %>
+<% end %>
 
 
 <%= link_to 'Edit', edit_team_path(@team) %> |

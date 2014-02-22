@@ -35,7 +35,7 @@ Feature: Preregister for Tournament
       | Elementary Rated JV        |
     And registration for the tournament is on
     When I navigate to "/tournaments/rax/registrations/new"
-    And I select "Primary Rated Open" for registration_section
+    And I select "Primary Rated Open" for registration section
     And I enter the following:
       | registration first name      | Gata                   |
       | registration last name       | Kamsky                 |

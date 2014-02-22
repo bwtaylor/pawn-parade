@@ -21,10 +21,22 @@ class TeamsController < ApplicationController
   # GET /teams/1.json
   def show
     team_by_slug
+    @player = Player.new unless @player
 
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @team }
+    end
+  end
+
+  def create_player
+    team_by_slug
+    @player = @team.players.build(params[:player])
+    if @player.save and @player.errors.empty?
+      @player = Player.new
+      redirect_to @team
+    else
+      render :action => :show
     end
   end
 

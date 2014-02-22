@@ -5,6 +5,13 @@ pages = {
     'dashboard' => '/dashboard/index'
 }
 
+def page_template(page_name, id)
+   pages_for_id = {
+     'team' => "/teams/#{id}",
+     'edit team' => "/teams/#{id}/edit"
+   }[page_name]
+end
+
 When(/^I navigate to "(.*?)"$/) do |uri_path|
   visit(uri_path)
 end
@@ -14,6 +21,12 @@ When(/^I navigate to the (.*?) page$/) do |page_name|
   raise "#{page_name} has no testing uri_path associated with it" unless uri_path
   visit(uri_path)
 end
+
+When(/^I navigate to the (.*?) page for (.*)$/) do |page_name, id|
+  page =  page_template(page_name, id)
+  page ? visit(page) : raise("#{page_name} has no testing uri_path template associated with it")
+end
+
 
 When(/^I click the "(.*)" (?:link or button|button or link|link|button)$/) do |button_name|
   click_link_or_button(button_name)
