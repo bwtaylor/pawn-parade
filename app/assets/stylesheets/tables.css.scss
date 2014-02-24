@@ -42,7 +42,7 @@ table.grid thead th {
 }
 
 table.grid table thead th:first-child {
-  border: none;
+  border: 1px;
 }
 
 table.grid tbody tr td {
@@ -56,7 +56,7 @@ table.grid tbody tr.alt td {
   color: $table_dark; }
 
 table.grid tbody td:first-child {
-  border-left: none;
+  border-left: 5px;
 }
 
 table.grid tbody tr:last-child td {

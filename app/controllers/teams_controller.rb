@@ -1,3 +1,6 @@
+require 'nokogiri'
+require 'open-uri'
+
 class TeamsController < ApplicationController
 
   before_filter :authenticate_user!
@@ -29,14 +32,55 @@ class TeamsController < ApplicationController
     end
   end
 
+  def extract_player(hit)
+    player = Player.new
+    player.uscf_id = hit[0].content.strip[0,8]
+    player.uscf_rating_reg = hit[1].content
+    player.state = hit[4].content
+    if hit[5].content.to_s.start_with?('Non-Member')
+      player.uscf_status = 'JTP'
+    else
+      player.uscf_expires = Date.strptime hit[5].content, '%Y-%m-%d'      #'2014-03-31'
+      player.uscf_status = player.uscf_expires <= Date.today ? 'EXPIRED' : 'MEMBER'
+    end
+    names = hit[6].content.split(/, /)
+    player.last_name = names[0] #unless self.last_name
+    player.first_name = names[1]
+    player
+  end
+
+  def search
+    team_by_slug
+    state = @team.state.nil? ? "Any" : @team.state
+    flash[:notice] = "USCF Searches are better for teams with a value for State" if state == 'Any'
+    uri =  "http://www.uschess.org/datapage/player-search.php?"+
+           "name=#{params[:uscf_search]}&state=#{state}&rating=R&mode=Find"
+    player_lookup_uri =  URI::encode(uri)
+    doc = Nokogiri::HTML(open(player_lookup_uri));
+    raw_hits = doc.css('table.blog table tr')
+    hit_cnt = raw_hits[0].css('td')[0].content.split(': ')[1].to_i
+    hits = raw_hits[2..1+hit_cnt]
+    @search_hits = hits.map {|hit| extract_player(hit.css('td'))}
+    render :action => :show
+  end
+
   def create_player
     team_by_slug
     @player = @team.players.build(params[:player])
-    if @player.save and @player.errors.empty?
-      @player = Player.new
-      redirect_to @team
+    if params[:uscf_id]
+      @player.uscf_id = params[:uscf_id]
+      @player.pull_uscf
+      if @player.save and @player.errors.empty?
+        @player = Player.new
+        redirect_to @team
+      else
+        render :action => :show
+      end
     else
-      render :action => :show
+      @player.state = @team.state
+      @player.city = @team.city
+      @player.county = @team.county
+      render 'players/new'
     end
   end
 

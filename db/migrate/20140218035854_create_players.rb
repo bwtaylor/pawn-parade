@@ -4,7 +4,12 @@ class CreatePlayers < ActiveRecord::Migration
       t.string :first_name, :limit => 40
       t.string :last_name, :limit => 40
       t.string :grade, :limit => 2
+      t.string :school_year, :limit => 10
       t.string :uscf_id, :limit => 10
+      t.integer :uscf_rating_reg
+      t.integer :uscf_rating_reg_live
+      t.string :uscf_status, :limit => 12
+      t.date :uscf_expires
       t.date :date_of_birth
       t.string :address, :limit => 80
       t.string :address2, :limit => 80

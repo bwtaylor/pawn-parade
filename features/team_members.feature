@@ -28,3 +28,33 @@ Feature: Manage Team List
       | First name |
       | Grade |
       | USCF Id |
+
+  Scenario: Populate New JTP Player Form using USCF ID
+    Given team Blattman exists with slug blattm
+    And I have an authenticated session as bob@sacastle.org with password "password1"
+    And bob@sacastle.org manages blattm
+    And the blattm team has no players
+    When I navigate to the team page for blattm
+    And I enter "15365356" into the uscf search field
+    And I click the "Search" button
+    Then I should see text matching
+      | USCF Searches are better for teams with a value for State |
+      | OKULICZ, NATE |
+      | JTP           |
+
+  Scenario: Populate Player Form using USCF ID
+    Given team Blattman exists with slug blattm
+    And team blattm has state TX
+    And I have an authenticated session as bob@sacastle.org with password "password1"
+    And bob@sacastle.org manages blattm
+    And the blattm team has no players
+    When I navigate to the team page for blattm
+    And I enter "15127606" into the uscf search field
+    And I click the "Search" button
+    Then I should see text matching
+      | TAYLOR, JACKSON |
+      | 2014-03-31 |
+      | 558 |
+      | TX  |
+    And I should not see content "USCF Searches are better for teams with a value for State"
+

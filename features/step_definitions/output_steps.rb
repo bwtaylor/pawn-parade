@@ -11,6 +11,12 @@ Then(/^I should see content (?:matching|containing)$/) do |expected_table|
   end
 end
 
+Then(/^I should see text (?:matching|containing)$/) do |expected_table|
+  expected_table.raw.flatten.each do |expected_text|
+    expect(page.has_text?(expected_text))
+  end
+end
+
 Then /^I should see content "(.*)"$/ do |expected_text|
   expect(page).to have_content expected_text
 end

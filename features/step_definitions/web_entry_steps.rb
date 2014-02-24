@@ -2,7 +2,7 @@ When /^I fill in (.*) with "(.*)"$/ do |field, value|
   fill_in(field.gsub(' ', '_'), :with => value)
 end
 
-When /^I (?:fill in|enter) "(.*)" (?:for|to|into) (?:the)? (.*)\s?(?:field|data element|box)$/ do |value, field|
+When /^I (?:fill in|enter) "(.*)" (?:for|to|into) (?:the)? (.*) (?:field|data element|box)$/ do |value, field|
   fill_in(field.gsub(' ', '_'), :with => value)
 end
 

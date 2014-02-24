@@ -1,0 +1,63 @@
+<h1>Add Player</h1>
+<% if @team   %>
+  <h2>To <%= @team.name %> Team Roster</h2>
+<% end %>
+
+<%= form_for @player, url: {controller: 'players', action: 'create'},
+  html: {multipart: true, class: 'registration_form'} do |f| %>
+
+    <fieldset>
+      <legend>Player Information: Add a Player <%= @team.slug %></legend>
+      <% @player.errors.full_messages.each do |msg| %>
+          <p><%= msg %></p>
+      <% end %>
+      <%= f.hidden_field :team_id, :value => @team.slug %>
+      <ol>
+        <li>
+          <%= f.label :first_name %>
+          <%= f.text_field :first_name %>
+        </li>
+        <li>
+          <%= f.label :last_name %>
+          <%= f.text_field :last_name %>
+        </li>
+        <li>
+          <%= f.label :grade %>
+          <%= f.select :grade, %w(K 1 2 3 4 5 6 7 8 9 10 11 12), {:include_blank => true} %>
+        </li>
+        <li>
+          <%= f.label :uscf_id, 'USCF Id'%>
+          <%= f.text_field :uscf_id %>
+        </li>
+        <li>
+          <%= f.label :address, 'Address'%>
+          <%= f.text_field :address %>
+        </li>
+        <li>
+          <%= f.label :address2, 'Address 2'%>
+          <%= f.text_field :address2 %>
+        </li>
+        <li>
+          <%= f.label :city, 'City'%>
+          <%= f.text_field :city %>
+        </li>
+        <li>
+          <%= f.label :state, 'State'%>
+          <%= f.text_field :state %>
+        </li>
+        <li>
+          <%= f.label :zip_code, 'Zip Code'%>
+          <%= f.text_field :zip_code %>
+        </li>
+        <li>
+          <%= f.label :county, 'County'%>
+          <%= f.text_field :county %>
+        </li>
+        <li>
+          <%= f.label :date_of_birth, 'Date of Birth'%>
+          <%= f.date_select :date_of_birth, :order => [:month, :day, :year] %>
+        </li>
+      </ol>
+    </fieldset>
+    <%= f.submit 'Add Player to Team' %>
+<% end %>

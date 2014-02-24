@@ -3,6 +3,13 @@ Given(/^team (.*) exists with slug (.*)/) do  |team, slug|
   Team.create!(:name=>team, :slug=>slug)
 end
 
+Given(/^team (.*) has state (.*)/) do  |team_slug, state|
+  team = Team.find_by_slug(team_slug)
+  team.state = state
+  team.save!
+end
+
+
 Given(/^(.*) does not manage a team$/) do |user_email|
   user = User.find_by_email(user_email)
   assert(user.managed_teams.size == 0)
@@ -11,6 +18,14 @@ end
 Given(/^(.*) manages (.*)$/) do |user_email, team_slug|
   user = User.find_by_email(user_email)
   team = Team.find_by_slug(team_slug)
+  raise "no team has slug #{team_slug}" if team.nil?
+  user.managed_teams << team unless user.managed_teams.include? team
+end
+
+Given(/^(.*) manages (.*) with state (.*) $/) do |user_email, team_slug, state|
+  user = User.find_by_email(user_email)
+  team = Team.find_by_slug(team_slug)
+  team.state = state
   raise "no team has slug #{team_slug}" if team.nil?
   user.managed_teams << team unless user.managed_teams.include? team
 end

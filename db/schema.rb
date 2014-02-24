@@ -14,22 +14,26 @@
 ActiveRecord::Schema.define(:version => 20140218035854) do
 
   create_table "players", :force => true do |t|
-    t.string   "first_name",    :limit => 40
-    t.string   "last_name",     :limit => 40
-    t.string   "grade",         :limit => 2
-    t.string   "uscf_id",       :limit => 10
+    t.string   "first_name",           :limit => 40
+    t.string   "last_name",            :limit => 40
+    t.string   "grade",                :limit => 2
+    t.string   "school_year",          :limit => 10
+    t.string   "uscf_id",              :limit => 10
+    t.integer  "uscf_rating_reg"
+    t.integer  "uscf_rating_reg_live"
+    t.string   "uscf_status",          :limit => 12
+    t.date     "uscf_expires"
     t.date     "date_of_birth"
-    t.string   "address",       :limit => 80
-    t.string   "address2",      :limit => 80
-    t.string   "city",          :limit => 40
-    t.string   "state",         :limit => 12
-    t.string   "zip_code",      :limit => 10
-    t.string   "county",        :limit => 32
-    t.string   "gender",        :limit => 1
-    t.string   "school_year",   :limit => 10
+    t.string   "address",              :limit => 80
+    t.string   "address2",             :limit => 80
+    t.string   "city",                 :limit => 40
+    t.string   "state",                :limit => 12
+    t.string   "zip_code",             :limit => 10
+    t.string   "county",               :limit => 32
+    t.string   "gender",               :limit => 1
     t.integer  "team_id"
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
   end
 
   add_index "players", ["team_id"], :name => "index_players_on_team_id"
