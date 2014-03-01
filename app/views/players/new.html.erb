@@ -55,7 +55,11 @@
         </li>
         <li>
           <%= f.label :date_of_birth, 'Date of Birth'%>
-          <%= f.date_select :date_of_birth, :order => [:month, :day, :year] %>
+          <% year = Time.new.year %>
+          <%= f.date_select :date_of_birth,
+                            start_year: year-19,
+                            end_year: year-4,
+                            :order => [:month, :day, :year] %>
         </li>
       </ol>
     </fieldset>

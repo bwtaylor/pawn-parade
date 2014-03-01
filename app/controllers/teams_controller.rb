@@ -12,7 +12,12 @@ class TeamsController < ApplicationController
   # GET /teams
   # GET /teams.json
   def index
-    @teams = Team.all
+    if current_user.admin?
+      @teams = Team.all
+    else
+      #User.where(:username => "Paul").includes(:domains).where("domains.name" => "paul-domain").limit(1)
+      @teams = current_user.managed_teams #Team.includes(:managers).where('users.email' => current_user.email)
+    end
 
     respond_to do |format|
       format.html # index.html.erb

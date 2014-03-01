@@ -1,9 +1,30 @@
 class PlayersController < ApplicationController
 
+  before_filter :authenticate_user!
+
   respond_to :html
 
   def show
     @player = Player.find(params[:id])
+  end
+
+  def edit
+    @player = Player.find(params[:id])
+  end
+
+  def update
+    @player = Player.find(params[:id])
+    @player.update_attributes(params[:player])
+    if @player.save and @player.errors.empty?
+      flash[:notice] = "Player #{@player.first_name} #{@player.last_name} has been updated "
+      if @player.team.nil?
+        redirect_to @player, :action => :show
+      else
+        redirect_to @player.team, :action => :show
+      end
+    else
+      render :edit
+    end
   end
 
   def new
@@ -20,8 +41,6 @@ class PlayersController < ApplicationController
     else
       @player = Player.new(params[:player])
     end
-
-    raise "NO #{params[:player]['team_id']} " unless @player.team.slug == 'blattm'
 
     if @player.save and @player.errors.empty?
       flash[:notice] = "Player #{@player.first_name} #{@player.last_name} has been created "

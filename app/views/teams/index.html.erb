@@ -20,12 +20,16 @@
         <a href="http://www.uschess.org/msa/AffDtlMain.php?<%= team.uscf_affiliate_id %>">(<%= team.uscf_affiliate_id %>)</a>
       <% end %>
     </td>
-    <td><%= link_to 'Edit', edit_team_path(team) %></td>
-    <td><%= link_to 'Destroy', team, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% if current_user.admin? %>
+      <td><%= link_to 'Edit', edit_team_path(team) %></td>
+      <td><%= link_to 'Destroy', team, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% end %>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Team', new_team_path %>
+<% if current_user.admin? %>
+  <%= link_to 'New Team', new_team_path %>
+<% end %>

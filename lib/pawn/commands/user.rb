@@ -11,14 +11,25 @@ ________
 
   user.arg_name 'USER_EMAIL'
   user.command :create do |create|
+    user.desc 'make user admin'
+    user.switch :admin
     create.action do | global_options, options, args |
       arguments_error_message = 'you must specify an email address to identify the user to be created'
       raise arguments_error_message if args.length < 1
       email_address = args[0].downcase
-      raise "A user with email #{email_address} already exists." if User.find_by_email(email_address)
-      password = read_password
-      new_user = User.create!(:email=>email_address, :password=>password)
-      puts "User #{new_user.email} created" if new_user
+      user = User.find_by_email(email_address)
+      admin = options[:admin]
+      if user.nil?
+        password = read_password
+        user = User.create!(:email=>email_address, :password=>password, :admin=>admin)
+        puts "User #{new_user.email} created" if new_user
+      elsif admin
+        user.admin = admin
+        user.save!
+      else
+        raise "A user with email #{email_address} already exists."
+      end
+      puts "User #{user.email} is now an admin." if admin
     end
   end
 

@@ -13,8 +13,16 @@ end
 
 Then(/^I should see text (?:matching|containing)$/) do |expected_table|
   expected_table.raw.flatten.each do |expected_text|
-    expect(page.has_text?(expected_text))
+    expect page.has_text? expected_text
   end
+end
+
+Then /^I should see text "(.*)"$/ do |expected_text|
+  page.should have_text expected_text
+end
+
+Then /^I should not see text "(.*)"$/ do |expected_text|
+  page.should_not have_text expected_text
 end
 
 Then /^I should see content "(.*)"$/ do |expected_text|

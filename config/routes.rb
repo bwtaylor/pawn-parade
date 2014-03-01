@@ -1,6 +1,6 @@
 PawnParade::Application.routes.draw do
 
-  resources :players, :only => [:create, :new, :index, :show, :edit]
+  resources :players, :only => [:create, :new, :index, :show, :edit, :update]
 
   get "dashboard/index", :as => 'user_root'
 

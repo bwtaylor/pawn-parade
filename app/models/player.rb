@@ -4,11 +4,20 @@ class Player < ActiveRecord::Base
                   :uscf_rating_reg, :uscf_rating_reg_live, :uscf_status, :uscf_expires, :team_id
 
   belongs_to :team, :foreign_key => 'team_id'
+  has_many :guardians
 
   validates :first_name, :presence => true, :length => { :maximum => 40 }
   validates :last_name, :presence => true, :length => { :maximum => 40 }
   validates :uscf_id, :allow_blank => true, format: { with: /^\d{8}$/, message: 'id must be 8 digits' }
   validates_inclusion_of :grade,  :in => %w(K 1 2 3 4 5 6 7 8 9 10 11 12)
+
+  before_save :upcase
+
+  def upcase
+    self.first_name.upcase!
+    self.last_name.upcase!
+    self.state.upcase! if self.state
+  end
 
   def pull_uscf
     require 'nokogiri'

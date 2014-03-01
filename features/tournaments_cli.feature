@@ -42,3 +42,9 @@ Feature: Manage Tournaments via CLI
     Then the output should contain "Tournament duplicates location and event date of tournament jayhs-fall-2013."
     And exactly one tournament with slug "jayhs-fall-2013" should exist
 
+  Scenario: Generate CLI command to recreate existing tournament
+    Given a tournament exists:
+        | slug            | name                                 | location                 | event_date | short_description |
+        | jayhs-fall-2013 | John Jay Scholastic Chess Tournament | John Jay High School     | 2013-9-28  | One day, 5SS, G/30 d5, in 4 sections |
+     When I run `pawn tournament export jayhs-fall-2013`
+     Then the output should contain 'pawn tournament create jayhs-fall-2013 "John Jay Scholastic Chess Tournament" "John Jay High School" 2013-09-28 "One day, 5SS, G/30 d5, in 4 sections"'

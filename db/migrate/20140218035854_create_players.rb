@@ -1,9 +1,9 @@
 class CreatePlayers < ActiveRecord::Migration
   def change
     create_table :players do |t|
-      t.string :first_name, :limit => 40
-      t.string :last_name, :limit => 40
-      t.string :grade, :limit => 2
+      t.string :first_name, :limit => 40, :null => false
+      t.string :last_name, :limit => 40, :null => false
+      t.string :grade, :limit => 2, :null => false
       t.string :school_year, :limit => 10
       t.string :uscf_id, :limit => 10
       t.integer :uscf_rating_reg

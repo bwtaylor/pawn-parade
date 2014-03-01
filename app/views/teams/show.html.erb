@@ -26,8 +26,12 @@
           <% if !player.new_record?   %>
           <tr>
             <td><%= player.grade%></td>
-            <td><%= player.last_name%>, <%= player.first_name%></td>
-            <td><%= player.uscf_rating_reg == 0 ? 'UNR' : player.uscf_rating_reg %></td>
+            <td><%= link_to "#{player.last_name}, #{player.first_name}", edit_player_path(player) %></td>
+            <td><%= player.uscf_rating_reg == 0 ? 'UNR' : player.uscf_rating_reg %>
+                <% unless player.uscf_rating_reg_live.nil?  %>
+                   =&gt; <%= player.uscf_rating_reg_live == 0 ? 'UNR' : player.uscf_rating_reg_live %>
+                <% end %>
+            </td>
             <td><a href="http://www.uschess.org/msa/MbrDtlTnmtHst.php?<%= player.uscf_id %>"><%= player.uscf_id %></a></td>
             <td><%= player.uscf_status %></td>
           </tr>
@@ -82,5 +86,7 @@
 
 
 <p/>
-<%= link_to 'Edit', edit_team_path(@team) %> |
-<%= link_to 'Refresh '+@team.name, team_path %>
+<% if current_user.admin? %>
+  <%= link_to 'Edit', edit_team_path(@team) %> |
+<% end %>
+<%= link_to 'Refresh ' + @team.name, team_path %>

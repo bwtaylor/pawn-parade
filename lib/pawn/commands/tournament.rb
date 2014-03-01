@@ -37,6 +37,26 @@ ________
     end
   end
 
+  tournament.desc 'generate the pawn command to recreate an existing tournament'
+  tournament.arg_name 'SLUG'
+  tournament.command :export do |export|
+    export.action do | global_options, options, args |
+      if args.length == 0
+        tournaments = Tournament.all.sort_by(:event_date)
+      else
+        tournament_slug = args[0].downcase
+        tournaments = Tournament.find_all_by_slug(tournament_slug)
+      end
+      tournaments.each do |tournament|
+        puts "pawn tournament create #{tournament.slug} \"#{tournament.name}\" "+
+                 "\"#{tournament.location}\" #{tournament.event_date} \"#{tournament.short_description}\""
+      end
+      puts "# #{tournaments.length} tournaments exported"
+
+    end
+  end
+
+
   tournament.desc 'upload a flier in asciidoc format'
   tournament.long_desc <<________
 Upload a flier in asciidoc format.

@@ -58,3 +58,16 @@ Feature: Manage Team List
       | TX  |
     And I should not see content "USCF Searches are better for teams with a value for State"
 
+  Scenario: Search for Player by name
+    Given team Blattman exists with slug blattm
+    And I have an authenticated session as bob@sacastle.org with password "password1"
+    And bob@sacastle.org manages blattm
+    And the blattm team has no players
+    When I navigate to the team page for blattm
+    And I enter "Taylor, Jackson" into the uscf search field
+    And I click the "Search" button
+    Then I should see text matching
+      | 15127606 |
+      | 14076916 |
+      | 13249356 |
+      | USCF Searches are better for teams with a value for State |

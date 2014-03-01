@@ -11,12 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140218035854) do
+ActiveRecord::Schema.define(:version => 20140228235859) do
+
+  create_table "guardians", :force => true do |t|
+    t.integer  "player_id",  :null => false
+    t.string   "email",      :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "players", :force => true do |t|
-    t.string   "first_name",           :limit => 40
-    t.string   "last_name",            :limit => 40
-    t.string   "grade",                :limit => 2
+    t.string   "first_name",           :limit => 40, :null => false
+    t.string   "last_name",            :limit => 40, :null => false
+    t.string   "grade",                :limit => 2,  :null => false
     t.string   "school_year",          :limit => 10
     t.string   "uscf_id",              :limit => 10
     t.integer  "uscf_rating_reg"
@@ -84,15 +91,15 @@ ActiveRecord::Schema.define(:version => 20140218035854) do
   end
 
   create_table "team_managers", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "team_id"
+    t.integer  "user_id",    :null => false
+    t.integer  "team_id",    :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
   create_table "teams", :force => true do |t|
-    t.string   "name",              :limit => 32
-    t.string   "slug",              :limit => 6
+    t.string   "name",              :limit => 32, :null => false
+    t.string   "slug",              :limit => 6,  :null => false
     t.string   "full_name",         :limit => 64
     t.string   "city",              :limit => 32
     t.string   "county",            :limit => 32
@@ -117,18 +124,19 @@ ActiveRecord::Schema.define(:version => 20140218035854) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "email",                  :default => "",    :null => false
+    t.string   "encrypted_password",     :default => "",    :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          :default => 0,  :null => false
+    t.integer  "sign_in_count",          :default => 0,     :null => false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+    t.boolean  "admin",                  :default => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
