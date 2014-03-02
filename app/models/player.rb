@@ -25,6 +25,12 @@ class Player < ActiveRecord::Base
     pull_uscf if self.uscf_id.length == 8
   end
 
+  def add_guardians(guardian_emails)
+    guardian_emails.each do |email|
+      self.guardians.build(:email=>email).save!
+    end
+  end
+
   def pull_uscf
     require 'nokogiri'
     require 'open-uri'

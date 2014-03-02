@@ -101,6 +101,33 @@ Feature: Preregister for Tournament
     Then a registration should exist for Johny Chester in the "Primary (K-2) Unrated Open" section for tournament rax
     And I should see content "preregistered in the "Primary (K-2) Unrated Open" section of Rackspace Chess Tournament"
 
+  Scenario: Register with Guardian, then Sign Up as Guardian and see player
+    Given a tournament exists:
+      | slug | name                       | location     | event_date | short_description                                              |
+      | rax  | Rackspace Chess Tournament | Rackspace    | 2013-10-26 | One-day scholastic tournament with rated and unrated sections. |
+    And the tournament has sections:
+      | Primary (K-2) Rated Open         |
+      | Elementary (K-5) Rated Open      |
+      | Primary (K-2) Unrated Open       |
+    And registration for the tournament is on
+    When I navigate to "/tournaments/rax/registrations/new"
+    And I enter the following:
+      | select: registration section       | Primary (K-2) Unrated Open |
+      | registration first name            | Johny                |
+      | registration last name             | Chester              |
+      | registration school                | Bishop Elementary    |
+      | select: registration grade         | 2                    |
+      | select: registration gender        | M                    |
+      | registration guardian emails | mom@example.com, dad@example.com |
+    And I click the "Submit" button
+   Then I should see content "preregistered"
+    And a registration should exist for Johny Chester in the "Primary (K-2) Unrated Open" section for tournament rax
+    And player Johny Chester should exist
+    And player Johny Chester should have 2 guardians
+   When I sign up and login as mom@example.com
+    And I navigate to the dashboard page
+   Then I should see text "CHESTER, JOHNY"
+
   Scenario: Select Sections on Registration Form
     Given a tournament exists:
         | slug | name                       | location     | event_date | short_description                                              |

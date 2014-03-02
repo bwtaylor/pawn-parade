@@ -1,7 +1,7 @@
 class AddPlayerFieldsToRegistration < ActiveRecord::Migration
   def up
     add_column :registrations, :player_id, :integer
-    add_column :registrations, :guardian_emails, :limit => 512
+    add_column :registrations, :guardian_emails, :string, :limit => 512
     add_column :registrations, :date_of_birth, :date
     add_column :registrations, :address, :string, :limit => 80
     add_column :registrations, :city, :string, :limit => 40

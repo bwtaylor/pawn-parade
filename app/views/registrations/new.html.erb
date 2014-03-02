@@ -51,6 +51,14 @@
         <li>
           <span class="info">For Rated Sections (see below)</span>
         </li>
+        <li>
+          <%= f.label :guardian_emails, 'Guardian Emails'%>
+          <%= f.text_field :guardian_emails, size: "50x1" %>
+        </li>
+        <li>
+          <span class="info">Needed for tournament contact. Users
+            <%= link_to 'sign up', new_user_registration_path %> via email address to change player data. Supports lists.</span>
+        </li>
       </ol>
     </div>
     <div class="column_block">

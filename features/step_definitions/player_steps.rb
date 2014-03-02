@@ -7,9 +7,7 @@ Given /^these players exist:$/ do |player_table|
         :grade => player_hash['grade']
     )
     guardian_emails = player_hash['guardians'].split /\s+|\s*;\s*|\s,\s*/
-    guardian_emails.each do |email|
-      player.guardians.build(:email=>email).save!
-    end
+    player.add_guardians guardian_emails
   end
 end
 
@@ -28,4 +26,9 @@ end
 
 Then /^player ([^\s]*) ([^\s]*) should exist$/ do |first_name, last_name|
   Player.find_all_by_first_name_and_last_name(first_name, last_name).length.should be >= 1
+end
+
+Then(/^player ([^\s]*) ([^\s]*) should have (\d+) guardians$/) do |first_name, last_name, expected_number|
+  player = Player.find_by_first_name_and_last_name(first_name, last_name)
+  expect(player.guardians.length).to eq expected_number.to_i
 end

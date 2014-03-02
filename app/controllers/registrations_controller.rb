@@ -56,7 +56,8 @@ class RegistrationsController < ApplicationController
                  :zip_code => r.zip_code,
                  :county => r.county
                ) if player.nil?
-    registration.player = player
+    r.player = player
+    player.add_guardians r.guardians
   end
 
 end

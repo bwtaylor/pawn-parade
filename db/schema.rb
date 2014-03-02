@@ -47,29 +47,30 @@ ActiveRecord::Schema.define(:version => 20140301084932) do
 
   create_table "registrations", :force => true do |t|
     t.integer  "tournament_id"
-    t.string   "first_name",     :limit => 40
-    t.string   "last_name",      :limit => 40
-    t.string   "school",         :limit => 80
-    t.string   "grade",          :limit => 2
-    t.string   "section",        :limit => 40
-    t.string   "uscf_member_id", :limit => 16
-    t.string   "shirt_size",     :limit => 40
+    t.string   "first_name",      :limit => 40
+    t.string   "last_name",       :limit => 40
+    t.string   "school",          :limit => 80
+    t.string   "grade",           :limit => 2
+    t.string   "section",         :limit => 40
+    t.string   "uscf_member_id",  :limit => 16
+    t.string   "shirt_size",      :limit => 40
     t.integer  "rating"
-    t.string   "status",         :limit => 40
-    t.decimal  "score",                        :precision => 8, :scale => 1
-    t.string   "prize",          :limit => 40
-    t.string   "team_prize",     :limit => 40
-    t.datetime "created_at",                                                 :null => false
-    t.datetime "updated_at",                                                 :null => false
+    t.string   "status",          :limit => 40
+    t.decimal  "score",                          :precision => 8, :scale => 1
+    t.string   "prize",           :limit => 40
+    t.string   "team_prize",      :limit => 40
+    t.datetime "created_at",                                                   :null => false
+    t.datetime "updated_at",                                                   :null => false
     t.integer  "player_id"
+    t.string   "guardian_emails", :limit => 512
     t.date     "date_of_birth"
-    t.string   "address",        :limit => 80
-    t.string   "city",           :limit => 40
-    t.string   "state",          :limit => 12
-    t.string   "zip_code",       :limit => 10
-    t.string   "county",         :limit => 32
-    t.string   "gender",         :limit => 1
-    t.string   "team_slug",      :limit => 6
+    t.string   "address",         :limit => 80
+    t.string   "city",            :limit => 40
+    t.string   "state",           :limit => 12
+    t.string   "zip_code",        :limit => 10
+    t.string   "county",          :limit => 32
+    t.string   "gender",          :limit => 1
+    t.string   "team_slug",       :limit => 6
   end
 
   create_table "schedule_tournaments", :force => true do |t|
