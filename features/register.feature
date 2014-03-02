@@ -204,4 +204,4 @@ Feature: Preregister for Tournament
       | select: registration gender  | M                      |
     And I click the "Submit" button
     Then a registration should exist for Gata Kamsky in the "Primary Rated Open" section for tournament rax
-    And I should see content "SECTION FULL!! Gata Kamsky is on the waiting list in the "Primary Rated Open" section of Rackspace Chess Tournament"
+    And I should see content "SECTION FULL!! GATA KAMSKY is on the waiting list in the "Primary Rated Open" section of Rackspace Chess Tournament"

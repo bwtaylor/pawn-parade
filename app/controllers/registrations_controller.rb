@@ -12,7 +12,8 @@ class RegistrationsController < ApplicationController
     @tournament = Tournament.find_by_slug(params[:tournament_id])
     @registration = @tournament.registrations.build(params[:registration])
 
-    associate_player(@registration)
+    player = associate_player(@registration)
+    player.valid?
 
     if @registration.save
       if @registration.status == 'request'
@@ -22,6 +23,8 @@ class RegistrationsController < ApplicationController
         flash[:registered] = "SECTION FULL!! #{@registration.first_name} #{@registration.last_name} is on the waiting list " +
             " in the \"#{@registration.section}\" section of #{@tournament.name}"
       end
+      player.add_guardians @registration.guardians
+      player.save
       redirect_to @tournament, :action => :show
     else
       render :new
@@ -43,7 +46,7 @@ class RegistrationsController < ApplicationController
     r = registration
     player = Player.find_by_uscf_id(r.uscf_member_id) unless r.uscf_member_id.nil?
     player = Player.find_by_first_name_and_last_name_and_grade(r.first_name, r.last_name, r.grade) if player.nil?
-    player = Player.create(
+    player = Player.new(
                  :first_name => r.first_name,
                  :last_name => r.last_name,
                  :uscf_id => r.uscf_member_id,
@@ -57,7 +60,6 @@ class RegistrationsController < ApplicationController
                  :county => r.county
                ) if player.nil?
     r.player = player
-    player.add_guardians r.guardians
   end
 
 end

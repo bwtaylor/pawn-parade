@@ -45,6 +45,13 @@
       <ol>
         <li id="message" />
         <li>
+          <%= f.label :date_of_birth, 'Date of Birth'%>
+          <% year = Time.new.year %>
+          <%= f.date_select :date_of_birth,
+                            {:include_blank => true, :default => nil, start_year: year-19, end_year: year-4},
+                            :order => [:month, :day, :year] %>
+        </li>
+        <li>
           <%= f.label :uscf_member_id, 'USCF Member Id'%>
           <%= f.text_field :uscf_member_id %>
         </li>
@@ -53,7 +60,7 @@
         </li>
         <li>
           <%= f.label :guardian_emails, 'Guardian Emails'%>
-          <%= f.text_field :guardian_emails, size: "50x1" %>
+          <%= f.text_area :guardian_emails, :cols => 32, :rows => 4 %>
         </li>
         <li>
           <span class="info">Needed for tournament contact. Users
@@ -78,14 +85,6 @@
         <li>
           <%= f.label :zip_code, 'Zip Code'%>
           <%= f.text_field :zip_code %>
-        </li>
-        <li>
-          <%= f.label :date_of_birth, 'Date of Birth'%>
-          <% year = Time.new.year %>
-          <%= f.date_select :date_of_birth,
-                            start_year: year-19,
-                            end_year: year-4,
-                            :order => [:month, :day, :year] %>
         </li>
       </ol>
     </div>

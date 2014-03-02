@@ -1,4 +1,8 @@
 class Player < ActiveRecord::Base
+
+  require 'nokogiri'
+  require 'open-uri'
+
   attr_accessible :address, :address2, :city, :county, :date_of_birth, :first_name,
                   :gender, :grade, :last_name, :school_year, :state, :uscf_id, :zip_code,
                   :uscf_rating_reg, :uscf_rating_reg_live, :uscf_status, :uscf_expires, :team_id
@@ -12,7 +16,7 @@ class Player < ActiveRecord::Base
   validates :uscf_id, :allow_blank => true, format: { with: /^\d{8}$/, message: 'id must be 8 digits' }
   validates_inclusion_of :grade,  :in => %w(K 1 2 3 4 5 6 7 8 9 10 11 12)
 
-  before_save :upcase
+  before_validation :upcase
   after_validation :rating
 
   def upcase
@@ -22,18 +26,20 @@ class Player < ActiveRecord::Base
   end
 
   def rating
-    pull_uscf if self.uscf_id.length == 8
+    changed = self.changed_attributes.has_key? 'uscf_id'
+    if changed and self.uscf_id.length == 8
+      pull_uscf
+      pull_live_rating
+    end
   end
 
   def add_guardians(guardian_emails)
     guardian_emails.each do |email|
-      self.guardians.build(:email=>email).save!
+      self.guardians.build(:email=>email).save! if Guardian.find_by_email_and_player_id(email, self.id).nil?
     end
   end
 
   def pull_uscf
-    require 'nokogiri'
-    require 'open-uri'
     uri =  "http://www.uschess.org/datapage/player-search.php?name=#{self.uscf_id}&state=ANY&rating=R&mode=Find"
     player_lookup_uri =  URI::encode(uri)
     doc = Nokogiri::HTML(open(player_lookup_uri));
@@ -59,12 +65,10 @@ class Player < ActiveRecord::Base
   end
 
   def pull_live_rating
-    require 'nokogiri'
-    require 'open-uri'
-    player_lookup_uri =  "http://www.uschess.org/datapage/player-search.php?name=#{uscf_id}&nextrating=N"
-    doc = Nokogiri::HTML(open(player_lookup_uri));
-    results = doc.css('table.blog table tr:nth-child(3) td')
-    self.uscf_rating_reg_live = results[1]
+    uri = "http://www.uschess.org/msa/MbrDtlTnmtHst.php?#{uscf_id}"
+    doc = Nokogiri::HTML(open(uri));
+    cells = doc.css('td.topbar-middle center table tr td table tr:nth-child(2) td b')
+    self.uscf_rating_reg_live = cells[0].content if cells.length >= 1
   end
 
 end
