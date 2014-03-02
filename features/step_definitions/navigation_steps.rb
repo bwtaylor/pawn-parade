@@ -51,7 +51,7 @@ end
 page_check = {
     'sign in' => 'Sign in',
     'home' => 'Why Rackspace Supports Scholastic Chess',
-    'personal home' => 'Dashboard#index',
+    'personal home' => 'Dashboard for',
     'team' => 'Listing teams'
 }
 

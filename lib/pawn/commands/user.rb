@@ -22,7 +22,7 @@ ________
       if user.nil?
         password = read_password
         user = User.create!(:email=>email_address, :password=>password, :admin=>admin)
-        puts "User #{new_user.email} created" if new_user
+        puts "User #{user.email} created" if user
       elsif admin
         user.admin = admin
         user.save!

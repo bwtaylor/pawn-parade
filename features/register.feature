@@ -25,8 +25,8 @@ Feature: Preregister for Tournament
      When I navigate to "/tournaments/rax"
      Then there is no "Register" link or button
 
-  Scenario:  Register for a Rated Section
-    Given a tournament exists:
+  Scenario:  Register for a Rated Section with USCF ID
+  Given a tournament exists:
       | slug | name                       | location     | event_date | short_description                                              |
       | rax  | Rackspace Chess Tournament | Rackspace    | 2013-10-26 | One-day scholastic tournament with rated and unrated sections. |
     And the tournament has sections:
@@ -34,7 +34,8 @@ Feature: Preregister for Tournament
       | Elementary Rated Open      |
       | Elementary Rated JV        |
     And registration for the tournament is on
-    When I navigate to "/tournaments/rax/registrations/new"
+    And player Gata Kamsky does not exist
+   When I navigate to "/tournaments/rax/registrations/new"
     And I select "Primary Rated Open" for registration section
     And I enter the following:
       | registration first name      | Gata                   |
@@ -42,9 +43,41 @@ Feature: Preregister for Tournament
       | registration school          | Hard Knocks Elementary |
       | registration uscf member id  | 12528459               |
       | select: registration grade   | 2                      |
+      | select: registration gender  | M                      |
     And I click the "Submit" button
-    Then a registration should exist for Gata Kamsky in the "Primary Rated Open" section for tournament rax
-    And I should see content "Gata Kamsky is preregistered in the "Primary Rated Open" section of Rackspace Chess Tournament"
+   Then a registration should exist for Gata Kamsky in the "Primary Rated Open" section for tournament rax
+    And player Gata Kamsky should exist
+    And I should see content "preregistered in the "Primary Rated Open" section of Rackspace Chess Tournament"
+
+  Scenario:  Register for a Rated Section without USCF ID
+  Given a tournament exists:
+      | slug | name                       | location     | event_date | short_description                                              |
+      | rax  | Rackspace Chess Tournament | Rackspace    | 2013-10-26 | One-day scholastic tournament with rated and unrated sections. |
+    And the tournament has sections:
+      | Primary Rated Open         |
+      | Elementary Rated Open      |
+      | Elementary Rated JV        |
+    And registration for the tournament is on
+    And player Gata Kamsky does not exist
+   When I navigate to "/tournaments/rax/registrations/new"
+    And I select "Primary Rated Open" for registration section
+    And I enter the following:
+      | registration first name      | Gata                   |
+      | registration last name       | Kamsky                 |
+      | registration school          | Hard Knocks Elementary |
+      | select: registration grade   | 2                      |
+      | select: registration gender  | M                      |
+      | select: registration date of birth 1i  | 2006         |
+      | select: registration date of birth 2i  | March        |
+      | select: registration date of birth 3i  | 28           |
+      | registration address         | 101 Checkmate Ln       |
+      | registration city            | New York               |
+      | registration state           | NY                     |
+      | registration zip code        | 12345                  |
+    And I click the "Submit" button
+   Then a registration should exist for Gata Kamsky in the "Primary Rated Open" section for tournament rax
+    And player Gata Kamsky should exist
+    And I should see content "preregistered in the "Primary Rated Open" section of Rackspace Chess Tournament"
 
   Scenario: Register for an Unrated Section
     Given a tournament exists:
@@ -63,9 +96,10 @@ Feature: Preregister for Tournament
       | registration school              | Bishop Elementary    |
       | registration uscf member id      |                      |
       | select: registration grade       | K                    |
+      | select: registration gender      | M                    |
     And I click the "Submit" button
     Then a registration should exist for Johny Chester in the "Primary (K-2) Unrated Open" section for tournament rax
-    And I should see content "Johny Chester is preregistered in the "Primary (K-2) Unrated Open" section of Rackspace Chess Tournament"
+    And I should see content "preregistered in the "Primary (K-2) Unrated Open" section of Rackspace Chess Tournament"
 
   Scenario: Select Sections on Registration Form
     Given a tournament exists:
@@ -118,9 +152,10 @@ Feature: Preregister for Tournament
         | registration school          | Hard Knocks Elementary |
         | registration uscf member id  | 12528459               |
         | select: registration grade   | 2                      |
+        | select: registration gender  | M                    |
       And I click the "Submit" button
      Then a registration should exist for Gata Kamsky in the "Primary Rated Open" section for tournament rax
-      And I should see content "Gata Kamsky is preregistered in the "Primary Rated Open" section of Rackspace Chess Tournament"
+      And I should see content "preregistered in the "Primary Rated Open" section of Rackspace Chess Tournament"
 
   Scenario: Register for a Section with a Quota that is Full
     Given a tournament exists:
@@ -139,6 +174,7 @@ Feature: Preregister for Tournament
       | registration school          | Hard Knocks Elementary |
       | registration uscf member id  | 12528459               |
       | select: registration grade   | 2                      |
+      | select: registration gender  | M                      |
     And I click the "Submit" button
     Then a registration should exist for Gata Kamsky in the "Primary Rated Open" section for tournament rax
     And I should see content "SECTION FULL!! Gata Kamsky is on the waiting list in the "Primary Rated Open" section of Rackspace Chess Tournament"

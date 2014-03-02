@@ -1,4 +1,4 @@
-Feature: Player Guardians
+Feature: Player's Guardians
   As a player
   I want to specify my guardians via email address
   So that they can edit my record as users

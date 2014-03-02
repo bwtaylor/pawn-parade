@@ -1,7 +1,6 @@
 class Section < ActiveRecord::Base
-  attr_accessible :name, :slug, :rated, :status, :max
-  belongs_to :tournament, :class_name => 'Tournament', :foreign_key => 'tournament_id'
-
+  attr_accessible :name, :slug, :rated, :status, :max, :rating_cap, :grade_max, :grade_min
+  belongs_to :tournament
 
   validates_inclusion_of :status, :allow_nil => true,
     :in =>  %w(preregistration full checking-in late-registration roster-locked completed cancelled posted-to-uscf)
@@ -10,8 +9,28 @@ class Section < ActiveRecord::Base
 
   def default_values
     self.slug ||= self.name.downcase.strip.gsub(' ', '_').gsub(/[^\w-]/, '')
-    self.rated ||= !self.name.downcase[/(?<!un)rated/].nil? | !self.name.downcase[/u\d{3,4}/].nil?
+    self.rating_cap ||= self.name.upcase[ /U(\d{3,4})/ , 1].to_i
+    self.rated ||= !self.name.upcase[/(?<!UN)RATED/].nil? | (self.rating_cap > 0)
+    self.rating_cap = nil if self.rating_cap == 0
     self.status ||= 'preregistration'
+
+    section = self.name.upcase
+
+    min_grade = section[ /.*(K|\d{1,2})-(K|\d{1,2}).*/ , 1]
+    max_grade = section[ /.*(K|\d{1,2})-(K|\d{1,2}).*/ , 2]
+
+    if max_grade.nil?
+      max_grade = '1' if section.include?('SPROUT')
+      max_grade = '3' if section.include?('PRIMARY')
+      max_grade = '5' if section.include?('ELEMENTARY')
+      max_grade = '8' if section.include?('MIDDLE')
+      max_grade = '12' if section.include?('HIGH')
+    end
+    min_grade = 'K' if min_grade.nil?
+    max_grade = '12' if min_grade.nil?
+    self.grade_min ||= (min_grade == 'K' ? 0 : min_grade.to_i)
+    self.grade_max ||= (max_grade == 'K' ? 0 : max_grade.to_i)
+
   end
 
   def registration_count

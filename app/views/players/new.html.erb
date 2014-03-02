@@ -7,7 +7,7 @@
   html: {multipart: true, class: 'registration_form'} do |f| %>
 
     <fieldset>
-      <legend>Player Information: Add a Player <%= @team.slug %></legend>
+      <legend>Player Information: Add a Player to <%= @team.name %></legend>
       <% @player.errors.full_messages.each do |msg| %>
           <p><%= msg %></p>
       <% end %>

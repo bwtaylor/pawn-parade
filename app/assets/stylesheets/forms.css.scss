@@ -6,3 +6,13 @@ fieldset label {
 fieldset ol li {
   list-style-type: none;
 }
+
+div.column_block {
+  float: left;
+  width: 20em;
+}
+
+/* clear float after lists */
+br.column-stop {
+  clear: left;
+}

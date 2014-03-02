@@ -13,8 +13,8 @@ Feature: Manage Team List
         | Betty      | Boop      |           | 2     |
      When I navigate to the team page for blattm
      Then I should see content matching
-       | Adam Ant |
-       | Betty Boop |
+       | ANT, ADAM |
+       | BOOP, BETTY |
 
   Scenario: Create new player on Team
     Given team Blattman exists with slug blattm
@@ -24,7 +24,9 @@ Feature: Manage Team List
      When I navigate to the team page for blattm
      Then I should see content matching
       | There are 0 players on this team. |
-      | Player Information: Add a Player to Blattman Team |
+     When I click the "Add Player to Team" link
+    Then I should see content matching
+      | Player Information: Add a Player to Blattman |
       | First name |
       | Grade |
       | USCF Id |

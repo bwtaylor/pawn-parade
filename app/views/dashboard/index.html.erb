@@ -1,4 +1,5 @@
-<h2>Teams you Manage</h2>
+<h1>Dashboard for <%= current_user.email %></h1>
+<h2>Teams you Manage:</h2>
 <% if @teams.size > 0 %>
     <table>
       <tr>
@@ -31,8 +32,8 @@
     You have no managed teams.
 <% end %>
 
+<h2>Players you are Guardian for:</h2>
 <% if @players.size > 0 %>
-    <h2>Players you are Guardian for</h2>
     <% @players.each do |player| %>
         <%= link_to "#{player.last_name}, #{player.first_name}", player_path(player) %>
     <% end %>

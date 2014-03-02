@@ -13,6 +13,7 @@
   <%= form_for [@tournament, @registration], url: {action: 'create'}, html: {multipart: true, class: 'registration_form'} do |f| %>
     <fieldset>
       <legend>Player Information</legend>
+      <div class="column_block">
       <ol>
         <li>
           <%= f.label :section, 'Desired Section' %>
@@ -35,12 +36,52 @@
           <%= f.select :grade, %w(K 1 2 3 4 5 6 7 8 9 10 11 12), {:include_blank => true} %>
         </li>
         <li>
-          <%= f.label :uscf_member_id, 'USCF Member Id'%>
-          <%= f.text_field :uscf_member_id %>
-          <span class="info">Needed for Rated Sections Only (see below)</span>
+          <%= f.label :gender %>
+          <%= f.select :gender, %w(M F), {:include_blank => true} %>
         </li>
       </ol>
-    </fieldset>
+    </div>
+    <div class="column_block">
+      <ol>
+        <li id="message" />
+        <li>
+          <%= f.label :uscf_member_id, 'USCF Member Id'%>
+          <%= f.text_field :uscf_member_id %>
+        </li>
+        <li>
+          <span class="info">For Rated Sections (see below)</span>
+        </li>
+      </ol>
+    </div>
+    <div class="column_block">
+      <ol>
+        <li>
+          <%= f.label :address, 'Address'%>
+          <%= f.text_field :address %>
+        </li>
+        <li>
+          <%= f.label :city, 'City'%>
+          <%= f.text_field :city %>
+        </li>
+        <li>
+          <%= f.label :state, 'State'%>
+          <%= f.text_field :state %>
+        </li>
+        <li>
+          <%= f.label :zip_code, 'Zip Code'%>
+          <%= f.text_field :zip_code %>
+        </li>
+        <li>
+          <%= f.label :date_of_birth, 'Date of Birth'%>
+          <% year = Time.new.year %>
+          <%= f.date_select :date_of_birth,
+                            start_year: year-19,
+                            end_year: year-4,
+                            :order => [:month, :day, :year] %>
+        </li>
+      </ol>
+    </div>
+    </fieldset><br class="column-stop"/>
     <%= f.submit 'Submit' %> <span class="privacy-policy">Participation in a public tournament is inherently not private. <br/>
   All tournament data, including registration information, is public.</span>
   <% end %>

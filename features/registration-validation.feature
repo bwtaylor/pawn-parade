@@ -11,7 +11,7 @@ Feature: Registration Validation
     And the tournament has sections:
       | Primary (K-3) Rated Open         |
       | Elementary (K-5) Rated Open      |
-      | Elementary (K-5) Rated JV        |
+      | Elementary (K-5) Rated U400      |
       | Middle School (K-8) Rated Open   |
       | High School (K-12) Rated Open    |
       | Primary (K-3) Unrated Open       |
@@ -26,12 +26,13 @@ Feature: Registration Validation
 
   Scenario: Missing Registration Fields
     Then Submitting registration form data as follows should give the expected message:
-      | select: section        | first_name | last_name | school | select: grade | expected_message                  |
-      |                        | Magnus     | Carlson   | PS71   | 10            | Section can't be blank    |
-      | Novice (K-12) Unrated  |            | Carlson   | PS71   | 10            | First name can't be blank         |
-      | Novice (K-12) Unrated  | Magnus     |           | PS71   | 10            | Last name can't be blank          |
-      | Novice (K-12) Unrated  | Magnus     | Carlson   |        | 10            | School can't be blank             |
-      | Novice (K-12) Unrated  | Magnus     | Carlson   | PS71   |               | Grade is not included in the list |
+      | select: section        | first_name | last_name | school | select: grade | select: gender | expected_message                  |
+      |                        | Magnus     | Carlson   | PS71   | 10            | M              | Section can't be blank            |
+      | Novice (K-12) Unrated  |            | Carlson   | PS71   | 10            | F              | First name can't be blank         |
+      | Novice (K-12) Unrated  | Magnus     |           | PS71   | 10            | M              | Last name can't be blank          |
+      | Novice (K-12) Unrated  | Magnus     | Carlson   |        | 10            | M              | School can't be blank             |
+      | Novice (K-12) Unrated  | Magnus     | Carlson   | PS71   |               | M              | Grade is not included in the list |
+      | Novice (K-12) Unrated  | Magnus     | Carlson   | PS71   | 10            |                | Gender is not included in the list |
 
   Scenario: Registration Fields Too Long: first name
     When I select "Primary (K-3) Rated Open" for registration_section
@@ -74,9 +75,21 @@ Feature: Registration Validation
     And I click the "Submit" button
     Then I should see content "Uscf member id must be 8 digits"
 
-  Scenario: Grade Ineligble for Section
+  Scenario: Grade Ineligible for Section
     Then Submitting registration form data as follows should give the expected message:
-      | select: section                | first_name | last_name | school | select: grade | expected_message                 |
+      | select: section                | first_name | last_name | school | select: grade | expected_message           |
       | Primary (K-3) Rated Open       | Magnus     | Carlson   | PS71   | 4             | Grade Too High for Section |
-      | Elementary (K-5) Rated JV      | Magnus     | Carlson   | PS71   | 10            | Grade Too High for Section |
+      | Elementary (K-5) Rated U400    | Magnus     | Carlson   | PS71   | 10            | Grade Too High for Section |
       | Middle School (K-8) Unrated JV | Magnus     | Carlson   | PS71   | 9             | Grade Too High for Section |
+
+  Scenario: Rating Ineligible for Section
+    When I select "Elementary (K-5) Rated U400" for registration_section
+     And I enter the following:
+       | registration first name      | Jackson   |
+       | registration last name       | Taylor    |
+       | registration school          | Blattman  |
+       | registration uscf member id  | 15127606  |
+     And I select "2" for registration grade
+     And I select "M" for registration gender
+     And I click the "Submit" button
+    Then I should see content "Rating Too High for Section"
