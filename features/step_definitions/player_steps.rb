@@ -1,10 +1,12 @@
 Given /^these players exist:$/ do |player_table|
   player_table.hashes.each do |player_hash|
-    player = Player.create(
+    player = Player.create!(
         :first_name => player_hash['first_name'],
         :last_name => player_hash['last_name'],
+        :school => player_hash['school'],
         :uscf_id => player_hash['uscf_id'],
-        :grade => player_hash['grade']
+        :grade => player_hash['grade'],
+        :gender => player_hash['gender']
     )
     guardian_emails = player_hash['guardians'].split /\s+|\s*;\s*|\s,\s*/
     player.add_guardians guardian_emails

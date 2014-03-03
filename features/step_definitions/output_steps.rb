@@ -13,7 +13,16 @@ end
 
 Then /^I should see text (?:matching|containing)$/ do |expected_table|
   expected_table.raw.flatten.each do |expected_text|
-    expect page.has_text? expected_text
+    page.should have_text expected_text
+  end
+end
+
+Then /^I should see a list entry with text (?:matching|containing)$/ do |expected_table|
+  the_page = page
+  selected = page.all('ul.search_hits')
+  list_items = page.all('ul.search_hits li').map(&:text)
+  expected_table.raw.flatten.each do |expected_text|
+    list_items.should include expected_text
   end
 end
 

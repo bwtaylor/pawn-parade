@@ -1,6 +1,7 @@
 class Registration < ActiveRecord::Base
 
-  attr_accessible :section,
+  attr_accessible :tournament_id,
+                  :section,
                   :status,
                   :score,
                   :prize,
@@ -22,7 +23,7 @@ class Registration < ActiveRecord::Base
                   :rating
 
 
-  belongs_to :tournament #, :class_name => 'Tournament', :foreign_key => 'tournament_id'
+  belongs_to :tournament, :foreign_key => 'tournament_id' #, :class_name => 'Tournament'
   belongs_to :player
 
   validates :section, :presence => true, :length => { :maximum => 40 }
@@ -52,7 +53,7 @@ class Registration < ActiveRecord::Base
     ]
 
   after_initialize :guardians
-  validate :upcase, :guardian_emails_format, :name_matches_player, :section_eligibility, append: true
+  validate :upcase, :guardian_emails_format, :name_matches_player, :section_eligibility, :no_duplicates #append: true
   before_save :default_values
 
   def guardian_emails_format
@@ -72,8 +73,10 @@ class Registration < ActiveRecord::Base
   end
 
   def name_matches_player
-    errors.add(:last_name, 'Last Name must match USCF') unless self.last_name.upcase == self.player.last_name
-    errors.add(:first, 'First Name must be similar to USCF') unless self.player.first_name.include?(self.first_name.upcase)
+    unless self.player.uscf_id.nil? or !self.player.uscf_id.length == 8
+      errors.add(:last_name, 'Last Name must match USCF') unless self.last_name.upcase.eql? self.player.last_name
+      errors.add(:first, 'First Name must be similar to USCF') unless self.player.first_name.include?(self.first_name.upcase)
+    end
   end
 
   def section_eligibility
@@ -90,6 +93,16 @@ class Registration < ActiveRecord::Base
     end
   end
 
+  def no_duplicates
+    # @todo: use guardian email address to improve fn/ln matcher
+    t = self.tournament
+    fn = self.first_name
+    ln = self.last_name
+    duplicate = Registration.find_by_uscf_member_id_and_tournament_id(self.uscf_member_id, t.id) if self.uscf_member_id
+    duplicate ||= Registration.find_by_player_id_and_tournament_id(self.player_id, t.id) unless self.player_id.nil?
+    duplicate ||= Registration.find_by_first_name_and_last_name_and_tournament_id(fn,ln,t.id)
+    errors.add(:last_name, "#{ln},#{fn} is already registered for #{t.name}") unless duplicate.nil?
+  end
 
   def default_values
     self.status ||= self.get_section.full? ? 'waiting list' : 'request'

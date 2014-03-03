@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20140301084932) do
   create_table "players", :force => true do |t|
     t.string   "first_name",           :limit => 40, :null => false
     t.string   "last_name",            :limit => 40, :null => false
+    t.string   "school",               :limit => 80
     t.string   "grade",                :limit => 2,  :null => false
     t.string   "school_year",          :limit => 10
     t.string   "uscf_id",              :limit => 10

@@ -1,6 +1,11 @@
 PawnParade::Application.routes.draw do
 
-  resources :players, :only => [:create, :new, :index, :show, :edit, :update]
+  resources :players, :only => [:create, :new, :index, :show, :edit, :update] do
+    member do
+      post 'register'
+    end
+  end
+  post '/players/:id', to: 'players#show', as: :reg
 
   get "dashboard/index", :as => 'user_root'
 

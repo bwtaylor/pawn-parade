@@ -9,6 +9,11 @@ class TeamsController < ApplicationController
     @team = Team.find_by_slug(params[:id])
   end
 
+  def upcoming_tournaments
+    today = Time.now.beginning_of_day
+    @upcoming_tournaments = Tournament.where("registration = 'on' AND event_date >= :today", today: today).order(:event_date)
+  end
+
   # GET /teams
   # GET /teams.json
   def index
@@ -29,6 +34,8 @@ class TeamsController < ApplicationController
   # GET /teams/1.json
   def show
     team_by_slug
+    upcoming_tournaments
+
     @player = Player.new unless @player
 
     respond_to do |format|
@@ -56,8 +63,9 @@ class TeamsController < ApplicationController
 
   def search
     team_by_slug
-    state = @team.state.nil? ? "Any" : @team.state
-    flash[:notice] = "USCF Searches are better for teams with a value for State" if state == 'Any'
+    upcoming_tournaments
+    state = @team.state.nil? ? 'ANY' : @team.state
+    flash[:notice] = "USCF Searches are better for teams with a value for State" if state == 'ANY'
     uri =  "http://www.uschess.org/datapage/player-search.php?"+
            "name=#{params[:uscf_search]}&state=#{state}&rating=R&mode=Find"
     player_lookup_uri =  URI::encode(uri)
@@ -71,20 +79,23 @@ class TeamsController < ApplicationController
 
   def create_player
     team_by_slug
+    upcoming_tournaments
     @player = @team.players.build(params[:player])
+    @player.school = @team.name
+    @player.state = @team.state
+    @player.city = @team.city
+    @player.county = @team.county
     if params[:uscf_id]
       @player.uscf_id = params[:uscf_id]
       @player.pull_uscf
+      p = @player
       if @player.save and @player.errors.empty?
         @player = Player.new
         redirect_to @team
       else
-        render :action => :show
+        render 'players/new'
       end
     else
-      @player.state = @team.state
-      @player.city = @team.city
-      @player.county = @team.county
       render 'players/new'
     end
   end

@@ -12,10 +12,10 @@ Feature: Preregister for Tournament
      When I navigate to "/tournaments/rax"
       And I click the "Register" link
      Then I should see content matching
-        | Register to Play |
+        | Register for Tournament |
         | Rackspace Chess Tournament |
         | 2013-10-26 |
-        | Desired Section |
+        | Section |
 
   Scenario: Can't Navigate to Tournament Registration Page if Registrations are Off
     Given a tournament exists:

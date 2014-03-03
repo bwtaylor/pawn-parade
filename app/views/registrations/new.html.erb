@@ -1,22 +1,21 @@
 <%= error_messages_for(@registration) %>
 
 <div id="headline" class="row">
-  <div class="column twelve">
-    <h1>Register to Play</h1>
-    <p>You are one step away from being preregistered.</p>
+  <div>
+    <h2>Register for Tournament: <%= @tournament.name %></h2>
+    <p>Play in this tournament on <span class="tournament-date"><%= @tournament.event_date %></span>.
+      You are one step away from being preregistered.</p>
   </div>
 </div>
 
 <div id="banner-signup">
-  <h3>Register for Tournament: <%= @tournament.name %></h3>
-  <p>Play in this tournament on <span class="tournament-date"><%= @tournament.event_date %></span>.</p>
   <%= form_for [@tournament, @registration], url: {action: 'create'}, html: {multipart: true, class: 'registration_form'} do |f| %>
     <fieldset>
       <legend>Player Information</legend>
       <div class="column_block">
       <ol>
         <li>
-          <%= f.label :section, 'Desired Section' %>
+          <%= f.label :section, 'Section' %>
           <%= f.select :section, @tournament.sections.collect{|section| section.name}, {:include_blank => true} %>
         </li>
         <li>

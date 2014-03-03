@@ -4,7 +4,7 @@ class Player < ActiveRecord::Base
   require 'open-uri'
 
   attr_accessible :address, :address2, :city, :county, :date_of_birth, :first_name,
-                  :gender, :grade, :last_name, :school_year, :state, :uscf_id, :zip_code,
+                  :gender, :grade, :last_name, :school, :school_year, :state, :uscf_id, :zip_code,
                   :uscf_rating_reg, :uscf_rating_reg_live, :uscf_status, :uscf_expires, :team_id
 
   belongs_to :team, :foreign_key => 'team_id'
@@ -13,8 +13,11 @@ class Player < ActiveRecord::Base
 
   validates :first_name, :presence => true, :length => { :maximum => 40 }
   validates :last_name, :presence => true, :length => { :maximum => 40 }
-  validates :uscf_id, :allow_blank => true, format: { with: /^\d{8}$/, message: 'id must be 8 digits' }
+  validates :school, :presence => true, :length => { :maximum => 80 }
+  validates :uscf_id, :allow_blank => true, format: { with: /^\d{8}$/, message: "id must be 8 digits" }
+
   validates_inclusion_of :grade,  :in => %w(K 1 2 3 4 5 6 7 8 9 10 11 12)
+  validates_inclusion_of :gender, :in => %w(M F)
 
   before_validation :upcase
   after_validation :rating
@@ -34,9 +37,14 @@ class Player < ActiveRecord::Base
   end
 
   def add_guardians(guardian_emails)
-    guardian_emails.each do |email|
-      self.guardians.build(:email=>email).save! if Guardian.find_by_email_and_player_id(email, self.id).nil?
+    email_list = guardian_emails.kind_of?(Array) ? guardian_emails : guardian_emails.split( /[\s,;:]+/ )
+    email_list.each do |email|
+      self.guardians.build(:email=>email, :player_id=>self.id).save! if Guardian.find_by_email_and_player_id(email, self.id).nil?
     end
+  end
+
+  def guardian_emails
+    self.guardians.collect { |guardian| guardian.email }
   end
 
   def pull_uscf

@@ -14,7 +14,7 @@
     <%= text_field_tag(:uscf_search) %>
     <%= submit_tag("Search") %>
 <% end %>
-<%= link_to 'Add Player to Team', create_player_team_path %>
+<%= link_to 'Add New Player to Team', create_player_team_path %>
 
 <% if !@team.players.first.nil?  %>
     <table class="player-roster grid" border="1">
@@ -42,7 +42,7 @@
 <% end %>There are <%= @team.players.select{|p| !p.new_record? }.length %> players on this team. <p/>
 
   <% if @search_hits  %>
-    <ul>
+    <ul class='search_hits'>
     <% @search_hits.each do |player| %>
         <li>
           <%= player.last_name%>, <%= player.first_name %>
@@ -83,7 +83,18 @@
 
 <% end %>
 
+<h2>Upcoming Tournaments</h2>
 
+<% unless @upcoming_tournaments.empty?  %>
+  <ul>
+    <% @upcoming_tournaments.each do |tournament| %>
+       <li> <%= tournament.name %> (<%= tournament.event_date %>)
+       </li>
+    <% end %>
+  </ul>
+<% else %>
+  There are no tournaments open for registration.
+<% end %>
 
 <p/>
 <% if current_user.admin? %>

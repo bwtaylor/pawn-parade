@@ -3,6 +3,7 @@ class CreatePlayers < ActiveRecord::Migration
     create_table :players do |t|
       t.string :first_name, :limit => 40, :null => false
       t.string :last_name, :limit => 40, :null => false
+      t.string :school, :limit => 80
       t.string :grade, :limit => 2, :null => false
       t.string :school_year, :limit => 10
       t.string :uscf_id, :limit => 10

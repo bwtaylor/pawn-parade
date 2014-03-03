@@ -8,9 +8,9 @@ Feature: Manage Team List
       And I have an authenticated session as bob@sacastle.org with password "password1"
       And bob@sacastle.org manages blattm
       And the blattm team has players:
-        | first_name | last_name | uscf_id   | grade |
-        | Adam       | Ant       | 12345678  | 1     |
-        | Betty      | Boop      |           | 2     |
+        | first_name | last_name | uscf_id   | grade | gender |
+        | Adam       | Ant       | 12345678  | 1     | M      |
+        | Betty      | Boop      |           | 2     | F      |
      When I navigate to the team page for blattm
      Then I should see content matching
        | ANT, ADAM |
@@ -24,7 +24,7 @@ Feature: Manage Team List
      When I navigate to the team page for blattm
      Then I should see content matching
       | There are 0 players on this team. |
-     When I click the "Add Player to Team" link
+     When I click the "Add New Player to Team" link
     Then I should see content matching
       | Player Information: Add a Player to Blattman |
       | First name |
@@ -41,8 +41,8 @@ Feature: Manage Team List
     And I click the "Search" button
     Then I should see text matching
       | USCF Searches are better for teams with a value for State |
-      | OKULICZ, NATE |
-      | JTP           |
+     And I should see a list entry with text matching
+      | OKULICZ, NATE (UNR) - 15365356 JTP |
 
   Scenario: Populate Player Form using USCF ID
     Given team Blattman exists with slug blattm
@@ -55,9 +55,8 @@ Feature: Manage Team List
     And I click the "Search" button
     Then I should see text matching
       | TAYLOR, JACKSON |
-      | 2014-03-31 |
-      | 558 |
-      | TX  |
+      | 15127606 |
+      | MEMBER |
     And I should not see content "USCF Searches are better for teams with a value for State"
 
   Scenario: Search for Player by name
@@ -73,3 +72,21 @@ Feature: Manage Team List
       | 14076916 |
       | 13249356 |
       | USCF Searches are better for teams with a value for State |
+
+  Scenario: Add Search Hit to Team
+    Given team Blattman exists with slug blattm
+    And team blattm has state TX
+    And I have an authenticated session as bob@sacastle.org with password "password1"
+    And bob@sacastle.org manages blattm
+    And the blattm team has no players
+    When I navigate to the team page for blattm
+    And I enter "15157042" into the uscf search field
+    And I click the "Search" button
+    When I click the "Add to Team" button
+    Then I should see the new player page for Blattman
+    When I select "4" for Grade
+     And I select "M" for Gender
+     And I click the "Create Player" button
+    Then I should see the team page for Blattman
+     And I should see text matching
+         | There are 1 players on this team. |

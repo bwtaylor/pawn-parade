@@ -3,10 +3,19 @@
     <%= @player.first_name %> <%= @player.last_name %> is on the <%= link_to @player.team.name, @player.team %> team.
 <% end %>
 
-<%= form_for @player, html: {multipart: true, class: 'player_form'} do |f| %>
+<%= form_for @player, url: player_path(@player),
+             html: {multipart: true, class: 'registration_form'} do |f| %>
 
     <fieldset>
-      <legend>Player Information</legend>
+      <legend>Player Information: Add a Player
+        <% if @team   %>
+            to <%= @team.name %>
+        <% end %>
+      </legend>
+      <% @player.errors.full_messages.each do |msg| %>
+          <p><%= msg %></p>
+      <% end %>
+      <%= f.hidden_field :team_id, :value => @team.nil? ? nil : @team.slug %>
       <div class="column_block">
         <ol>
           <li>
@@ -16,6 +25,10 @@
           <li>
             <%= f.label :last_name %>
             <%= f.text_field :last_name %>
+          </li>
+          <li>
+            <%= f.label :school %>
+            <%= f.text_field :school %>
           </li>
           <li>
             <%= f.label :grade %>
@@ -61,8 +74,13 @@
             <%= f.label :zip_code, 'Zip Code'%>
             <%= f.text_field :zip_code %>
           </li>
+          <li>
+            <%= f.label :county, 'County'%>
+            <%= f.text_field :county %>
+          </li>
         </ol>
       </div>
     </fieldset><br class="column-stop"/>
     <%= f.submit 'Update' %>
+
 <% end %>

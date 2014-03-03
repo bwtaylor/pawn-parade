@@ -7,9 +7,19 @@ fieldset ol li {
   list-style-type: none;
 }
 
-div.column_block {
+form.registration_form div.column_block {
   float: left;
   width: 20em;
+}
+
+form.tournament_select_form div.column_block {
+  float: left;
+  width: 27em;
+}
+
+div.player_tournament_registration div.column_block {
+  float: left;
+  width: 31em;
 }
 
 /* clear float after lists */

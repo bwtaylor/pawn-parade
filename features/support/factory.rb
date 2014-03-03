@@ -13,7 +13,8 @@ def create_tournament(tournament)
       :name => tournament['name'],
       :location => tournament['location'],
       :event_date => Date::strptime(tournament['event_date'], '%Y-%m-%d'),
-      :short_description => tournament['short_description']
+      :short_description => tournament['short_description'],
+      :registration => tournament['registration']
   )
 end
 

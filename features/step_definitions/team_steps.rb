@@ -53,8 +53,10 @@ Given(/^the (.*) team has players:$/) do |team_slug, player_table|
     player = Player.create(
         :first_name => player_hash['first_name'],
         :last_name => player_hash['last_name'],
+        :school => team.name,
         :uscf_id => player_hash['uscf_id'],
-        :grade => player_hash['grade']
+        :grade => player_hash['grade'],
+        :gender =>  player_hash['gender']
     )
     team.players << player
   end

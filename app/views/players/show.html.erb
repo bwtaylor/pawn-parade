@@ -1,6 +1,46 @@
-<h1>Player#show</h1>
-<p>Find me in app/views/player/show.html.erb</p>
+<h1>Player Page for <%= @player.first_name %> <%= @player.last_name%></h1>
 
+<%= button_to 'Edit Player Details', edit_player_path(@player), :method => 'get' %>
 
-<%= @player.last_name%>, <%= @player.first_name %>   <p/>
+<h2>Registrations</h2>
+<% unless @registrations.empty? %>
+    <ul>
+      <% @registrations.each do |registration| %>
+      <li>
+        <%= registration.tournament.name %>: <%= registration.get_section.name %>
+      </li>
+      <% end %>
+    </ul>
+<% else %>
+    This player is not registered for any tournaments.
+<% end %>
+
+<h2>Register for Tournaments</h2>
+
+<div class="player_tournament_registration">
+<% unless @tournaments.empty? %>
+  <div class="column_block">
+  <%= form_for @registration, url: :reg, html: {class: 'tournament_select_form'} do |f| %>
+    <%= hidden_field_tag :player_id, @player.id %>
+    <%= f.label :tournament_id, 'Tournament' %>
+    <%= f.select :tournament_id, @tournaments.collect{|tournament| [tournament.name, tournament.id]},
+               {:include_blank => true}, {:style => 'width: 25em;', :onchange => 'this.form.submit()'} %>
+  <% end %>
+  </div>
+  <div class="column_block">
+  <%= form_for @registration, url: @tournament.nil? ? :reg : "/tournaments/#{@tournament.slug}/registrations",
+                 html: {class: 'tournament_select_form'} do |f| %>
+    <%= hidden_field_tag :player_id, @player.id %>
+    <%= hidden_field_tag :tournament_id, @tournament.nil? ? -1 : @tournament.id %>
+    <%= f.label :section, 'Section' %>
+    <% sections = @tournament.nil? ? [] : @tournament.sections%>
+    <%= f.select :section, sections.collect{|section| section.name}, {:include_blank => true}, :style => 'width: 25em;' %>
+    <%= f.submit 'Register' %>
+  <% end %>
+  </div><br class="column-stop"/>
+</div>
+<% else %>
+    There are no tournaments that you can registered for.
+<% end %>
+
 

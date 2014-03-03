@@ -8,8 +8,15 @@ pages = {
 def page_template(page_name, id)
    pages_for_id = {
      'team' => "/teams/#{id}",
-     'edit team' => "/teams/#{id}/edit"
+     'edit team' => "/teams/#{id}/edit",
+     'player' => "/players/#{player_id_from_name(id)}"
    }[page_name]
+end
+
+def player_id_from_name(name)
+  names = name.upcase.split /\s+/
+  player = Player.find_by_first_name_and_last_name(names[0], names[1])
+  player.nil? ? nil : player.id
 end
 
 When(/^I navigate to "(.*?)"$/) do |uri_path|
@@ -55,9 +62,22 @@ page_check = {
     'team' => 'Listing teams'
 }
 
-Then(/^I should see (?:the|my) (.*) page$/) do |page_name|
+def page_check_for(page_name, id)
+  { 'new registration' =>
+        lambda{ |slug| "Register for Tournament: #{Tournament.find_by_slug(slug).name}" },
+    'player' =>
+        lambda{ |name| "Player Page for #{name}" },
+    'team' => lambda{ |name| "#{name} Team Roster" },
+    'new player' => lambda{ |name| "Add Player To #{name} Team Roster" }
+  }[page_name][id]
+end
+
+Then /^I should see (?:the|my) (.*) page$/ do |page_name|
   expected_content = page_check[page_name]
   raise "#{page_name} has no testing content associated with it" unless expected_content
   expect(page).to have_content expected_content
 end
 
+Then /^I should see the (.*) page for (.*)$/ do |page_name, id|
+  expect(page).to have_content page_check_for(page_name, id)
+end
