@@ -26,7 +26,6 @@ group :development, :test do
   gem "cucumber-rails", ">= 0.3.2", :require => false
   gem "database_cleaner", ">= 0.7.0"
   gem "timecop", ">= 0.6.2.2"
-  gem "nokogiri"
 end
 
 gem 'jquery-rails'
@@ -35,6 +34,8 @@ gem 'gli'
 gem 'aruba'
 gem 'asciidoctor'
 gem 'devise'
+gem "nokogiri"
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
