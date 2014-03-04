@@ -7,7 +7,7 @@ Feature: Manage Users via CLI
   Scenario: Add User via CLI
     Given no user bob@sacastle.org exists
       And I have local shell access to execute "bin/pawn" in the project directory
-      And The default aruba timeout is 4 seconds
+      And The default aruba timeout is 10 seconds
      When I run `pawn user create bob@sacastle.org` interactively
       And I wait for stdout to contain "Password:"
       And I type "mysecret"
@@ -18,7 +18,7 @@ Feature: Manage Users via CLI
   Scenario: Reset password via CLI
     Given user bob@sacastle.org exists with password "password1"
       And I have local shell access to execute "bin/pawn" in the project directory
-      And The default aruba timeout is 3 seconds
+      And The default aruba timeout is 10 seconds
      When I run `pawn user password bob@sacastle.org` interactively
       And I wait for stdout to contain "Password:"
       And I type "password2"

@@ -108,3 +108,32 @@ Feature: Registration Validation
     And I select "M" for Gender
     And I click the "Submit" button
     Then I should see content "Rating Too High for Section"
+
+  Scenario: Rated Section Requires USCF ID or Address
+    When I select "Elementary (K-5) Rated U400" for registration_section
+    And I enter the following:
+      | registration first name      | Adam      |
+      | registration last name       | Ant       |
+      | registration school          | Blattman  |
+    And I select "2" for Grade
+    And I select "M" for Gender
+    And I click the "Submit" button
+   And I should not see content "preregistered in the "Elementary (K-5) Rated U400" section of Rackspace Chess Tournament"
+
+  Scenario: Rated Section Requires USCF ID or Address
+    When I select "Elementary (K-5) Rated U400" for registration_section
+    And I enter the following:
+      | registration first name      | Adam      |
+      | registration last name       | Ant       |
+      | registration school          | Blattman  |
+      | select: registration date of birth 1i  | 2006         |
+      | select: registration date of birth 2i  | March        |
+      | select: registration date of birth 3i  | 28           |
+      | registration address         | 1 Meg Dr  |
+      | registration city            | Lubbock   |
+      | registration state           | TX        |
+      | registration zip_code        | 98123     |
+    And I select "2" for Grade
+    And I select "M" for Gender
+    And I click the "Submit" button
+    And I should see content "preregistered in the "Elementary (K-5) Rated U400" section of Rackspace Chess Tournament"

@@ -82,8 +82,25 @@ class Registration < ActiveRecord::Base
       else
         errors.add(:section, 'Section can\'t be blank.') if self.section.nil? or self.section.empty?
     end
-    self.status = 'uscf id needed' if self.player.uscf_id.nil? or !self.player.uscf_id.length == 8
-    self.status = 'uscf membership expired' if !self.player.uscf_expires.nil? and self.player.uscf_expires < self.tournament.event_date
+  end
+
+  def rated_section_rules(section)
+    if self.player.uscf_id.nil? or ! (self.player.uscf_id.length == 8)
+      status = self.status = 'uscf id needed'
+    elsif self.player.uscf_status.eql?('EXPIRED')
+      status = self.status = 'uscf membership expired'
+    end
+
+    if status.eql?('uscf id needed')
+      dob_found = !self.date_of_birth.nil?
+      address_found = !self.address.nil? and !self.address.empty?
+      city_found = !self.city.nil? and !self.city.empty?
+      state_found  = !self.state.nil? and !self.state.empty?
+      zip_code_found = !self.zip_code.nil? and !self.zip_code.empty?
+
+      errors.add(:uscf_member_id, 'Rated Sections require either valid USCF ID or both date of birth and address') unless
+          dob_found and address_found and city_found and state_found and zip_code_found
+    end
   end
 
   def name_matches_player
@@ -95,6 +112,7 @@ class Registration < ActiveRecord::Base
 
   def section_eligibility
     section = get_section
+    rated_section_rules(section) if !section.nil? and section.rated?
     unless section.nil?
       grade = (self.grade == 'K') ? 0 : self.grade.to_i
       errors.add(:section, 'Grade Too High for Section') unless grade <= section.grade_max

@@ -32,9 +32,15 @@ class RegistrationsController < ApplicationController
     end
 
     if @registration.save
-      if @registration.status == 'request'
+      if @registration.status.eql? 'request'
        flash[:registered] = "#{@registration.first_name} #{@registration.last_name} is preregistered " +
                             " in the \"#{@registration.section}\" section of #{@tournament.name}"
+      elsif @registration.status.eql? 'uscf id needed'
+        flash[:registered] = "#{@registration.first_name} #{@registration.last_name} is preregistered " +
+            " in the \"#{@registration.section}\" section of #{@tournament.name}, but NEEDS USCF MEMBERSHIP"
+      elsif @registration.status.eql? 'uscf id needed'
+        flash[:registered] = "#{@registration.first_name} #{@registration.last_name} is preregistered " +
+            " in the \"#{@registration.section}\" section of #{@tournament.name}, but NEEDS TO RENEW USCF MEMBERSHIP"
       elsif @registration.status == 'waiting list'
         flash[:registered] = "SECTION FULL!! #{@registration.first_name} #{@registration.last_name} is on the waiting list " +
             " in the \"#{@registration.section}\" section of #{@tournament.name}"

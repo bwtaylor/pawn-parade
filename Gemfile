@@ -26,7 +26,7 @@ group :development, :test do
   gem "cucumber-rails", ">= 0.3.2", :require => false
   gem "database_cleaner", ">= 0.7.0"
   gem "timecop", ">= 0.6.2.2"
-  gem "nokogiri", ">= 1.6.0"
+  gem "nokogiri"
 end
 
 gem 'jquery-rails'
