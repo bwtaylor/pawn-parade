@@ -26,7 +26,7 @@ class Registration < ActiveRecord::Base
   belongs_to :tournament, :foreign_key => 'tournament_id' #, :class_name => 'Tournament'
   belongs_to :player
 
-  validates :section, :presence => true, :length => { :maximum => 40 }
+  validates :section, :length => { :maximum => 40 }
   validates :first_name, :presence => true, :length => { :maximum => 40 }
   validates :last_name, :presence => true, :length => { :maximum => 40 }
   validates :school, :presence => true, :length => { :maximum => 80 }
@@ -53,7 +53,8 @@ class Registration < ActiveRecord::Base
     ]
 
   after_initialize :guardians
-  validate :upcase, :guardian_emails_format, :name_matches_player, :section_eligibility, :no_duplicates #append: true
+  validate :upcase, :section_status, :guardian_emails_format, :name_matches_player, :section_eligibility
+  before_create :no_duplicates
   before_save :default_values
 
   def guardian_emails_format
@@ -72,6 +73,19 @@ class Registration < ActiveRecord::Base
     self.last_name.upcase!
   end
 
+  def section_status
+    case self.status
+      when 'withdraw'
+      when 'duplicate'
+      when 'spam'
+      when 'no show'
+      else
+        errors.add(:section, 'Section can\'t be blank.') if self.section.nil? or self.section.empty?
+    end
+    self.status = 'uscf id needed' if self.player.uscf_id.nil? or !self.player.uscf_id.length == 8
+    self.status = 'uscf membership expired' if !self.player.uscf_expires.nil? and self.player.uscf_expires < self.tournament.event_date
+  end
+
   def name_matches_player
     unless self.player.uscf_id.nil? or !self.player.uscf_id.length == 8
       errors.add(:last_name, 'Last Name must match USCF') unless self.last_name.upcase.eql? self.player.last_name
@@ -81,13 +95,21 @@ class Registration < ActiveRecord::Base
 
   def section_eligibility
     section = get_section
-    if section.nil?
-      errors.add(:section, 'Invalid Section')
-    else
+    unless section.nil?
       grade = (self.grade == 'K') ? 0 : self.grade.to_i
       errors.add(:section, 'Grade Too High for Section') unless grade <= section.grade_max
       errors.add(:section, 'Grade Too Low for Section')  unless grade >= section.grade_min
-      if section.rated and (self.player.uscf_rating_reg ||= 0) >= (section.rating_cap ||= 9999)
+      player_rating =  0 if self.player.uscf_id.nil? || self.player.uscf_id.length !=8
+      rating_type = section.tournament.rating_type
+      player_rating ||=
+        case rating_type
+          when 'regular-live'
+            self.player.uscf_rating_reg_live || self.player.pull_live_rating || 0
+          else 'regular'
+            self.player.uscf_rating_reg ||= 0
+        end
+      self.rating = player_rating == 0 ? 'UNR' : player_rating
+      if section.rated and player_rating >= (section.rating_cap ||= 9999)
         errors.add(:section, 'Rating Too High for Section')
       end
     end

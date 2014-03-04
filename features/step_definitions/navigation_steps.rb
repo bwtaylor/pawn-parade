@@ -7,9 +7,10 @@ pages = {
 
 def page_template(page_name, id)
    pages_for_id = {
-     'team' => "/teams/#{id}",
-     'edit team' => "/teams/#{id}/edit",
-     'player' => "/players/#{player_id_from_name(id)}"
+     'team' => "/teams/#{team_slug_from_name(id)}",
+     'edit team' => "/teams/#{team_slug_from_name(id)}/edit",
+     'player' => "/players/#{player_id_from_name(id)}",
+     'team registration' => "/teams/#{team_slug_from_name(id.split(/\s+and\s+/)[0])}/tournaments/#{id.split(/\s+and\s+/)[1]}"
    }[page_name]
 end
 
@@ -17,6 +18,10 @@ def player_id_from_name(name)
   names = name.upcase.split /\s+/
   player = Player.find_by_first_name_and_last_name(names[0], names[1])
   player.nil? ? nil : player.id
+end
+
+def team_slug_from_name(name)
+  Team.find_by_name(name).slug
 end
 
 When(/^I navigate to "(.*?)"$/) do |uri_path|

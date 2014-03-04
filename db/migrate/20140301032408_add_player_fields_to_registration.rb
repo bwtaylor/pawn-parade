@@ -16,12 +16,12 @@ class AddPlayerFieldsToRegistration < ActiveRecord::Migration
     remove_column :registrations, :player_id
     remove_column :registrations, :guardian_emails
     remove_column :registrations, :date_of_birth
-    remove_column :registrations, :address, :string
-    remove_column :registrations, :city, :string
-    remove_column :registrations, :state, :string
-    remove_column :registrations, :zip_code, :string
-    remove_column :registrations, :county, :string
-    remove_column :registrations, :gender, :string
-    remove_column :registrations, :team_slug, :string
+    remove_column :registrations, :address
+    remove_column :registrations, :city
+    remove_column :registrations, :state
+    remove_column :registrations, :zip_code
+    remove_column :registrations, :county
+    remove_column :registrations, :gender
+    remove_column :registrations, :team_slug
   end
 end

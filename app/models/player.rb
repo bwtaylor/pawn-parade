@@ -77,6 +77,7 @@ class Player < ActiveRecord::Base
     doc = Nokogiri::HTML(open(uri));
     cells = doc.css('td.topbar-middle center table tr td table tr:nth-child(2) td b')
     self.uscf_rating_reg_live = cells[0].content if cells.length >= 1
+    self.uscf_rating_reg_live
   end
 
 end

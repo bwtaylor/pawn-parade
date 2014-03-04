@@ -20,7 +20,7 @@
 <div class="player_tournament_registration">
 <% unless @tournaments.empty? %>
   <div class="column_block">
-  <%= form_for @registration, url: :reg, html: {class: 'tournament_select_form'} do |f| %>
+  <%= form_for @registration, url: :player_register, html: {class: 'tournament_select_form'} do |f| %>
     <%= hidden_field_tag :player_id, @player.id %>
     <%= f.label :tournament_id, 'Tournament' %>
     <%= f.select :tournament_id, @tournaments.collect{|tournament| [tournament.name, tournament.id]},
@@ -28,7 +28,7 @@
   <% end %>
   </div>
   <div class="column_block">
-  <%= form_for @registration, url: @tournament.nil? ? :reg : "/tournaments/#{@tournament.slug}/registrations",
+  <%= form_for @registration, url: @tournament.nil? ? :player_register : "/tournaments/#{@tournament.slug}/registrations",
                  html: {class: 'tournament_select_form'} do |f| %>
     <%= hidden_field_tag :player_id, @player.id %>
     <%= hidden_field_tag :tournament_id, @tournament.nil? ? -1 : @tournament.id %>

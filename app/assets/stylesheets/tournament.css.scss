@@ -66,3 +66,26 @@ div.sect2 div.ulist ul {
 div.sect2 div.ulist li {
   line-height: 0px;
 }
+
+table.tournament-player-sections {
+  border-collapse:  collapse;
+}
+
+table.tournament-player-sections td.spacer {
+  text-align: left;
+  border: none;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+table.tournament-player-sections th,
+table.tournament-player-sections tr,
+table.tournament-player-sections td {
+  text-align: left;
+  border: 1px solid black;
+  padding: 2px;
+}
+table.tournament-player-sections tr th.player  {width: 15%;}
+table.tournament-player-sections tr th.grade   {width: 5%;}
+table.tournament-player-sections tr th.rating  {width: 5%}
+

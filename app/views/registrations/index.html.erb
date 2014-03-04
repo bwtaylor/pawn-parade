@@ -8,19 +8,19 @@
   <table class="tournament-schedule grid" border="1">
     <thead>
     <tr>
-      <th>#</th>
-      <th>Initials</th>
-      <th>School</th>
-      <th>Grade</th>
-      <th>Rating</th>
-      <th>Status</th>
+      <th class="rownum">#</th>
+      <th class="name"><%= user_signed_in? ? 'Name' : 'Initials' %></th>
+      <th class="school">School</th>
+      <th class="grade">Grade</th>
+      <th class="rating">Rating</th>
+      <th class="status">Status</th>
     </tr>
     </thead>
 
     <tbody>
     <% rownum = 0 %>
     <% section_registrations = @registrations.select { |r| r[:section] == section.name }  %>
-    <% section_registrations.sort_by!{|r| r[:created_at] }.each do |registration| %>
+    <% section_registrations.sort_by!{|r| [ - r.rating, r.school, r.last_name, r.first_name] }.each do |registration| %>
       <% rownum += 1 %>
       <% if rownum%2 == 1 %>
           <tr>
@@ -28,10 +28,16 @@
           <tr class="alt">
       <% end %>
       <td><%= rownum %></td>
-      <td><%= "#{registration.first_name[0]}#{registration.last_name[0]}" %></td>
+      <td>
+        <% if user_signed_in? %>
+            <%= "#{registration.last_name}, #{registration.first_name}" %>
+        <% else %>
+            <%= "#{registration.first_name[0]}#{registration.last_name[0]}" %>
+        <% end %>
+      </td>
       <td><%= registration.school %></td>
       <td><%= registration.grade %></td>
-      <td><%= registration.rating %></td>
+      <td><%= registration.rating == 0 ? 'UNR' : registration.rating %></td>
       <td><%= registration.status %></td>
       </tr>
     <% end %>

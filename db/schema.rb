@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140301084932) do
+ActiveRecord::Schema.define(:version => 20140303201438) do
 
   create_table "guardians", :force => true do |t|
     t.integer  "player_id",  :null => false
@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(:version => 20140301084932) do
     t.datetime "updated_at",                           :null => false
     t.string   "registration",         :limit => 8
     t.string   "registration_uri"
+    t.string   "rating_type",          :limit => 16
   end
 
   create_table "users", :force => true do |t|

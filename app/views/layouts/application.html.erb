@@ -10,7 +10,8 @@
 
 <div class="header">
   <% if user_signed_in? %>
-    <div class="button"><%= link_to 'Home', user_root_path %></div>
+    <div class="button"><%= link_to 'Home', root_path %></div>
+    <div class="button"><%= link_to 'Dashboard', user_root_path %></div>
     <div class="button-right"><%= link_to 'Sign Out', destroy_user_session_path, :method => :delete %></div>
     <div class="button-right"><%= link_to 'Teams', teams_path %></div>
   <% else %>

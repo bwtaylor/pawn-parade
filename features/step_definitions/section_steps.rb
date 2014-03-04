@@ -14,6 +14,10 @@ Then(/^the tournament should have (\d+) unrated sections$/) do |digit_string|
   Section.find_all_by_tournament_id_and_rated(@tournament.id, false).length.should be digit_string.to_i
 end
 
+Given /^the tournament of interest has slug (.*)/ do |tournament_slug|
+  @tournament = Tournament.find_by_slug  tournament_slug
+end
+
 Given(/^the tournament has sections:$/) do |section_table|
   sr = section_table.raw
   sf = sr.flatten

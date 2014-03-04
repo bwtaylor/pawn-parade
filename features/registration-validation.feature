@@ -6,8 +6,8 @@ Feature: Registration Validation
 
   Background:
     Given a tournament exists:
-      | slug | name                       | location     | event_date | short_description                                              |
-      | rax  | Rackspace Chess Tournament | Rackspace    | 2013-10-26 | One-day scholastic tournament with rated and unrated sections. |
+      | slug | name                       | location  | event_date | rating_type  | short_description                                              |
+      | rax  | Rackspace Chess Tournament | Rackspace | 2013-10-26 | regular-live | One-day scholastic tournament with rated and unrated sections. |
     And the tournament has sections:
       | Primary (K-3) Rated Open         |
       | Elementary (K-5) Rated Open      |
@@ -92,4 +92,19 @@ Feature: Registration Validation
      And I select "2" for registration grade
      And I select "M" for registration gender
      And I click the "Submit" button
+    Then I should see content "Rating Too High for Section"
+
+  Scenario: Allow Live Rating for Section
+    And these players exist:
+      | first_name | last_name | school   | uscf_id   | grade | gender | rating | live_rating |
+      | Adam       | Ant       | Blattman | 87654321  | 1     | M      | 390    | 410         |
+    When I select "Elementary (K-5) Rated U400" for registration_section
+    And I enter the following:
+      | registration first name      | Adam      |
+      | registration last name       | Ant       |
+      | registration school          | Blattman  |
+      | registration uscf member id  | 87654321  |
+    And I select "2" for Grade
+    And I select "M" for Gender
+    And I click the "Submit" button
     Then I should see content "Rating Too High for Section"

@@ -29,7 +29,7 @@ Feature: Manage Team List
       And I have an authenticated session as bob@sacastle.org with password "password1"
       And bob@sacastle.org manages blattm
       And I navigate to the dashboard page
-      And I navigate to the edit team page for blattm
+      And I navigate to the edit team page for Blattman
      When I enter the following:
           | team city    | San Antonio |
           | team county  | Bexar       |
@@ -37,9 +37,13 @@ Feature: Manage Team List
           | team school_district | NISD |
       And I click the "Update Team" button
      Then I should see content "San Antonio, TX - Bexar County (NISD)"
-
+  @broken
   Scenario: Batch Register team members for Tournament
     Given team Blattman exists with slug blattm
+      And the blattm team has players:
+        | first_name | last_name | uscf_id   | grade | gender |
+        | Hari       | Tunga     | 15157042  | 4     | M      |
+        | Jackson    | Taylor    | 15127606  | 2     | M      |
       And I have an authenticated session as bob@sacastle.org with password "password1"
       And bob@sacastle.org manages blattm
       And a schedule named "testschedule" exists with tournaments:
@@ -48,7 +52,13 @@ Feature: Manage Team List
           | harmony_hills   | Fall-2013 Harmony Hills Tournament   | Harmony Hills Elementary | 2013-10-19 | on          | 5-SS, Rd. 1 and 2 G/90, Rds. 3-5 30/90 S/D1. |
           | briscoe_ms      | Bricscoe MS Scholastic Tournament    | Briscoe Middle School    | 2013-9-14  | on           | One-day scholastic tournament with rated and unrated sections. |
       And the date is "2013-7-7"
-     When I navigate to the team page for blattm
+      And the tournament of interest has slug briscoe_ms
+      And the tournament has sections:
+        | Primary Rated Open         |
+        | Elementary Rated Open      |
+        | Elementary Rated JV        |
+    When I navigate to the team page for Blattman
      Then I should see content "Bricscoe MS Scholastic Tournament"
       And I should see content "Fall-2013 Harmony Hills Tournament"
       And I should not see content "John Jay Scholastic Chess Tournament"
+     When I navigate to the team registration page for Blattman and briscoe_ms

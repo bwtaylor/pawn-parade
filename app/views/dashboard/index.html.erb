@@ -64,3 +64,19 @@
 <% end %>
 
 <%= button_to 'Create Player', new_player_path, :method => 'get' %>
+
+<h2>Upcoming Tournaments</h2>
+
+<% unless upcoming_tournaments.empty?  %>
+    <ul>
+      <% upcoming_tournaments.each do |tournament| %>
+          <li>
+            <%= tournament.name %> (<%= tournament.event_date %>)
+            <%= link_to 'Manage Registrations', guardian_show_tournament_path(tournament) %>
+            <%= link_to 'Registration Status', tournament_registrations_path(tournament) %>
+          </li>
+      <% end %>
+    </ul>
+<% else %>
+    There are no tournaments open for registration.
+<% end %>

@@ -20,3 +20,11 @@ span.privacy-policy {
   font-size: 12px;
   float: right;
 }
+
+table.tournament-schedule tr th.rownum {width: 5%;}
+table.tournament-schedule tr th.name   {width: 35%;}
+table.tournament-schedule tr th.school {width: 30%;}
+table.tournament-schedule tr th.grade  {width: 5%;}
+table.tournament-schedule tr th.rating {width: 10%;}
+table.tournament-schedule tr th.status {width: 15%;}
+

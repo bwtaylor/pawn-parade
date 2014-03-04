@@ -9,19 +9,13 @@ class TeamsController < ApplicationController
     @team = Team.find_by_slug(params[:id])
   end
 
-  def upcoming_tournaments
-    today = Time.now.beginning_of_day
-    @upcoming_tournaments = Tournament.where("registration = 'on' AND event_date >= :today", today: today).order(:event_date)
-  end
-
   # GET /teams
   # GET /teams.json
   def index
     if current_user.admin?
       @teams = Team.all
     else
-      #User.where(:username => "Paul").includes(:domains).where("domains.name" => "paul-domain").limit(1)
-      @teams = current_user.managed_teams #Team.includes(:managers).where('users.email' => current_user.email)
+      @teams = current_user.managed_teams
     end
 
     respond_to do |format|
@@ -34,7 +28,7 @@ class TeamsController < ApplicationController
   # GET /teams/1.json
   def show
     team_by_slug
-    upcoming_tournaments
+    #@upcoming_tournaments = upcoming_tournaments
 
     @player = Player.new unless @player
 
@@ -63,7 +57,7 @@ class TeamsController < ApplicationController
 
   def search
     team_by_slug
-    upcoming_tournaments
+    @upcoming_tournaments = view_context.upcoming_tournaments
     state = @team.state.nil? ? 'ANY' : @team.state
     flash[:notice] = "USCF Searches are better for teams with a value for State" if state == 'ANY'
     uri =  "http://www.uschess.org/datapage/player-search.php?"+
@@ -79,7 +73,7 @@ class TeamsController < ApplicationController
 
   def create_player
     team_by_slug
-    upcoming_tournaments
+    @upcoming_tournaments = view_context.upcoming_tournaments
     @player = @team.players.build(params[:player])
     @player.school = @team.name
     @player.state = @team.state

@@ -10,6 +10,8 @@ class RegistrationsController < ApplicationController
 
   def create
 
+    @return_to = params[:return_to]
+
     prev = params[:prev_tournament_id] ||= params[:registration][:tournament_id]
     if prev != params[:registration][:tournament_id]
       redirect_to "/players/#{params[:player_id]}"
@@ -21,14 +23,12 @@ class RegistrationsController < ApplicationController
 
     if params[:player_id]
       player = Player.find(params[:player_id])
-      #@registration = @tournament.registrations.build(params[:registration])
       fill_player_details(@registration, player)
-      return_to = player
+      @return_to ||= player
     else
-      #@registration = @tournament.registrations.build(params[:registration])
       player = associate_player(@registration)
       player.valid?
-      return_to = @tournament
+      @return_to ||= @tournament
     end
 
     if @registration.save
@@ -41,7 +41,7 @@ class RegistrationsController < ApplicationController
       end
       player.add_guardians @registration.guardians
       player.save
-      redirect_to return_to
+      redirect_to @return_to
     else
       render :new
     end
@@ -50,6 +50,36 @@ class RegistrationsController < ApplicationController
   def index
     @tournament = Tournament.find_by_slug(params[:tournament_id])
     @registrations = @tournament.registrations
+  end
+
+  def update
+    change_section
+  end
+
+  def change_section
+    @tournament = Tournament.find_by_slug(params[:tournament_id])
+    player = Player.find(params[:player_id])
+    @return_to = params[:return_to]
+    @registration = Registration.find_by_tournament_id_and_player_id(@tournament.id,player.id)
+
+    new_section = params[:registration][:section]
+    @registration.status = new_section.empty? ? 'withdraw' : 'request'
+    @registration.section = new_section
+
+    if @registration.save
+      if @registration.status == 'request'
+        flash[:registered] = "#{@registration.first_name} #{@registration.last_name} is preregistered " +
+            " in the \"#{@registration.section}\" section of #{@tournament.name}"
+      elsif @registration.status == 'waiting list'
+        flash[:registered] = "SECTION FULL!! #{@registration.first_name} #{@registration.last_name} is on the waiting list " +
+            " in the \"#{@registration.section}\" section of #{@tournament.name}"
+      elsif @registration.status == 'withdraw'
+        flash[:registered] = "#{@registration.first_name} #{@registration.last_name} has withdrawn from #{@tournament.name}"
+      end
+      redirect_to @return_to
+    else
+      render :new
+    end
   end
 
   # MOVE THIS TO SOMEWHERE BETTER

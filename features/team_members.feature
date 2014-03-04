@@ -11,7 +11,7 @@ Feature: Manage Team List
         | first_name | last_name | uscf_id   | grade | gender |
         | Adam       | Ant       | 12345678  | 1     | M      |
         | Betty      | Boop      |           | 2     | F      |
-     When I navigate to the team page for blattm
+     When I navigate to the team page for Blattman
      Then I should see content matching
        | ANT, ADAM |
        | BOOP, BETTY |
@@ -21,7 +21,7 @@ Feature: Manage Team List
       And I have an authenticated session as bob@sacastle.org with password "password1"
       And bob@sacastle.org manages blattm
       And the blattm team has no players
-     When I navigate to the team page for blattm
+     When I navigate to the team page for Blattman
      Then I should see content matching
       | There are 0 players on this team. |
      When I click the "Add New Player to Team" link
@@ -36,7 +36,7 @@ Feature: Manage Team List
     And I have an authenticated session as bob@sacastle.org with password "password1"
     And bob@sacastle.org manages blattm
     And the blattm team has no players
-    When I navigate to the team page for blattm
+    When I navigate to the team page for Blattman
     And I enter "15365356" into the uscf search field
     And I click the "Search" button
     Then I should see text matching
@@ -50,7 +50,7 @@ Feature: Manage Team List
     And I have an authenticated session as bob@sacastle.org with password "password1"
     And bob@sacastle.org manages blattm
     And the blattm team has no players
-    When I navigate to the team page for blattm
+    When I navigate to the team page for Blattman
     And I enter "15127606" into the uscf search field
     And I click the "Search" button
     Then I should see text matching
@@ -64,7 +64,7 @@ Feature: Manage Team List
     And I have an authenticated session as bob@sacastle.org with password "password1"
     And bob@sacastle.org manages blattm
     And the blattm team has no players
-    When I navigate to the team page for blattm
+    When I navigate to the team page for Blattman
     And I enter "Taylor, Jackson" into the uscf search field
     And I click the "Search" button
     Then I should see text matching
@@ -79,7 +79,7 @@ Feature: Manage Team List
     And I have an authenticated session as bob@sacastle.org with password "password1"
     And bob@sacastle.org manages blattm
     And the blattm team has no players
-    When I navigate to the team page for blattm
+    When I navigate to the team page for Blattman
     And I enter "15157042" into the uscf search field
     And I click the "Search" button
     When I click the "Add to Team" button

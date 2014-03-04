@@ -6,9 +6,11 @@ Given /^these players exist:$/ do |player_table|
         :school => player_hash['school'],
         :uscf_id => player_hash['uscf_id'],
         :grade => player_hash['grade'],
-        :gender => player_hash['gender']
+        :gender => player_hash['gender'],
+        :uscf_rating_reg => (player_hash['uscf_rating_reg'] ||= player_hash['rating']),
+        :uscf_rating_reg_live => (player_hash['uscf_rating_reg_live'] ||= player_hash['live_rating'])
     )
-    guardian_emails = player_hash['guardians'].split /\s+|\s*;\s*|\s,\s*/
+    guardian_emails = "#{player_hash['guardians']}".split /\s+|\s*;\s*|\s,\s*/
     player.add_guardians guardian_emails
   end
 end
