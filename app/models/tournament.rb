@@ -16,6 +16,10 @@ class Tournament < ActiveRecord::Base
     self.rating_type  ||= 'regular'
   end
 
+  def registration_count
+    Registration.find_all_by_tournament_id(self.id).length
+  end
+
   def to_param
     slug
   end
