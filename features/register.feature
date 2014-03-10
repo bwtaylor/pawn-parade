@@ -24,8 +24,8 @@ Feature: Preregister for Tournament
       And registration for the tournament is off
      When I navigate to "/tournaments/rax"
      Then there is no "Register" link or button
-#His Last event was blitz, so css selector fails on uscf ratings page
-  @broken
+
+  @wip
   Scenario:  Register for a Rated Section with USCF ID
   Given a tournament exists:
       | slug | name                       | location     | event_date | short_description                                              |
@@ -35,7 +35,7 @@ Feature: Preregister for Tournament
       | Elementary Rated Open      |
       | Elementary Rated JV        |
     And registration for the tournament is on
-    And player Gata Kamsky does not exist
+    And player Bryan Taylor does not exist
    When I navigate to "/tournaments/rax/registrations/new"
     And I select "Primary Rated Open" for registration section
     And I enter the following:
@@ -47,8 +47,8 @@ Feature: Preregister for Tournament
       | select: registration gender  | M                      |
     And I click the "Submit" button
    Then a registration should exist for Bryan Taylor in the "Primary Rated Open" section for tournament rax
-    And player Bryan Taylor should exist
     And I should see content "preregistered in the "Primary Rated Open" section of Rackspace Chess Tournament"
+    And player Bryan Taylor should exist
 
   Scenario:  Register for a Rated Section without USCF ID
   Given a tournament exists:
@@ -197,7 +197,7 @@ Feature: Preregister for Tournament
     When I navigate to "/tournaments/rax/registrations/new"
     And I select "Primary Rated Open" for registration_section
     And I enter the following:
-      | registration first name      | Bryan                   |
+      | registration first name      | Bryan                  |
       | registration last name       | Taylor                 |
       | registration school          | Hard Knocks Elementary |
       | registration uscf member id  | 12430764               |
