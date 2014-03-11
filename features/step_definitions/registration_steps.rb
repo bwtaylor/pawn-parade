@@ -19,7 +19,7 @@ end
 
 Then(/^(?:a )?registration should exist for (.*) (.*) in the "(.*)" section for tournament (.*)$/) do |first_name, last_name, section, tournament_slug|
   tournament = Tournament.find_by_slug(tournament_slug)
-  registration = Registration.find_by_tournament_id_and_first_name_and_last_name_and_section(tournament.id,first_name,last_name,section)
-  found = !registration.nil?
+  @registration = Registration.find_by_tournament_id_and_first_name_and_last_name_and_section(tournament.id,first_name,last_name,section)
+  found = !@registration.nil?
   assert found, "Registration for #{first_name} #{last_name} does not exist"
 end

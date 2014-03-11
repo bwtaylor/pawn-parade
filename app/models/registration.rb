@@ -92,14 +92,14 @@ class Registration < ActiveRecord::Base
     end
 
     if status.eql?('uscf id needed')
-      dob_found = !self.date_of_birth.nil?
-      address_found = !self.address.nil? and !self.address.empty?
-      city_found = !self.city.nil? and !self.city.empty?
-      state_found  = !self.state.nil? and !self.state.empty?
-      zip_code_found = !self.zip_code.nil? and !self.zip_code.empty?
+      dob_not_found = date_of_birth.nil?
+      address_not_found = address.nil? || address.empty?
+      city_not_found = city.nil? || city.empty?
+      state_not_found  = state.nil? || state.empty?
+      zip_code_not_found = zip_code.nil? || zip_code.empty?
 
-      errors.add(:uscf_member_id, 'Rated Sections require either valid USCF ID or both date of birth and address') unless
-          dob_found and address_found and city_found and state_found and zip_code_found
+      errors.add(:uscf_member_id, 'Rated Sections require either valid USCF ID or both date of birth and address') if
+          dob_not_found || address_not_found || city_not_found || state_not_found || zip_code_not_found
     end
   end
 

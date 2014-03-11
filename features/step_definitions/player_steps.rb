@@ -1,6 +1,6 @@
 Given /^these players exist:$/ do |player_table|
   player_table.hashes.each do |player_hash|
-    player = Player.create!(
+    @given_player = Player.create!(
         :first_name => player_hash['first_name'],
         :last_name => player_hash['last_name'],
         :school => player_hash['school'],
@@ -11,7 +11,7 @@ Given /^these players exist:$/ do |player_table|
         :uscf_rating_reg_live => (player_hash['uscf_rating_reg_live'] ||= player_hash['live_rating'])
     )
     guardian_emails = "#{player_hash['guardians']}".split /\s+|\s*;\s*|\s,\s*/
-    player.add_guardians guardian_emails
+    @given_player.add_guardians guardian_emails
   end
 end
 
@@ -21,7 +21,7 @@ end
 
 
 Given /^player ([^\s]*) ([^\s]*) exists in grade (.*)$/ do |first_name, last_name, grade|
-  Player.create(
+  @given_player = Player.create(
       :first_name => first_name,
       :last_name => last_name,
       :grade => grade
@@ -35,4 +35,14 @@ end
 Then(/^player ([^\s]*) ([^\s]*) should have (\d+) guardians$/) do |first_name, last_name, expected_number|
   player = Player.find_by_first_name_and_last_name(first_name, last_name)
   expect(player.guardians.length).to eq expected_number.to_i
+end
+
+Then /^exactly one player with USCF Id (\d+) should exist$/ do |uscf_id|
+  players = Player.find_all_by_uscf_id(uscf_id)
+  players.length.should be 1
+  @player = players.first
+end
+
+Then /^this player should be the given player$/ do
+  @player.id.should be @given_player.id
 end

@@ -25,7 +25,7 @@ Feature: Preregister for Tournament
      When I navigate to "/tournaments/rax"
      Then there is no "Register" link or button
 
-  @wip
+  @broken
   Scenario:  Register for a Rated Section with USCF ID
   Given a tournament exists:
       | slug | name                       | location     | event_date | short_description                                              |
@@ -206,3 +206,28 @@ Feature: Preregister for Tournament
     And I click the "Submit" button
     Then a registration should exist for Bryan Taylor in the "Primary Rated Open" section for tournament rax
     And I should see content "SECTION FULL!! BRYAN TAYLOR is on the waiting list in the "Primary Rated Open" section of Rackspace Chess Tournament"
+
+  Scenario: Register with USCF ID of existing Player uses that Player
+    Given a tournament exists:
+        | slug | name                       | location     | event_date | short_description                                              |
+        | rax  | Rackspace Chess Tournament | Rackspace    | 2013-10-26 | One-day scholastic tournament with rated and unrated sections. |
+      And the tournament has sections:
+        | Primary Rated Open         |
+      And registration for the tournament is on
+      And these players exist:
+        | first_name | last_name | school   | uscf_id   | grade | gender | guardians       |
+        | Bryan      | Taylor    | Westlake | 12430764  | 3    | M      | dad@example.com |
+      When I navigate to "/tournaments/rax/registrations/new"
+      And I select "Primary Rated Open" for registration_section
+      And I enter the following:
+        | registration first name      | Bryan                  |
+        | registration last name       | Taylor                 |
+        | registration school          | Hard Knocks Elementary |
+        | registration uscf member id  | 12430764               |
+        | select: registration grade   | 3                      |
+        | select: registration gender  | M                      |
+      And I click the "Submit" button
+     Then I should see content "preregistered in the "Primary Rated Open" section of Rackspace Chess Tournament"
+      And a registration should exist for Bryan Taylor in the "Primary Rated Open" section for tournament rax
+      And exactly one player with USCF Id 12430764 should exist
+      And this player should be the given player
