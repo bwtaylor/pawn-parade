@@ -15,7 +15,7 @@
       <% @player.errors.full_messages.each do |msg| %>
           <p><%= msg %></p>
       <% end %>
-      <%= f.hidden_field :team_id, :value => @team.nil? ? nil : @team.slug %>
+      <%= f.hidden_field :team_id, :value => @player.team.id %>
       <div class="column_block">
         <ol>
           <li>

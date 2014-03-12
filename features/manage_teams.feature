@@ -62,3 +62,21 @@ Feature: Manage Team List
       And I should see content "Fall-2013 Harmony Hills Tournament"
       And I should not see content "John Jay Scholastic Chess Tournament"
      When I navigate to the team registration page for Blattman and briscoe_ms
+  @wip
+  Scenario: Add USCF ID to Team Member
+    Given team Blattman exists with slug blattm
+      And the blattm team has players:
+        | first_name | last_name | uscf_id   | grade | gender |
+        | JACKSON    | TAYLOR    |           | 2     | M      |
+      And I have an authenticated session as bob@sacastle.org with password "password1"
+      And bob@sacastle.org manages blattm
+     When I navigate to the team page for Blattman
+     Then I should see content "TAYLOR, JACKSON"
+      And I click the "TAYLOR, JACKSON" link
+      And I enter "15127606" into the player uscf id field
+      And I click the "Update" button
+      And I navigate to the team page for Blattman
+     Then I should see content "TAYLOR, JACKSON"
+      And I should see content "15127606"
+
+
