@@ -1,6 +1,7 @@
 class SectionsController < ApplicationController
 
   before_filter :authenticate_user!
+  before_filter :authorize_admin, only: :show
 
   def index
     @tournament = Tournament.find_by_slug(params[:tournament_id])

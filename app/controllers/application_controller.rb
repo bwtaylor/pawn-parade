@@ -5,4 +5,8 @@ class ApplicationController < ActionController::Base
     @hostname = request.host
   end
 
+  def authorize_admin
+    redirect_to request.referer unless current_user && current_user.admin?
+  end
+
 end
