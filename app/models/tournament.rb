@@ -17,7 +17,9 @@ class Tournament < ActiveRecord::Base
   end
 
   def registration_count
-    Registration.find_all_by_tournament_id(self.id).length
+    excluded_statuses = ['withdraw', 'spam', 'duplicate', 'no show']
+    regs = Registration.find_all_by_tournament_id(self.id)
+    regs.reject{ |r| excluded_statuses.include?(r.status) }.length
   end
 
   def to_param

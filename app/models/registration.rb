@@ -6,7 +6,6 @@ class Registration < ActiveRecord::Base
                   :score,
                   :prize,
                   :team_prize,
-                  #####
                   :first_name,
                   :last_name,
                   :school,
@@ -75,39 +74,50 @@ class Registration < ActiveRecord::Base
 
   def section_status
     case self.status
-      when 'withdraw'
-      when 'duplicate'
-      when 'spam'
-      when 'no show'
-      else
+    when 'withdraw'
+    when 'duplicate'
+    when 'spam'
+    when 'no show'
+    else
         errors.add(:section, 'Section can\'t be blank.') if self.section.nil? or self.section.empty?
     end
   end
 
+
+  def uscf_player?
+    p = self.player
+    !p.nil? && !p.uscf_id.nil? && (p.uscf_id.length == 8)
+  end
+
   def rated_section_rules(section)
-    if self.player.uscf_id.nil? or ! (self.player.uscf_id.length == 8)
-      status = self.status = 'uscf id needed'
-    elsif self.player.uscf_status.eql?('EXPIRED')
-      status = self.status = 'uscf membership expired'
-    end
 
-    if status.eql?('uscf id needed')
-      dob_not_found = date_of_birth.nil?
-      address_not_found = address.nil? || address.empty?
-      city_not_found = city.nil? || city.empty?
-      state_not_found  = state.nil? || state.empty?
-      zip_code_not_found = zip_code.nil? || zip_code.empty?
+    status = self.status = 'uscf id needed' if self.uscf_member_id.nil? || self.uscf_member_id.empty?
 
-      errors.add(:uscf_member_id, 'Rated Sections require either valid USCF ID or both date of birth and address') if
+    if !self.player.nil?
+      if !uscf_player?
+        dob_not_found = date_of_birth.nil?
+        address_not_found = address.nil? || address.empty?
+        city_not_found = city.nil? || city.empty?
+        state_not_found  = state.nil? || state.empty?
+        zip_code_not_found = zip_code.nil? || zip_code.empty?
+
+        errors.add(:uscf_member_id, 'Rated Sections require either valid USCF ID or both date of birth and address') if
           dob_not_found || address_not_found || city_not_found || state_not_found || zip_code_not_found
+      elsif self.player.uscf_status.eql?('EXPIRED')
+        status = self.status = 'uscf membership expired'
+      end
     end
   end
 
   def name_matches_player
-    unless self.player.uscf_id.nil? or !self.player.uscf_id.length == 8
+    if uscf_player?
       errors.add(:last_name, 'Last Name must match USCF') unless self.last_name.upcase.eql? self.player.last_name
       errors.add(:first, 'First Name must be similar to USCF') unless self.player.first_name.include?(self.first_name.upcase)
     end
+  end
+
+  def get_section
+    Section.find_by_tournament_id_and_name(self.tournament.id, self.section)
   end
 
   def section_eligibility
@@ -117,18 +127,18 @@ class Registration < ActiveRecord::Base
       grade = (self.grade == 'K') ? 0 : self.grade.to_i
       errors.add(:section, 'Grade Too High for Section') unless grade <= section.grade_max
       errors.add(:section, 'Grade Too Low for Section')  unless grade >= section.grade_min
-      player_rating =  0 if self.player.uscf_id.nil? || self.player.uscf_id.length !=8
-      rating_type = section.tournament.rating_type
-      player_rating ||=
-        case rating_type
-          when 'regular-live'
-            self.player.uscf_rating_reg_live || self.player.pull_live_rating || 0
-          else 'regular'
-            self.player.uscf_rating_reg ||= 0
+      player_rating = 0
+      if section.rated? && uscf_player?
+        rating_type = section.tournament.rating_type
+        if rating_type.eql?('regular')
+          player_rating = self.player.uscf_rating_reg || 0
+        elsif rating_type.eql?('regular-live')
+          player_rating = self.player.uscf_rating_reg_live || self.player.pull_live_rating || 0
         end
-      self.rating = player_rating == 0 ? 'UNR' : player_rating
-      if section.rated and player_rating >= (section.rating_cap ||= 9999)
-        errors.add(:section, 'Rating Too High for Section')
+        self.rating = (player_rating == 0 ? 'UNR' : player_rating)
+        if player_rating >= (section.rating_cap ||= 9999)
+          errors.add(:section, 'Rating Too High for Section')
+        end
       end
     end
   end
@@ -145,12 +155,29 @@ class Registration < ActiveRecord::Base
   end
 
   def default_values
-    self.status ||= self.get_section.full? ? 'waiting list' : 'request'
+    self.status ||= get_section.full? ? 'waiting list' : 'request'
     self.uscf_member_id = nil if self.uscf_member_id.blank?
   end
 
-  def get_section
-    Section.find_by_tournament_id_and_name(self.tournament.id, self.section)
+  def associate_player
+    r = self
+    player = Player.find_by_uscf_id(r.uscf_member_id) unless r.uscf_member_id.nil? or r.uscf_member_id.empty?
+    player = Player.find_by_first_name_and_last_name_and_grade(r.first_name, r.last_name, r.grade) if player.nil?
+    player = Player.new(
+        :first_name => r.first_name,
+        :last_name => r.last_name,
+        :uscf_id => r.uscf_member_id,
+        :school => r.school,
+        :grade => r.grade,
+        :date_of_birth => r.date_of_birth,
+        :gender => r.gender,
+        :address => r.address,
+        :city => r.city,
+        :state => r.state,
+        :zip_code => r.zip_code,
+        :county => r.county
+    ) if player.nil?
+    r.player = player
   end
 
 end

@@ -26,7 +26,7 @@ class RegistrationsController < ApplicationController
       fill_player_details(@registration, player)
       @return_to ||= player
     else
-      player = associate_player(@registration)
+      player = @registration.associate_player
       player.valid?
       @return_to ||= @tournament
     end
@@ -107,27 +107,6 @@ class RegistrationsController < ApplicationController
     r.address = p.address
     r.city = p.city
     r.zip_code = p.zip_code
-    r.player = player
-  end
-
-  def associate_player(registration)
-    r = registration
-    player = Player.find_by_uscf_id(r.uscf_member_id) unless r.uscf_member_id.nil? or r.uscf_member_id.empty?
-    player = Player.find_by_first_name_and_last_name_and_grade(r.first_name, r.last_name, r.grade) if player.nil?
-    player = Player.new(
-                 :first_name => r.first_name,
-                 :last_name => r.last_name,
-                 :uscf_id => r.uscf_member_id,
-                 :school => r.school,
-                 :grade => r.grade,
-                 :date_of_birth => r.date_of_birth,
-                 :gender => r.gender,
-                 :address => r.address,
-                 :city => r.city,
-                 :state => r.state,
-                 :zip_code => r.zip_code,
-                 :county => r.county
-               ) if player.nil?
     r.player = player
   end
 

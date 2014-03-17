@@ -30,7 +30,7 @@ PawnParade::Application.routes.draw do
   resources :tournaments, :only => [:show] do
     get 'guardian_show', on: :member
     resources :registrations, :only => [:create, :new, :index]
+    resources :sections, :only => [:index, :show, :edit, :update]
   end
-  #get '/tournaments/:tournament_id/guardian_show', :to => 'tournaments#guardian_show', :as => 'tournament_guardian_show'
 
 end

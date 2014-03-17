@@ -34,7 +34,9 @@ class Section < ActiveRecord::Base
   end
 
   def registration_count
-    Registration.find_all_by_tournament_id_and_section(self.tournament_id,self.name).length
+    excluded_statuses = ['withdraw', 'spam', 'duplicate', 'no show']
+    regs = Registration.find_all_by_tournament_id_and_section(self.tournament_id,self.name)
+    regs.reject{|r| excluded_statuses.include?(r.status) }.length
   end
 
   def full?
@@ -43,6 +45,10 @@ class Section < ActiveRecord::Base
     count = self.registration_count
     at_capacity = !maxnil && count >= self.max
     full_by_fiat | at_capacity
+  end
+
+  def to_param
+    slug
   end
 
 end

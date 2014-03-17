@@ -62,7 +62,7 @@ Feature: Manage Team List
       And I should see content "Fall-2013 Harmony Hills Tournament"
       And I should not see content "John Jay Scholastic Chess Tournament"
      When I navigate to the team registration page for Blattman and briscoe_ms
-  @wip
+
   Scenario: Add USCF ID to Team Member
     Given team Blattman exists with slug blattm
       And the blattm team has players:

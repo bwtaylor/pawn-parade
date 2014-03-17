@@ -1,0 +1,34 @@
+<h1>Sections for <%= @tournament.name %>
+  <%= "[#{@tournament.registration_count} players]" %>
+</h1>
+
+<table class="section-list grid" border="1">
+  <thead>
+  <tr>
+    <th class="rownum">#</th>
+    <th class="name">Section</th>
+    <th class="rated">Rated?</th>
+    <th class="rating_cap">Rating Cap</th>
+    <th class="min_grade">Grades</th>
+    <th class="players">Players</th>
+    <th class="quota">Quota</th>
+    <th class="players">USCF Count</th>
+    <th class="players">Rated Count</th>
+  </tr>
+  </thead>
+  <% rownum = 0 %>
+  <% @tournament.sections.each do |section| %>
+    <% rownum += 1 %>
+    <tr <%= "class=alt" if rownum%2 == 1 %>>
+      <td><%= rownum %></td>
+      <td><%= link_to section.name , [@tournament, section] %></td>
+      <td><%= section.rated %></td>
+      <td><%= section.rating_cap %></td>
+      <td><%= "#{k(section.grade_min)} - #{k(section.grade_max)}" %></td>
+      <td><%= @counts[section.name] %></td>
+      <td><%= section.max %></td>
+      <td></td>
+      <td></td>
+    </tr>
+  <% end %>
+</table>

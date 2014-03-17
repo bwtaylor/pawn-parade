@@ -9,6 +9,22 @@
   <% end %>
 <p/>
 
+<h2>Upcoming Tournaments</h2>
+
+<% unless upcoming_tournaments.empty?  %>
+    <ul>
+      <% upcoming_tournaments.each do |tournament| %>
+          <li id='<%= tournament.slug %>'>
+            <%= tournament.name %> (<%= tournament.event_date %>)
+            <%= link_to 'Manage Registrations', team_tournament_path(@team, tournament) %>
+            <%= link_to 'Registration Status', tournament_registrations_path(tournament) %>
+          </li>
+      <% end %>
+    </ul>
+<% else %>
+    There are no tournaments open for registration.
+<% end %>
+
 <%= form_tag(controller: "teams", action: "search") do %>
     <%= label_tag(:uscf_search, "USCF Search:") %>
     <%= text_field_tag(:uscf_search) %>
@@ -81,22 +97,6 @@
         <%= f.submit 'Add Player to Team' %>
     <% end %>
 
-<% end %>
-
-<h2>Upcoming Tournaments</h2>
-
-<% unless upcoming_tournaments.empty?  %>
-  <ul>
-    <% upcoming_tournaments.each do |tournament| %>
-       <li id='<%= tournament.slug %>'>
-         <%= tournament.name %> (<%= tournament.event_date %>)
-         <%= link_to 'Manage Registrations', team_tournament_path(@team, tournament) %>
-         <%= link_to 'Registration Status', tournament_registrations_path(tournament) %>
-       </li>
-    <% end %>
-  </ul>
-<% else %>
-  There are no tournaments open for registration.
 <% end %>
 
 <p/>

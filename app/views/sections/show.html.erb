@@ -1,0 +1,38 @@
+<h2>Section <%= @section.name %> Registration for <%= @tournament.name %></h2>
+
+<%= link_to 'Back to Tournament' , @tournament %>
+<p/>
+
+<% section_names = @tournament.sections.collect{|section| section.name} %>
+<table class='=section'>
+  <tr>
+    <th class='player'>Player</th>
+    <th class='grade'>Grade</th>
+    <th class='rating' colspan='3'>Rating</th>
+    <th class='section'>Section</th>
+  </tr>
+
+  <% @registrations.sort_by { |r| [ r.last_name, r.first_name] }.each do |r| %>
+    <% p = r.player %>
+    <tr>
+      <td><%= r.last_name %>, <%= r.first_name %> </td>
+      <td><%= r.grade %></td>
+      <td class='spacer'><%= r.rating == 0 ? 'UNR' : r.rating %></td>
+      <% if p.uscf_rating_reg_live != p.uscf_rating_reg %>
+        <td class='spacer'>=&gt;</td>
+        <td class='spacer'><%= p.uscf_rating_reg_live %></td>
+      <% else %>
+        <td class='spacer'></td>
+        <td class='spacer'></td>
+      <% end %>
+      <td>
+      <%= form_for r, url: player_tournament_section_path(p, @tournament),  method: :post,
+                   html: { class: 'section_change_form' } do |f| %>
+          <%= f.select :section, section_names, {:include_blank => true}, :style => 'width: 25em;' %>
+          <%= hidden_field_tag :return_to, tournament_section_path(@tournament, @section) %>
+          <%= f.submit 'Submit' %>
+      <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>

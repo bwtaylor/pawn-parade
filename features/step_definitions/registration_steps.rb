@@ -8,6 +8,25 @@ Given(/^no registrations exist for the tournament$/) do
   assert(@tournament.registrations.size == 0)
 end
 
+Given(/^the following players have registered for the tournament:$/) do |registration_table|
+  registration_table.hashes.each do |reg_hash|
+    registration = Registration.create(
+        :first_name => reg_hash['first_name'],
+        :last_name => reg_hash['last_name'],
+        :section => reg_hash['section'],
+        :school => reg_hash['school'],
+        :uscf_member_id => reg_hash['uscf_id'],
+        :grade => reg_hash['grade'],
+        :gender =>  reg_hash['gender'],
+        :guardian_emails =>  "#{reg_hash['guardian_emails']}",
+        :tournament_id => @tournament.id
+    )
+    registration.associate_player
+    registration.save
+  end
+end
+
+
 Then(/^registration for the tournament should be (on|off)$/) do |tournament_slug, registration_state|
   assert(@tournament.registration == registration_state)
 end

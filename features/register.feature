@@ -182,8 +182,8 @@ Feature: Preregister for Tournament
         | select: registration grade   | 2                      |
         | select: registration gender  | M                    |
       And I click the "Submit" button
-     Then a registration should exist for Bryan Taylor in the "Primary Rated Open" section for tournament rax
-      And I should see content "preregistered in the "Primary Rated Open" section of Rackspace Chess Tournament"
+     Then I should see content "preregistered in the "Primary Rated Open" section of Rackspace Chess Tournament"
+      And a registration should exist for Bryan Taylor in the "Primary Rated Open" section for tournament rax
 
   Scenario: Register for a Section with a Quota that is Full
     Given a tournament exists:

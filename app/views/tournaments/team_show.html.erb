@@ -7,10 +7,10 @@
     <th class='rating' colspan='3'>Rating</th>
     <th class='section'>Section</th>
   </tr>
+<% section_names = @tournament.sections.collect{|section| section.name} %>
 <% @players.sort_by { |p| [ p.last_name, p.first_name] }.each do |player| %>
   <% p = player %>
   <% r = @player_registrations[p] %>
-  <% section_names = @tournament.sections.collect{|section| section.name} %>
     <tr id='<%= p.uscf_id %>' >
       <td><%= p.last_name %>, <%= p.first_name %> </td>
       <td><%= p.grade %></td>

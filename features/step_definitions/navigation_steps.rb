@@ -10,7 +10,8 @@ def page_template(page_name, id)
      'team' => "/teams/#{team_slug_from_name(id)}",
      'edit team' => "/teams/#{team_slug_from_name(id)}/edit",
      'player' => "/players/#{player_id_from_name(id)}",
-     'team registration' => "/teams/#{team_slug_from_name(id.split(/\s+and\s+/)[0])}/tournaments/#{id.split(/\s+and\s+/)[1]}"
+     'team registration' => "/teams/#{team_slug_from_name(id.split(/\s+and\s+/)[0])}/tournaments/#{id.split(/\s+and\s+/)[1]}",
+     'registration status' => "/tournaments/#{id}/registrations"
    }[page_name]
 end
 
@@ -21,7 +22,8 @@ def player_id_from_name(name)
 end
 
 def team_slug_from_name(name)
-  Team.find_by_name(name).slug
+  team = Team.find_by_name(name)
+  team.nil? ? '' : team.slug
 end
 
 When(/^I navigate to "(.*?)"$/) do |uri_path|
@@ -35,6 +37,7 @@ When(/^I navigate to the (.*?) page$/) do |page_name|
 end
 
 When(/^I navigate to the (.*?) page for (.*)$/) do |page_name, id|
+  id = @tournament.slug if id.eql?('the tournament')
   page =  page_template(page_name, id)
   page ? visit(page) : raise("#{page_name} has no testing uri_path template associated with it")
 end

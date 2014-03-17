@@ -30,7 +30,8 @@ class Player < ActiveRecord::Base
 
   def rating
     changed = self.changed_attributes.has_key? 'uscf_id'
-    if changed and self.uscf_id.length == 8
+    mock_data = !Rails.env.production? && self.uscf_id.starts_with?('0000')
+    if changed && !mock_data && self.uscf_id.length == 8
       pull_uscf
       pull_live_rating
     end

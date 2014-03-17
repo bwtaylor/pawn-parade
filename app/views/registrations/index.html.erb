@@ -22,7 +22,7 @@
     <tbody>
     <% rownum = 0 %>
     <% section_registrations = @registrations.select { |r| r[:section] == section.name }  %>
-    <% section_registrations.sort_by!{|r| [ - r.rating, r.school, r.last_name, r.first_name] }.each do |registration| %>
+    <% section_registrations.sort_by!{|r| [ - (r.rating || 0), r.school, r.last_name, r.first_name] }.each do |registration| %>
       <% rownum += 1 %>
       <% if rownum%2 == 1 %>
           <tr>
