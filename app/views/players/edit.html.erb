@@ -7,7 +7,7 @@
              html: {multipart: true, class: 'registration_form'} do |f| %>
 
     <fieldset>
-      <legend>Player Information: Add a Player
+      <legend>Player Information: Update Player
         <% if @team   %>
             to <%= @team.name %>
         <% end %>
@@ -15,7 +15,7 @@
       <% @player.errors.full_messages.each do |msg| %>
           <p><%= msg %></p>
       <% end %>
-      <%= f.hidden_field :team_id, :value => @player.team.id %>
+      <%= f.hidden_field :team_id, :value => @player.team.nil? ? nil : @player.team.id %>
       <div class="column_block">
         <ol>
           <li>

@@ -15,7 +15,7 @@
   <% @registrations.sort_by { |r| [ r.last_name, r.first_name] }.each do |r| %>
     <% p = r.player %>
     <tr>
-      <td><%= r.last_name %>, <%= r.first_name %> </td>
+      <td><%= link_to "#{p.last_name}, #{p.first_name}", edit_player_path(p) %></td>
       <td><%= r.grade %></td>
       <td class='spacer'><%= r.rating == 0 ? 'UNR' : r.rating %></td>
       <% if p.uscf_rating_reg_live != p.uscf_rating_reg %>

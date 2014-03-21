@@ -12,8 +12,7 @@
     <th class="min_grade">Grades</th>
     <th class="players">Players</th>
     <th class="quota">Quota</th>
-    <th class="players">USCF Count</th>
-    <th class="players">Rated Count</th>
+    <th class="players">Space</th>
   </tr>
   </thead>
   <% rownum = 0 %>
@@ -27,8 +26,7 @@
       <td><%= "#{k(section.grade_min)} - #{k(section.grade_max)}" %></td>
       <td><%= @counts[section.name] %></td>
       <td><%= section.max %></td>
-      <td></td>
-      <td></td>
+      <td><%= section.max - @counts[section.name] if section.max && section.max > 0 %></td>
     </tr>
   <% end %>
 </table>
