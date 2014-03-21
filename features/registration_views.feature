@@ -31,3 +31,14 @@ Scenario: Tournament & Section Counts
     And I should see content "Section: Primary (K-3) Rated Open [1 players]"
     And I should see content "Section: Elementary (K-5) Rated Open [1 players]"
 
+  Scenario: Withdraws, Duplicates, and Spam Not Show
+    And the following players have registered for the tournament:
+      | first_name | last_name | uscf_id  | grade | gender | school | section                  | status    |
+      | Adam       | Ant       | 00003304 | 1     | M      | North  | Primary (K-3) Rated Open | duplicate |
+      | Spamo      | Spammer   | 00003305 | 2     | F      | South  | Primary (K-3) Rated Open | spam      |
+    And Betty Boop withdraws from the tournament
+    And I navigate to the registration status page for the tournament
+   Then I should see content "Registrations for Rackspace Chess Tournament [2 players]"
+    And I should not see content "duplicate"
+    And I should not see content "spam"
+    And I should not see content "withdraw"

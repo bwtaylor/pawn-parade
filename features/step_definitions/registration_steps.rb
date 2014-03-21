@@ -19,6 +19,7 @@ Given(/^the following players have registered for the tournament:$/) do |registr
         :grade => reg_hash['grade'],
         :gender =>  reg_hash['gender'],
         :guardian_emails =>  "#{reg_hash['guardian_emails']}",
+        :status => reg_hash['status'],
         :tournament_id => @tournament.id
     )
     registration.associate_player

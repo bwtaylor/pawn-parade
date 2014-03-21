@@ -55,7 +55,8 @@ class RegistrationsController < ApplicationController
 
   def index
     @tournament = Tournament.find_by_slug(params[:tournament_id])
-    @registrations = @tournament.registrations
+    reject = ['duplicate', 'withdraw', 'spam']
+    @registrations = @tournament.registrations.reject { |r| reject.include? r.status }
   end
 
   def update
