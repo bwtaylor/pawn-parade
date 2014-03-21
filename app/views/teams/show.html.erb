@@ -30,6 +30,24 @@
     <%= text_field_tag(:uscf_search) %>
     <%= submit_tag("Search") %>
 <% end %>
+
+<% if @search_hits  %>
+    <ul class='search_hits'>
+      <% @search_hits.each do |player| %>
+          <li>
+            <%= player.last_name%>, <%= player.first_name %>
+            (<%= player.uscf_rating_reg == 0 ? 'UNR' : player.uscf_rating_reg %>) -
+            <a href="http://www.uschess.org/msa/MbrDtlTnmtHst.php?<%= player.uscf_id %>"><%= player.uscf_id %></a></td>
+            <%= player.uscf_status %>
+            <%= form_tag(controller: "teams", action: "create_player") do %>
+                <%= hidden_field_tag "uscf_id", player.uscf_id %>
+                <%= submit_tag("Add to Team") %>
+            <% end %>
+          </li>
+      <% end %>
+    </ul>
+<% end %>
+
 <%= link_to 'Add New Player to Team', create_player_team_path %>
 
 <% if !@team.players.first.nil?  %>
@@ -56,23 +74,6 @@
       </tbody>
     </table>
 <% end %>There are <%= @team.players.select{|p| !p.new_record? }.length %> players on this team. <p/>
-
-  <% if @search_hits  %>
-    <ul class='search_hits'>
-    <% @search_hits.each do |player| %>
-        <li>
-          <%= player.last_name%>, <%= player.first_name %>
-          (<%= player.uscf_rating_reg == 0 ? 'UNR' : player.uscf_rating_reg %>) -
-          <a href="http://www.uschess.org/msa/MbrDtlTnmtHst.php?<%= player.uscf_id %>"><%= player.uscf_id %></a></td>
-          <%= player.uscf_status %>
-          <%= form_tag(controller: "teams", action: "create_player") do %>
-              <%= hidden_field_tag "uscf_id", player.uscf_id %>
-              <%= submit_tag("Add to Team") %>
-          <% end %>
-        </li>
-    <% end %>
-    </ul>
-  <% end %>
 
   <% if !@player.nil? and !@player.uscf_id.nil?  %>
 
