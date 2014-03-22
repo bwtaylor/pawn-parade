@@ -7,15 +7,18 @@
 <table class='=section'>
   <tr>
     <th class='player'>Player</th>
+    <th class='team'>Team/School</th>
     <th class='grade'>Grade</th>
     <th class='rating' colspan='3'>Rating</th>
     <th class='section'>Section</th>
+    <th class='status'>Status</th>
   </tr>
 
   <% @registrations.sort_by { |r| [ r.last_name, r.first_name] }.each do |r| %>
     <% p = r.player %>
     <tr>
       <td><%= link_to "#{p.last_name}, #{p.first_name}", edit_player_path(p) %></td>
+      <td><%= p.team.nil? ? r.school : link_to("#{p.team.name}", team_path(p)) %></td>
       <td><%= r.grade %></td>
       <td class='spacer'><%= r.rating == 0 ? 'UNR' : r.rating %></td>
       <% if p.uscf_rating_reg_live != p.uscf_rating_reg %>
@@ -25,14 +28,13 @@
         <td class='spacer'></td>
         <td class='spacer'></td>
       <% end %>
-      <td>
       <%= form_for r, url: player_tournament_section_path(p, @tournament),  method: :post,
                    html: { class: 'section_change_form' } do |f| %>
-          <%= f.select :section, section_names, {:include_blank => true}, :style => 'width: 25em;' %>
+          <td><%= f.select :section, section_names, {:include_blank => true}, :style => 'width: 25em;' %> </td>
+          <td><%= f.select :status, Registration::STATUSES, :style => 'width: 15em;' %> </td>
           <%= hidden_field_tag :return_to, tournament_section_path(@tournament, @section) %>
-          <%= f.submit 'Submit' %>
+          <td><%= f.submit 'Submit' %></td>
       <% end %>
-      </td>
     </tr>
   <% end %>
 </table>

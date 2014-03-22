@@ -37,8 +37,7 @@ class Registration < ActiveRecord::Base
   validates_inclusion_of :shirt_size, :allow_nil => true,
     :in => ['Youth Small (6-8)', 'Youth Medium (10-12)', 'Youth Large (14-16)', 'Adult Small', 'Adult Medium', 'Adult Large', 'Adult XL']
 
-  validates_inclusion_of :status, :allow_nil => true,
-    :in => [
+  STATUSES = [
       'request',                 # submitted through website, needing admin approval
       'waiting list',            # section is full
       'duplicate',               # automated or manually discarded as duplicate
@@ -49,7 +48,8 @@ class Registration < ActiveRecord::Base
       'registered',              # checked in at tny, will play in section
       'no show',                 # preregistered by has not check in by end of check in
       'withdraw'                 # voluntarily withdraw, before or after playing
-    ]
+  ]
+  validates_inclusion_of :status, :allow_nil => true, :in =>  Registration::STATUSES
 
   after_initialize :guardians
   validate :upcase, :section_status, :guardian_emails_format, :name_matches_player, :section_eligibility

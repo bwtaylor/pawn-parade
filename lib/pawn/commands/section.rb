@@ -99,9 +99,10 @@ ________
       max=options[:max].to_i
       section.max = max
       section.save!
-      current_count = Registration.find_all_by_tournament_id_and_section(tournament.id,section.name).length
+      all_registrations = Registration.find_all_by_tournament_id_and_section(tournament.id,section.name)
+      counted_registrations = all_registrations.reject{|r| ['duplicate', 'withdraw', 'spam', 'no show'].include?(r.status)}
       rating_type = section.rated ? 'rated' : 'unrated'
-      puts "#{section.slug} [#{rating_type}] [#{current_count}/#{section.max}]"
+      puts "#{section.slug} [#{rating_type}] [#{counted_registrations.length}/#{section.max}]"
     end
   end
 

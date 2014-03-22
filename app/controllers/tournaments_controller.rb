@@ -1,5 +1,7 @@
 class TournamentsController < ApplicationController
 
+  before_filter :authenticate_user!, :only => [:group_show, :guardian_show]
+
   def show
     @tournament = Tournament.find_by_slug(params[:id])
     asciidoc = @tournament.description_asciidoc

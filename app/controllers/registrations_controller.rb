@@ -70,7 +70,11 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find_by_tournament_id_and_player_id(@tournament.id,player.id)
 
     new_section = params[:registration][:section]
-    @registration.status = new_section.empty? ? 'withdraw' : 'request'
+    section_changed = new_section.eql?(@registration.section)
+    new_status =  params[:registration][:status]
+    status_same = new_status.eql?(@registration.status)
+    new_status = 'request' if section_changed && status_same
+    @registration.status = new_section.empty? ? 'withdraw' : new_status
     @registration.section = new_section
 
     if @registration.save
