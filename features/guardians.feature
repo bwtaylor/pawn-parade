@@ -27,8 +27,8 @@ Scenario: Guardians Player pages show Tournaments
       And I authenticate as dad@example.com
       And the date is "2013-7-7"
       And these players exist:
-        | first_name | last_name | school   | uscf_id   | grade | guardians       |
-        | Adam       | Ant       | Westlake | 12345678  | 1     | dad@example.com |
+        | first_name | last_name | school   | uscf_id   | grade | gender | guardians       |
+        | Adam       | Ant       | Westlake | 12345678  | 1     | M      | dad@example.com |
       And a tournament exists:
         | slug | name                       | location     | event_date | short_description                                              |
         | rax  | Rackspace Chess Tournament | Rackspace    | 2013-10-26 | One-day scholastic tournament with rated and unrated sections. |

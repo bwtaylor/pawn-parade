@@ -25,7 +25,6 @@ Feature: Preregister for Tournament
      When I navigate to "/tournaments/rax"
      Then there is no "Register" link or button
 
-  @broken
   Scenario:  Register for a Rated Section with USCF ID
   Given a tournament exists:
       | slug | name                       | location     | event_date | short_description                                              |
@@ -99,8 +98,8 @@ Feature: Preregister for Tournament
       | select: registration grade       | K                    |
       | select: registration gender      | M                    |
     And I click the "Submit" button
-    Then a registration should exist for Johny Chester in the "Primary (K-2) Unrated Open" section for tournament rax
-    And I should see content "preregistered in the "Primary (K-2) Unrated Open" section of Rackspace Chess Tournament"
+    Then I should see content "preregistered in the "Primary (K-2) Unrated Open" section of Rackspace Chess Tournament"
+     And a registration should exist for Johny Chester in the "Primary (K-2) Unrated Open" section for tournament rax
 
   Scenario: Register with Guardian, then Sign Up as Guardian and see player
     Given a tournament exists:

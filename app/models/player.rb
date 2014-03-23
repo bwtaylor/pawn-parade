@@ -20,7 +20,7 @@ class Player < ActiveRecord::Base
   validates_inclusion_of :gender, :in => %w(M F)
 
   before_validation :upcase
-  after_validation :rating
+  after_validation :fetch_rating
 
   def upcase
     self.first_name.upcase!
@@ -28,7 +28,20 @@ class Player < ActiveRecord::Base
     self.state.upcase! if self.state
   end
 
-  def rating
+  def rating(base)
+    case base
+      when 'regular'
+        self.uscf_rating_reg
+      when 'regular-live'
+        self.uscf_rating_reg_live
+      when Tournament
+        rating(base.rating_type)
+      when Registration
+        rating(base.tournament.rating_type)
+    end
+  end
+
+  def fetch_rating
     changed = self.changed_attributes.has_key? 'uscf_id'
     mock_data = !Rails.env.production? && self.uscf_id.starts_with?('0000')
     if changed && !mock_data && self.uscf_id.length == 8

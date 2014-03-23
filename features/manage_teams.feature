@@ -37,7 +37,7 @@ Feature: Manage Team List
           | team school_district | NISD |
       And I click the "Update Team" button
      Then I should see content "San Antonio, TX - Bexar County (NISD)"
-  @broken
+
   Scenario: Batch Register team members for Tournament
     Given team Blattman exists with slug blattm
       And the blattm team has players:

@@ -89,7 +89,7 @@ class Registration < ActiveRecord::Base
     !p.nil? && !p.uscf_id.nil? && (p.uscf_id.length == 8)
   end
 
-  def rated_section_rules(section)
+  def rated_section_rules
 
     status = self.status = 'uscf id needed' if self.uscf_member_id.nil? || self.uscf_member_id.empty?
 
@@ -122,7 +122,7 @@ class Registration < ActiveRecord::Base
 
   def section_eligibility
     section = get_section
-    rated_section_rules(section) if !section.nil? and section.rated?
+    rated_section_rules unless section.nil? || !section.rated?
     unless section.nil?
       grade = (self.grade == 'K') ? 0 : self.grade.to_i
       errors.add(:section, 'Grade Too High for Section') unless grade <= section.grade_max
@@ -157,6 +157,20 @@ class Registration < ActiveRecord::Base
   def default_values
     self.status ||= get_section.full? ? 'waiting list' : 'request'
     self.uscf_member_id = nil if self.uscf_member_id.blank?
+  end
+
+  def sync_from_player
+    r=self
+    p = r.player
+    r.uscf_member_id = p.uscf_id unless p.uscf_id.nil? || p.uscf_id.empty?
+    r.date_of_birth = p.date_of_birth unless p.uscf_id.nil? || p.uscf_id.empty?
+    r.school = p.team.name unless p.team.nil?
+    r.rating = p.rating(r)
+    r.address = p.address unless p.address.nil? || p.address.empty?
+    r.city = p.city unless p.city.nil? || p.city.empty?
+    r.state = p.state unless p.state.nil? | p.state.empty?
+    r.zip_code = p.zip_code unless p.zip_code.nil? || p.zip_code.empty?
+    rated_section_rules
   end
 
   def associate_player

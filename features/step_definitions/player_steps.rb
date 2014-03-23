@@ -29,7 +29,8 @@ Given /^player ([^\s]*) ([^\s]*) exists in grade (.*)$/ do |first_name, last_nam
 end
 
 Then /^player ([^\s]*) ([^\s]*) should exist$/ do |first_name, last_name|
-  Player.find_all_by_first_name_and_last_name(first_name, last_name).length.should be >= 1
+  players = Player.where('first_name like ?',"#{first_name}%").where('last_name = ?', last_name)
+  players.length.should be >= 1
 end
 
 Then(/^player ([^\s]*) ([^\s]*) should have (\d+) guardians$/) do |first_name, last_name, expected_number|
