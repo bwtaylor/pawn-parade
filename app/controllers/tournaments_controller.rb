@@ -30,7 +30,7 @@ class TournamentsController < ApplicationController
   def uscf
     @tournament = Tournament.find_by_slug(params[:id])
     @registrations_needing_uscf = Registration.find_all_by_tournament_id_and_status(@tournament.id,'uscf id needed')
-    @registrations_needing_uscf.sort_by!(:grade)
+    @registrations_needing_uscf.sort_by!{|r| r.grade }
     respond_to do |format|
       format.tsv
     end
