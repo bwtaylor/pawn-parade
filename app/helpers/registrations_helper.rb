@@ -14,7 +14,7 @@ module RegistrationsHelper
     type = 'N'
     code = section.grade_max <= 3 ? 'Q0' : 'UN1'
     payment = 'TD'
-    dob = r.date_of_birth.strftime('%m/%d/%Y')
+    dob = "#{r.date_of_birth.strftime('%m/%d/%Y') unless r.date_of_birth.nil?}"
     affiliate = r.player.team.uscf_affiliate_id unless r.player.team.nil?
     affiliate ||=  'H6023015'
     school = r.player.team.nil? ? r.school : r.player.team.name
