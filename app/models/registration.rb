@@ -194,4 +194,14 @@ class Registration < ActiveRecord::Base
     r.player = player
   end
 
+  def team_slug
+    r=self
+    p=r.player
+    if p.team.nil?
+
+    else
+      p.team.slug
+    end
+  end
+
 end

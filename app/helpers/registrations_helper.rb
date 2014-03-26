@@ -14,14 +14,15 @@ module RegistrationsHelper
     type = 'N'
     code = section.grade_max <= 3 ? 'Q0' : 'UN1'
     payment = 'TD'
+    dob = r.date_of_birth.strftime('%m/%d/%Y')
     affiliate = r.player.team.uscf_affiliate_id unless r.player.team.nil?
     affiliate ||=  'H6023015'
     school = r.player.team.nil? ? r.school : r.player.team.name
 
 
-    fragment = "#{type}\t#{code}\t#{r.first_name}\t#{r.last_name}\t"
+    fragment = "#{type}\t#{code}\t#{r.first_name}\t#{r.last_name}\t#{r.gender}\t"
     fragment += "#{r.address}\t#{r.city}\t#{r.state}\t#{r.zip_code}\t"
-    fragment += "#{r.date_of_birth}\t#{payment}\t#{k(r.grade)}\t#{affiliate}\t#{school}\r\n"
+    fragment += "#{dob}\t#{payment}\t#{k(r.grade)}\t#{affiliate}\t#{school}\r\n"
     fragment
   end
 

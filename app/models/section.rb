@@ -51,6 +51,16 @@ class Section < ActiveRecord::Base
     slug
   end
 
+  def to_txt
+    registrations = Registration.find_all_by_tournament_id_and_section(self.tournament.id, self.name)
+    for r in registrations do
+      txt += "NAME = #{r.last_name}, #{r.first_name}\nTEAM = #{@team[r.school]}\nAGE = #{r.grade}\n"
+      txt += "ID# = #{r.uscf_member_id}\nRATING = #{r.rating}\n" unless r.uscf_member_id.nil?
+      txt += "\n"
+    end
+    txt
+  end
+
 end
 
 

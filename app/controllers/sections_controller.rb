@@ -19,13 +19,18 @@ class SectionsController < ApplicationController
 
   def show
     @tournament = Tournament.find_by_slug(params[:tournament_id])
-    @section = Section.find_by_slug(params[:id])
+    @section = Section.find_by_tournament_id_and_slug(@tournament.id, params[:id])
     @registrations = Registration.find_all_by_tournament_id_and_section(@tournament.id, @section.name)
 
     @players = @registrations.map {|r| r.player}.sort_by {|r| [r.last_name, r.first_name] }
     @player_registrations = Hash.new
     @registrations.each do |r|
       @player_registrations[r.player]=r
+    end
+
+    respond_to do |format|
+      format.html
+      format.txt
     end
   end
 
