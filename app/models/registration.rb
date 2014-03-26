@@ -172,6 +172,7 @@ class Registration < ActiveRecord::Base
     r.zip_code = p.zip_code unless p.zip_code.nil? || p.zip_code.empty?
     rated_section_rules
     r.status = 'request' if r.status.eql?('uscf id needed') && !r.uscf_member_id.nil? && r.uscf_member_id.length == 8
+    r.save
   end
 
   def associate_player
