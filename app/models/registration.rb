@@ -92,7 +92,7 @@ class Registration < ActiveRecord::Base
 
   def rated_section_rules
 
-    status = self.status = 'uscf id needed' if self.uscf_member_id.nil? || self.uscf_member_id.empty?
+    self.status = 'uscf id needed' if self.uscf_member_id.nil? || self.uscf_member_id.empty?
 
     if !self.player.nil?
       if !uscf_player?
@@ -105,9 +105,10 @@ class Registration < ActiveRecord::Base
         errors.add(:uscf_member_id, 'Rated Sections require either valid USCF ID or both date of birth and address') if
           dob_not_found || address_not_found || city_not_found || state_not_found || zip_code_not_found
       elsif self.player.uscf_status.eql?('EXPIRED')
-        status = self.status = 'uscf membership expired'
+        self.status = 'uscf membership expired'
       end
     end
+    self.status = 'waiting list' if get_section.full?
   end
 
   def name_matches_player
@@ -123,7 +124,7 @@ class Registration < ActiveRecord::Base
 
   def section_eligibility
     section = get_section
-    rated_section_rules unless section.nil? || !section.rated?
+    rated_section_rules unless section.nil? || !section.rated? || ['withdraw','duplicate','spam'].include?(self.status)
     unless section.nil?
       grade = (self.grade == 'K') ? 0 : self.grade.to_i
       errors.add(:section, 'Grade Too High for Section') unless grade <= section.grade_max

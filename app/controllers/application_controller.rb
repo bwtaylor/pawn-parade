@@ -6,7 +6,11 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize_admin
-    redirect_to request.referer unless current_user && current_user.admin?
+    target = request.referer || user_root_url if current_user || root_url
+    unless current_user && current_user.admin?
+      flash[:notice] = 'You are not authorized to view the resource you requested'
+      redirect_to target
+    end
   end
 
 end

@@ -2,6 +2,10 @@ class RegistrationsController < ApplicationController
 
   respond_to :html
 
+  before_filter(:only => :index) do |controller|
+    authorize_admin if controller.request.format.txt?
+  end
+
   def new
     @tournament = Tournament.find_by_slug(params[:tournament_id])
     @registration = @tournament.registrations.build
@@ -38,7 +42,7 @@ class RegistrationsController < ApplicationController
       elsif @registration.status.eql? 'uscf id needed'
         flash[:registered] = "#{@registration.first_name} #{@registration.last_name} is preregistered " +
             " in the \"#{@registration.section}\" section of #{@tournament.name}, but NEEDS USCF MEMBERSHIP"
-      elsif @registration.status.eql? 'uscf id needed'
+      elsif @registration.status.eql? 'uscf membership expired'
         flash[:registered] = "#{@registration.first_name} #{@registration.last_name} is preregistered " +
             " in the \"#{@registration.section}\" section of #{@tournament.name}, but NEEDS TO RENEW USCF MEMBERSHIP"
       elsif @registration.status == 'waiting list'
@@ -57,6 +61,10 @@ class RegistrationsController < ApplicationController
     @tournament = Tournament.find_by_slug(params[:tournament_id])
     reject = ['duplicate', 'withdraw', 'spam']
     @registrations = @tournament.registrations.reject { |r| reject.include? r.status }
+    respond_to do |format|
+      format.html
+      format.txt
+    end
   end
 
   def update
