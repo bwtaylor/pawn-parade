@@ -44,6 +44,7 @@ class Registration < ActiveRecord::Base
       'preregistered',           # approved preregistration request, spot is held for player
       'uscf membership expired', # request for rated section, but USCF membership is expired: must renew by tny time or withdraw
       'uscf id needed',          # request for rated section, but no valid USCF member id provided: provide or withdraw
+      'uscf problem',            # data provided to enable renewal/purchase of USCF membership has a problem
       'spam',                    # moderator discarded as junk
       'registered',              # checked in at tny, will play in section
       'no show',                 # preregistered by has not check in by end of check in
