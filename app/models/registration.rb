@@ -106,6 +106,8 @@ class Registration < ActiveRecord::Base
           dob_not_found || address_not_found || city_not_found || state_not_found || zip_code_not_found
       elsif self.player.uscf_status.eql?('EXPIRED')
         self.status = 'uscf membership expired'
+      elsif self.status.eql?('uscf membership expired')
+        self.status = 'request'
       end
     end
     self.status = 'waiting list' if get_section.full?
@@ -172,7 +174,7 @@ class Registration < ActiveRecord::Base
     r.city = p.city unless p.city.nil? || p.city.empty?
     r.state = p.state unless p.state.nil? | p.state.empty?
     r.zip_code = p.zip_code unless p.zip_code.nil? || p.zip_code.empty?
-    rated_section_rules
+    rated_section_rules if get_section.rated?
     r.status = 'request' if r.status.eql?('uscf id needed') && !r.uscf_member_id.nil? && r.uscf_member_id.length == 8
     r.save
   end

@@ -27,4 +27,32 @@ module RegistrationsHelper
     fragment
   end
 
+  def freshen_uscf(registrations)
+    registrations.each do |r|
+      p=r.player
+      p.pull_uscf
+      p.pull_live_rating
+      p.save
+      r.sync_from_player
+    end
+  end
+
+  def freshen_players_with_new_uscf_id(tournament_id)
+    regs = Registration.where(status: 'uscf id needed').where(tournament_id: tournament_id)
+    regs.reject {|r| r.player.uscf_id.nil?}
+    freshen_uscf(regs)
+  end
+
+  def freshen_expired_uscf(tournament_id)
+    regs = Registration.where(tournament_id: tournament_id).where(status: 'uscf membership expired')
+    freshen_uscf(regs)
+  end
+
+  def freshen_all_players_uscf(tournament_id)
+    regs = Registration.where(tournament_id: tournament_id)
+    regs = regs.reject {|r| ['duplicate','withdraw','spam'].include?(r.status)}
+    freshen_uscf(regs)
+  end
+
+
 end
