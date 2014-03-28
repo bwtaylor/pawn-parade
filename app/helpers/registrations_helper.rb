@@ -1,7 +1,7 @@
 module RegistrationsHelper
 
   def reg_dump_header
-    "id\tplayer_id\tsection\tname\tteam\tschool\tgrade\tuscf_id\tstatus\trating\tgender\tdob\tstreet\tcity\tstate\tzip_code\tfull_team\tbye_requests\tguardian_emails\tteam_slug\tregistration_status\tproblem\n"
+    "id\tplayer_id\tsection\tname\tteam\tschool\tgrade\tuscf_id\tstatus\trating\tgender\tdob\tstreet\tcity\tstate\tzip_code\tfull_team\tbye_requests\tguardian_emails\tteam_slug\tproblem\n"
   end
 
   def reg_dump(registration)
