@@ -1,5 +1,5 @@
 <% if current_user.admin? %>
-    <%= uscf_batch_header%><% @registrations_needing_uscf.each do |r| %><%= uscf_batch_fragment(r) %><% end %>
+<%= uscf_batch_header%><% @registrations_needing_uscf.each do |r| %><%= uscf_batch_fragment(r) %><% end %>
 <% else %>
     You must be an admin to get this data.
 <% end %>
