@@ -1,5 +1,32 @@
 module RegistrationsHelper
 
+  def reg_dump_header
+    "id\tplayer_id\tsection\tname\tteam\tschool\tgrade\tuscf_id\tstatus\trating\tgender\tdob\tstreet\tcity\tstate\tzip_code\tfull_team\tbye_requests\tguardian_emails\tteam_slug\tregistration_status\tproblem\n"
+  end
+
+  def reg_dump(registration)
+    r = registration
+    full_team = "#{r.player.team.full_name if r.player.team}"
+    guardian_emails = Guardian.find_all_by_player_id(r.player.id).map{|g| g.email}.join(',')
+    team_slug = r.player.team.nil? ? team(r.school) : r.player.team.slug
+    problem = problem(r.player_id)
+
+    reg_dump = "#{r.id}\t#{r.player_id}\t#{r.section}\t#{r.last_name}, #{r.first_name}\t#{r.player.team.name if r.player.team}\t"
+    reg_dump += "#{r.school}\t#{r.grade}\t#{r.uscf_member_id}\t#{r.status}\t#{r.rating}\t#{r.gender}\t#{r.date_of_birth}\t"
+    reg_dump += "#{r.address}\t#{r.city}\t#{r.state}\t#{r.zip_code}\t#{full_team}\t0\t#{guardian_emails}\t#{team_slug}\t#{problem}\n"
+    reg_dump
+  end
+
+#  <% full_team = "#{r.player.team.full_name if r.player.team}" %>
+#  <% guardian_emails = Guardian.find_all_by_player_id(r.player.id).map{|g| g.email}.join(',') %>
+#  <% team_slug = r.player.team.nil? ? team(r.school) : r.player.team.slug %>
+#    <% problem = problem(r.player_id) %>
+#  <% regdump = "id\tplayer_id\tsection\tname\tteam\tschool\tgrade\tuscf_id\tstatus\trating\tgender\tdob\tstreet\tcity\tstate\tzip_code\tfull_team\tbye_requests\tguardian_emails\tteam_slug\tregistration_status\tproblem\n" %>
+#  <% regdump += "#{r.id}\t#{r.player_id}\t#{r.section}\t#{r.last_name}, #{r.first_name}\t#{r.player.team.name if r.player.team}\t" %>
+#  <% regdump += "#{r.school}\t#{r.grade}\t#{r.uscf_member_id}\t#{r.status}\t#{r.rating}\t#{r.gender}\t#{r.date_of_birth}\t" %>
+#  <% regdump += "#{r.address}\t#{r.city}\t#{r.state}\t#{r.zip_code}\t#{full_team}\t0\t#{guardian_emails}\t#{team_slug}\t#{problem}\n" %>
+
+
   def uscf_batch_header
     "TYPE\tCODE\tID\tFN\tLN\tSEX\tADD1\tCITY\tSTATE\tZIP\tBIRTHDAY\tPMT\tGRADE\tAFFILID\tAFFIL\r\n"
   end
