@@ -11,10 +11,10 @@ module RegistrationsHelper
     #N	Q0	Natalie	Herod	F	12 Weatherford	San Antonio	TX	78248	1/12/2006	TD	2	12430766	Bryan Taylor	H6023015	Blattman Elementary
     #N	UN1	Parker	Herod	M	12 Weatherford		San Antonio	TX	78248	12/17/2002	TD	5	12430766	Bryan Taylor	H6023015	Blattman Elementary
 
-    type = 'N' if r.status = 'uscf id needed'
-    type = 'R' if r.status = 'uscf membership expired'
+    type = 'N' if r.status.eql?('uscf id needed')
+    type = 'R' if r.status.eql?('uscf membership expired')
     code = section.grade_max <= 3 ? 'Q0' : 'UN1'
-    uscf_id = "#{r.player.uscf_id if uscf membership expired}"
+    uscf_id = "#{r.player.uscf_id if type.eql?('R')}"
     payment = 'TD'
     dob = "#{r.date_of_birth.strftime('%m/%d/%Y') unless r.date_of_birth.nil?}"
     affiliate = r.player.team.uscf_affiliate_id unless r.player.team.nil?
