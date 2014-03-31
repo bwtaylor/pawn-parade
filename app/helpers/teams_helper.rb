@@ -1,7 +1,9 @@
 module TeamsHelper
 
-  team = Team.find_by_slug(slug)
-  team
+  def refresh_team_ratings(team_slug)
+    team = Team.find_by_slug(slug)
+    refresh_ratings(team.players)
+  end
 
   def refresh_ratings(player_list)
     player_list.players do |p|
