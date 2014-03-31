@@ -1,5 +1,16 @@
 module TeamsHelper
 
+  team = Team.find_by_slug(slug)
+  team
+
+  def refresh_ratings(player_list)
+    player_list.players do |p|
+      p.pull_uscf
+      p.pull_live_rating
+      p.save
+    end
+  end
+
   def team(school)
     school.upcase!
     school.slice!(' SCHOOL')
