@@ -6,7 +6,7 @@ module TeamsHelper
   end
 
   def refresh_ratings(player_list)
-    player_list do |p|
+    player_list.each do |p|
       p.pull_uscf
       p.pull_live_rating
       p.save
