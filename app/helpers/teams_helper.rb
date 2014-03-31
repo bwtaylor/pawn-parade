@@ -10,7 +10,7 @@ module TeamsHelper
       p.pull_uscf
       p.pull_live_rating
       p.save
-      puts(p.uscf_reg_rating)
+      puts(p.uscf_rating_reg)
     end
   end
 
