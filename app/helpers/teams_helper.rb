@@ -1,7 +1,7 @@
 module TeamsHelper
 
   def refresh_team_ratings(team_slug)
-    team = Team.find_by_slug(slug)
+    team = Team.find_by_slug(team_slug)
     refresh_ratings(team.players)
   end
 
@@ -10,6 +10,7 @@ module TeamsHelper
       p.pull_uscf
       p.pull_live_rating
       p.save
+      puts(p.uscf_reg_rating)
     end
   end
 
