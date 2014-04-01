@@ -56,7 +56,7 @@
         <tr><th>Grade</th><th>Name</th><th>Rating</th><th>USCF Id</th><th>USCF Status</th></tr>
       </thead>
       <tbody>
-      <% @team.players.each do |player| %>
+      <% @team.players.sort_by{|p| [ - p.uscf_rating_reg_live, - un_k(p.grade), p.last_name]}.each do |player| %>
           <% if !player.new_record?   %>
           <tr>
             <td><%= player.grade%></td>
