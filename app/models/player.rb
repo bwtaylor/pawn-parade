@@ -16,7 +16,7 @@ class Player < ActiveRecord::Base
   validates :school, :presence => true, :length => { :maximum => 80 }
   validates :uscf_id, :allow_blank => true, format: { with: /^\d{8}$/, message: "id must be 8 digits" }
 
-  validates_inclusion_of :grade,  :in => %w(K 1 2 3 4 5 6 7 8 9 10 11 12)
+  validates_inclusion_of :grade,  :in => %w(K 1 2 3 4 5 6 7 8 9 10 11 12 99)
   validates_inclusion_of :gender, :in => %w(M F)
 
   before_validation :upcase

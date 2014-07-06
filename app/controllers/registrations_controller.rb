@@ -28,11 +28,11 @@ class RegistrationsController < ApplicationController
     if params[:player_id]
       player = Player.find(params[:player_id])
       fill_player_details(@registration, player)
-      @return_to ||= player
+      @return_to ||= url_for player
     else
       player = @registration.associate_player
       player.valid?
-      @return_to ||= @tournament
+      @return_to ||= url_for @tournament
     end
 
     if @registration.save

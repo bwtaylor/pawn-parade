@@ -22,6 +22,21 @@ class Tournament < ActiveRecord::Base
     regs.reject{ |r| excluded_statuses.include?(r.status) }.length
   end
 
+  def open_adults?
+    adult_sections = self.sections.select { |section| section.open_adults? }
+    ! adult_sections.empty?
+  end
+
+  def grade_range
+    self.open_adults? ? %w(K 1 2 3 4 5 6 7 8 9 10 11 12 99) : %w(K 1 2 3 4 5 6 7 8 9 10 11 12)
+  end
+
+  def grade_options_for_select
+    options = %w(K 1 2 3 4 5 6 7 8 9 10 11 12).map {|g| [g,g]}
+    options +=  [%w(Adult 99)] if self.open_adults?
+    options
+  end
+
   def to_param
     slug
   end

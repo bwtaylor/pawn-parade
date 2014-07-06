@@ -41,3 +41,8 @@ Given(/^the quota for section "(.*?)" is (\d+)$/) do |section_name, max_quota|
   section.max= max_quota
   section.save!
 end
+
+Then(/^section (.*) should accept adults$/) do |section_slug|
+  section = Section.find_by_tournament_id_and_slug(@tournament.id, section_slug)
+  assert section.open_adults? , "Section grade max is #{section.grade_max} and should be 99"
+end

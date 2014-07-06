@@ -25,9 +25,10 @@ class Section < ActiveRecord::Base
       max_grade = '5' if section.include?('ELEMENTARY')
       max_grade = '8' if section.include?('MIDDLE')
       max_grade = '12' if section.include?('HIGH')
+      max_grade = '99' if section.include?('OPEN')
     end
     min_grade = 'K' if min_grade.nil?
-    max_grade = '12' if min_grade.nil?
+    max_grade = '12' if max_grade.nil?
     self.grade_min ||= (min_grade == 'K' ? 0 : min_grade.to_i)
     self.grade_max ||= (max_grade == 'K' ? 0 : max_grade.to_i)
 
@@ -37,6 +38,10 @@ class Section < ActiveRecord::Base
     excluded_statuses = ['withdraw', 'spam', 'duplicate', 'no show']
     regs = Registration.find_all_by_tournament_id_and_section(self.tournament_id,self.name)
     regs.reject{|r| excluded_statuses.include?(r.status) }.length
+  end
+
+  def open_adults?
+    grade_max.eql?(99)
   end
 
   def full?

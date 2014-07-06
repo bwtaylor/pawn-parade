@@ -32,7 +32,7 @@
         </li>
         <li>
           <%= f.label :grade %>
-          <%= f.select :grade, %w(K 1 2 3 4 5 6 7 8 9 10 11 12), {:include_blank => true} %>
+          <%= f.select :grade, @tournament.grade_options_for_select, {:include_blank => true} %>
         </li>
         <li>
           <%= f.label :gender %>

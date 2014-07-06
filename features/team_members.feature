@@ -37,12 +37,12 @@ Feature: Manage Team List
     And bob@sacastle.org manages blattm
     And the blattm team has no players
     When I navigate to the team page for Blattman
-    And I enter "15365356" into the uscf search field
+    And I enter "12541975" into the uscf search field
     And I click the "Search" button
     Then I should see text matching
       | USCF Searches are better for teams with a value for State |
-     And I should see a list entry with text matching
-      | OKULICZ, NATE (UNR) - 15365356 JTP |
+     And I should see a list entry with text containing
+      | RODRIGUEZ, JUAN J (UNR) - 12541975 JTP |
 
   Scenario: Populate Player Form using USCF ID
     Given team Blattman exists with slug blattm

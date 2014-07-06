@@ -56,10 +56,10 @@
         <tr><th>Grade</th><th>Name</th><th>Rating</th><th>USCF Id</th><th>USCF Status</th></tr>
       </thead>
       <tbody>
-      <% @team.players.sort_by{|p| [ - p.uscf_rating_reg_live, - un_k(p.grade), p.last_name]}.each do |player| %>
+      <% @team.players.sort_by{|p| [ - (p.uscf_rating_reg_live.nil? ? 0 : p.uscf_rating_reg_live), - un_k(p.grade), p.last_name]}.each do |player| %>
           <% if !player.new_record?   %>
           <tr>
-            <td><%= player.grade%></td>
+            <td><%= player.grade %></td>
             <td><%= link_to "#{player.last_name}, #{player.first_name}", edit_player_path(player) %></td>
             <td><%= player.uscf_rating_reg == 0 ? 'UNR' : player.uscf_rating_reg %>
                 <% unless player.uscf_rating_reg_live.nil?  %>
