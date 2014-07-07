@@ -71,6 +71,10 @@ class Registration < ActiveRecord::Base
     self.school='N/A - Adult' if self.grade.eql?('99')
   end
 
+  def grade_display
+    grade.eql?('99') ? 'Adult' : grade
+  end
+
   def guardians
     @guardians = self.guardian_emails.split /[\s,;:]+/ if @guardians.nil? && self.guardian_emails
     @guardians
@@ -189,6 +193,7 @@ class Registration < ActiveRecord::Base
 
   def associate_player
     r = self
+    r.valid?
     player = Player.find_by_uscf_id(r.uscf_member_id) unless r.uscf_member_id.nil? or r.uscf_member_id.empty?
     player = Player.find_by_first_name_and_last_name_and_grade(r.first_name, r.last_name, r.grade) if player.nil?
     player = Player.new(

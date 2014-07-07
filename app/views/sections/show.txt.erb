@@ -1,7 +1,7 @@
 <% @registrations.each do |r| %>
 NAME = <%= "#{r.last_name}, #{r.first_name}" %>
 TEAM = <%= r.player.team.nil? ? team(r.school) : r.player.team.slug %>
-AGE = <%= r.grade %>
+AGE = <%= r.grade.eql?(99) ? '' : r.grade %>
 ID# = <%= r.uscf_member_id %>
 RATING = <%= r.rating %>
 

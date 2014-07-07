@@ -1,7 +1,13 @@
 module SectionsHelper
 
   def k(grade)
-    grade == 0 ? 'K' : "#{grade}"
+    if grade == 0
+      'K'
+    elsif  grade == 99
+      'Adult'
+    else
+      "#{grade}"
+    end
   end
 
 end

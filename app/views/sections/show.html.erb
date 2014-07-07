@@ -19,7 +19,7 @@
     <tr>
       <td><%= link_to "#{p.last_name}, #{p.first_name}", edit_player_path(p) %></td>
       <td><%= p.team.nil? ? r.school : link_to("#{p.team.name}", team_path(p.team.slug)) %></td>
-      <td><%= r.grade %></td>
+      <td><%= r.grade_display %></td>
       <td class='spacer'><%= r.rating == 0 ? 'UNR' : r.rating %></td>
       <% if p.uscf_rating_reg_live != p.uscf_rating_reg %>
         <td class='spacer'>=&gt;</td>
