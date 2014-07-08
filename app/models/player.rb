@@ -83,14 +83,20 @@ class Player < ActiveRecord::Base
       self.first_name = names[1]
       self.state = results[4].content unless self.state
     end
+    logger.info "#{self.last_name}, #{self.first_name} uscf=#{self.uscf_rating_reg} status=#{self.uscf_status} expires=#{self.uscf_expires}"
     self.uscf_rating_reg
   end
 
   def pull_live_rating
+    mock_data = !Rails.env.production? && self.uscf_id.starts_with?('0000')
+    return uscf_id[-3..-1].to_i * 10 if mock_data
     uri = "http://www.uschess.org/msa/MbrDtlTnmtHst.php?#{uscf_id}"
     doc = Nokogiri::HTML(open(uri));
-    cells = doc.css('td.topbar-middle center table tr td table tr:nth-child(2) td b')
-    self.uscf_rating_reg_live = cells[0].content if cells.length >= 1
+    rowlist = doc.css('td.topbar-middle center table tr td table tr').collect{|r| r};
+    header_rownum = rowlist.index { |r| r.content.include?('Reg Rtg') }
+    rating_rownum = header_rownum + rowlist[header_rownum..-1].index{|r| /\d+/ === r.css('td')[2].css('b')[0] }
+    self.uscf_rating_reg_live = rowlist[rating_rownum].css('td b')[0].content
+    logger.info "#{self.last_name}, #{self.first_name} uscf_rating_reg_live=#{self.uscf_rating_reg_live}"
     self.uscf_rating_reg_live
   end
 

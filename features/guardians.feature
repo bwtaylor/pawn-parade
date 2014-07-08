@@ -8,7 +8,7 @@ Feature: Player's Guardians
       And no user mom@example.com exists
       And these players exist:
         | first_name | last_name | school | uscf_id   | grade | gender | guardians |
-        | Adam       | Ant       | West   | 12345678  | 1     | M      | mom@example.com dad@example.com |
+        | Adam       | Ant       | West   | 00005678  | 1     | M      | mom@example.com dad@example.com |
         | Art        | Ant       | West   |           | 2     | M      | mom@example.com                 |
      When I authenticate as dad@example.com
       And I navigate to the dashboard page

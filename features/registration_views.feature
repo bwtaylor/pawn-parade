@@ -14,9 +14,9 @@ Background:
     And registration for the tournament is on
     And the following players have registered for the tournament:
       | first_name | last_name | uscf_id  | grade | gender | school | section                  |
-      | Adam       | Ant       | 00003301 | 1     | M      | North  | Primary (K-3) Rated Open |
-      | Betty      | Boop      | 00003302 | 2     | F      | South  | Primary (K-3) Rated Open |
-      | Charlie    | Chan      | 00003303 | 4     | M      | South  | Elementary (K-5) Rated Open |
+      | Adam       | Ant       | 00003033 | 1     | M      | North  | Primary (K-3) Rated Open |
+      | Betty      | Boop      | 00003044 | 2     | F      | South  | Primary (K-3) Rated Open |
+      | Charlie    | Chan      | 00003055 | 4     | M      | South  | Elementary (K-5) Rated Open |
 
 Scenario: Tournament & Section Counts
   When I navigate to the registration status page for the tournament

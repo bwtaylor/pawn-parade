@@ -74,16 +74,24 @@ class RegistrationsController < ApplicationController
   def change_section
     @tournament = Tournament.find_by_slug(params[:tournament_id])
     player = Player.find(params[:player_id])
+    player.pull_uscf
+    player.pull_live_rating
+    player.save!
     @return_to = params[:return_to]
-    @registration = Registration.find_by_tournament_id_and_player_id(@tournament.id,player.id)
+    registrations = Registration.find_all_by_tournament_id_and_player_id(@tournament.id,player.id)
+    @registration = registrations[0]
+    dup_registrations = registrations[1..-1]
+
+    @registration.sync_from_player
 
     new_section = params[:registration][:section]
     section_changed = new_section.eql?(@registration.section)
     new_status =  params[:registration][:status]
     status_same = new_status.eql?(@registration.status)
     new_status = 'request' if section_changed && status_same
+
     @registration.status = new_section.empty? ? 'withdraw' : new_status
-    @registration.section = new_section
+    @registration.section = @registration.status.eql?('duplicate') ? '' : new_section
 
     if @registration.save
       if @registration.status == 'request'
@@ -94,6 +102,11 @@ class RegistrationsController < ApplicationController
             " in the \"#{@registration.section}\" section of #{@tournament.name}"
       elsif @registration.status == 'withdraw'
         flash[:registered] = "#{@registration.first_name} #{@registration.last_name} has withdrawn from #{@tournament.name}"
+      end
+      dup_registrations.each do |r|
+        r.status = 'duplicate'
+        r.section = ''
+        r.save
       end
       redirect_to @return_to
     else

@@ -5,7 +5,7 @@ format_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'}"
 std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --strict --tags ~@wip"
 %>
 default: <%= std_opts %> features
-wip: --tags @wip:3 --wip features
+wip: --tags @wip:5 --wip features
 broken: <%= format_opts %> --strict --tags @broken features
 unbroken: <%= format_opts %> --strict --tags ~@broken features
 rerun: <%= rerun_opts %> --format rerun --out rerun.txt --strict --tags ~@wip

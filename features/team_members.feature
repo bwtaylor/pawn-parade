@@ -9,7 +9,7 @@ Feature: Manage Team List
       And bob@sacastle.org manages blattm
       And the blattm team has players:
         | first_name | last_name | uscf_id   | grade | gender |
-        | Adam       | Ant       | 12345678  | 1     | M      |
+        | Adam       | Ant       | 00005678  | 1     | M      |
         | Betty      | Boop      |           | 2     | F      |
      When I navigate to the team page for Blattman
      Then I should see content matching
