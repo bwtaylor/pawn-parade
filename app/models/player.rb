@@ -94,10 +94,14 @@ class Player < ActiveRecord::Base
     doc = Nokogiri::HTML(open(uri));
     rowlist = doc.css('td.topbar-middle center table tr td table tr').collect{|r| r};
     header_rownum = rowlist.index { |r| r.content.include?('Reg Rtg') }
-    rating_rownum = header_rownum + rowlist[header_rownum..-1].index{|r| /\d+/ === r.css('td')[2].css('b')[0] }
-    self.uscf_rating_reg_live = rowlist[rating_rownum].css('td b')[0].content
-    logger.info "#{self.last_name}, #{self.first_name} uscf_rating_reg_live=#{self.uscf_rating_reg_live}"
-    self.uscf_rating_reg_live
+    if header_rownum.nil?
+      uscf_rating_reg_live = 0
+    else
+      rating_rownum = header_rownum + rowlist[header_rownum..-1].index{|r| /\d+/ === r.css('td')[2].css('b')[0] }
+      uscf_rating_reg_live = rowlist[rating_rownum].css('td b')[0].content
+    end
+    logger.info "#{last_name}, #{first_name} uscf_rating_reg_live=#{uscf_rating_reg_live}"
+    uscf_rating_reg_live
   end
 
 end
