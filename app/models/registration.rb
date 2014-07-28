@@ -68,7 +68,7 @@ class Registration < ActiveRecord::Base
   end
 
   def school_for_adults
-    self.school='N/A - Adult' if self.grade.eql?('99')
+    school='N/A - Adult' if grade.eql?('99')
   end
 
   def grade_display
@@ -81,8 +81,8 @@ class Registration < ActiveRecord::Base
   end
 
   def upcase
-    self.first_name.upcase!
-    self.last_name.upcase!
+    first_name.strip!.upcase!
+    last_name.strip!.upcase!
   end
 
   def section_status
@@ -127,8 +127,8 @@ class Registration < ActiveRecord::Base
 
   def name_matches_player
     if uscf_player?
-      errors.add(:last_name, 'Last Name must match USCF') unless self.last_name.upcase.eql? self.player.last_name
-      errors.add(:first, 'First Name must be similar to USCF') unless self.player.first_name.include?(self.first_name.upcase)
+      errors.add(:last_name, 'Last Name must match USCF') unless last_name.upcase.eql? player.last_name
+      errors.add(:first, 'First Name must be similar to USCF') unless player.first_name.include?(first_name.upcase)
     end
   end
 
@@ -161,9 +161,9 @@ class Registration < ActiveRecord::Base
 
   def no_duplicates
     # @todo: use guardian email address to improve fn/ln matcher
-    t = self.tournament
-    fn = self.first_name
-    ln = self.last_name
+    t = tournament
+    fn = first_name.strip
+    ln = last_name.strip
     duplicate = Registration.find_by_uscf_member_id_and_tournament_id(self.uscf_member_id, t.id) if self.uscf_member_id
     duplicate ||= Registration.find_by_player_id_and_tournament_id(self.player_id, t.id) unless self.player_id.nil?
     duplicate ||= Registration.find_by_first_name_and_last_name_and_tournament_id(fn,ln,t.id)

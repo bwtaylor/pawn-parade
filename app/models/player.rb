@@ -23,9 +23,9 @@ class Player < ActiveRecord::Base
   after_validation :fetch_rating
 
   def upcase
-    self.first_name.upcase!
-    self.last_name.upcase!
-    self.state.upcase! if self.state
+    first_name.strip!.upcase!
+    last_name.strip!.upcase!
+    state.upcase! if state
   end
 
   def rating(base)
