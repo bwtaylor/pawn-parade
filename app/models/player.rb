@@ -20,7 +20,7 @@ class Player < ActiveRecord::Base
   validates_inclusion_of :gender, :in => %w(M F)
 
   before_validation :upcase
-  after_validation :fetch_rating
+  after_validation :fetch_rating, :team_overrides_school
 
   def upcase
     self.first_name = self.first_name.strip.upcase
@@ -39,6 +39,10 @@ class Player < ActiveRecord::Base
       when Registration
         rating(base.tournament.rating_type)
     end
+  end
+
+  def team_overrides_school
+    self.school = self.team.name if self.team
   end
 
   def fetch_rating
