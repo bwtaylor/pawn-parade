@@ -9,13 +9,12 @@ Feature: Preregister for Tournament
         | slug | name                       | location  | event_date | short_description                                              |
         | rax  | Rackspace Chess Tournament | Rackspace | 2013-10-26 | One-day scholastic tournament with rated and unrated sections. |
       And registration for the tournament is on
+      And user dad@example.com exists with password "password"
+      And I authenticate as dad@example.com
      When I navigate to "/tournaments/rax"
       And I click the "Register" link
      Then I should see content matching
-        | Register for Tournament |
-        | Rackspace Chess Tournament |
-        | 2013-10-26 |
-        | Section |
+        | Dashboard for dad@example.com |
 
   Scenario: Can't Navigate to Tournament Registration Page if Registrations are Off
     Given a tournament exists:

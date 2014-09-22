@@ -20,9 +20,10 @@
     <ul>
       <% upcoming_tournaments.each do |tournament| %>
           <li id='<%= tournament.slug %>'>
-            <%= tournament.name %> (<%= tournament.event_date %>)
-            <%= link_to 'Manage Registrations', team_tournament_path(@team, tournament) %>
-            <%= link_to 'Registration Status', tournament_registrations_path(tournament) %>
+            <h3><%= tournament.name %> (<%= tournament.event_date %>)
+                <%= link_to 'Register Players', team_tournament_path(@team, tournament) %>
+                <%= link_to 'Show Entrants', tournament_registrations_path(tournament) %>
+            </h3>
           </li>
       <% end %>
     </ul>

@@ -51,7 +51,6 @@ class PlayersController < ApplicationController
 
   def create
 
-    #if params[:player]['team_id'].empty?
     if params[:creation_type].eql?('guardian')
       @player = Player.new(params[:player])
       @team = Team.find_by_slug( params[:player][:team_id] )
@@ -60,7 +59,7 @@ class PlayersController < ApplicationController
         @player.school = @team.name
       end
     else
-      @team = Team.find_by_slug( params[:player][:team_id] )
+      @team = Team.find_by_slug( params[:add_to_team] )
       @player = @team.players.build(params[:player])
     end
 

@@ -76,7 +76,7 @@ def page_check_for(page_name, id)
     'player' =>
         lambda{ |name| "Player Page for #{name}" },
     'team' => lambda{ |name| "#{name} Team Roster" },
-    'new player' => lambda{ |name| "Add Player To #{name} Team Roster" }
+    'new player' => lambda{ |name| "Create Player On #{name} Team Roster" }
   }[page_name][id]
 end
 

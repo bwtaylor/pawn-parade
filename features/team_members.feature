@@ -26,7 +26,7 @@ Feature: Manage Team List
       | There are 0 players on this team. |
      When I click the "Add New Player to Team" link
     Then I should see content matching
-      | Player Information: Add a Player to Blattman |
+      | Player Information: Create a Player on Blattman roster |
       | First name |
       | Grade |
       | USCF Id |
