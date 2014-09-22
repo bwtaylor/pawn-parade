@@ -68,7 +68,7 @@ class Registration < ActiveRecord::Base
   end
 
   def school_for_adults
-    school='N/A - Adult' if grade.eql?('99')
+    self.school='N/A - Adult' if grade.eql?('99')
   end
 
   def grade_display
@@ -81,8 +81,8 @@ class Registration < ActiveRecord::Base
   end
 
   def upcase
-    first_name.strip!.upcase!
-    last_name.strip!.upcase!
+    self.first_name = self.first_name.strip.upcase
+    self.last_name = self.last_name.strip.upcase
   end
 
   def section_status

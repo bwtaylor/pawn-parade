@@ -6,7 +6,9 @@ Given(/^no user (.*?) exists$/) do  |user_email|
 end
 
 Given(/^user (.*?) exists with password "(.*?)"$/) do |email_address, starting_password|
-  User.create!(:email=>email_address, :password=>starting_password)
+  user = User.create!(:email=>email_address, :password=>starting_password)
+  user.skip_confirmation!
+  user.save!
 end
 
 Given(/^I have an authenticated session as (.*) with password "(.*)"$/) do |user_email, password|

@@ -1,4 +1,4 @@
-<h1>Add Player</h1>
+<h1>Create Player</h1>
 <% if @team   %>
   <h2>To <%= @team.name %> Team Roster</h2>
 <% end %>
@@ -7,15 +7,14 @@
   html: {multipart: true, class: 'registration_form'} do |f| %>
 
     <fieldset>
-      <legend>Player Information: Add a Player
+      <legend>Player Information: Create a Player
       <% if @team   %>
-          to <%= @team.name %>
+          on <%= @team.name %> roster
       <% end %>
       </legend>
       <% @player.errors.full_messages.each do |msg| %>
           <p><%= msg %></p>
       <% end %>
-      <%= f.hidden_field :team_id, :value => @team.nil? ? nil : @team.slug %>
       <div class="column_block">
         <ol>
           <li>
@@ -27,8 +26,11 @@
             <%= f.text_field :last_name %>
           </li>
           <li>
-            <%= f.label :school %>
-            <%= f.text_field :school %>
+            <%= f.label :date_of_birth, 'Date of Birth'%>
+            <% year = Time.new.year %>
+            <%= f.date_select :date_of_birth,
+                              {:include_blank => true, :default => nil, start_year: year-19, end_year: year-4},
+                              :order => [:month, :day, :year] %>
           </li>
           <li>
             <%= f.label :grade %>
@@ -44,11 +46,12 @@
         <ol>
           <li id="message" />
           <li>
-            <%= f.label :date_of_birth, 'Date of Birth'%>
-            <% year = Time.new.year %>
-            <%= f.date_select :date_of_birth,
-                              {:include_blank => true, :default => nil, start_year: year-19, end_year: year-4},
-                              :order => [:month, :day, :year] %>
+            <%= f.label :team_id, 'School'%>
+            <%= collection_select :player, :team_id, Team.all(:order => :full_name), :slug, :name, {include_blank: true} %>
+          </li>
+          <li>
+            <%= f.label :school, 'School (if not in list)'%>
+            <%= f.text_field :school %>
           </li>
           <li>
             <%= f.label :uscf_id, 'USCF Id'%>
@@ -81,5 +84,12 @@
         </ol>
       </div>
     </fieldset><br class="column-stop"/>
+    <%= hidden_field_tag :creation_type, @team.nil? ? 'guardian' : 'team' %>
+    <%= hidden_field_tag :add_to_team, @team.slug if @team %>
+    <%= hidden_field_tag :guardian, current_user.email unless @team %>
     <%= f.submit 'Create Player' %>
 <% end %>
+
+<p><span class="info">Forgotten your USCF Member Id? Use the <a href="http://www.uschess.org/component/option,com_wrapper/Itemid,181/">USCF Player Lookup</a>.
+Need to purchase a USCF membership to play in the rated sections? Do it <a href="https://secure2.uschess.org/webstore/member.php">online</a> or
+at the tournament.</span> </p>

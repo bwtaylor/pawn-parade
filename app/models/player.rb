@@ -13,7 +13,7 @@ class Player < ActiveRecord::Base
 
   validates :first_name, :presence => true, :length => { :maximum => 40 }
   validates :last_name, :presence => true, :length => { :maximum => 40 }
-  validates :school, :presence => true, :length => { :maximum => 80 }
+  validates :school, :length => { :maximum => 80 }
   validates :uscf_id, :allow_blank => true, format: { with: /^\d{8}$/, message: "id must be 8 digits" }
 
   validates_inclusion_of :grade,  :in => %w(K 1 2 3 4 5 6 7 8 9 10 11 12 99)
@@ -23,9 +23,9 @@ class Player < ActiveRecord::Base
   after_validation :fetch_rating
 
   def upcase
-    first_name.strip!.upcase!
-    last_name.strip!.upcase!
-    state.upcase! if state
+    self.first_name = self.first_name.strip.upcase
+    self.last_name = self.last_name.strip.upcase
+    self.state.upcase! if self.state
   end
 
   def rating(base)
@@ -45,8 +45,7 @@ class Player < ActiveRecord::Base
     changed = self.changed_attributes.has_key? 'uscf_id'
     mock_data = !Rails.env.production? && self.uscf_id.starts_with?('0000')
     if changed && !mock_data && self.uscf_id.length == 8
-      pull_uscf
-      pull_live_rating
+      uscf
     end
   end
 
@@ -59,6 +58,11 @@ class Player < ActiveRecord::Base
 
   def guardian_emails
     self.guardians.collect { |guardian| guardian.email }
+  end
+
+  def uscf
+    pull_uscf
+    pull_live_rating
   end
 
   def pull_uscf
@@ -95,13 +99,13 @@ class Player < ActiveRecord::Base
     rowlist = doc.css('td.topbar-middle center table tr td table tr').collect{|r| r};
     header_rownum = rowlist.index { |r| r.content.include?('Reg Rtg') }
     if header_rownum.nil?
-      uscf_rating_reg_live = 0
+      live_rating = 0
     else
       rating_rownum = header_rownum + rowlist[header_rownum..-1].index{|r| /\d+/ === r.css('td')[2].css('b')[0] }
-      uscf_rating_reg_live = rowlist[rating_rownum].css('td b')[0].content
+      live_rating = rowlist[rating_rownum].css('td b')[0].content
     end
-    logger.info "#{last_name}, #{first_name} uscf_rating_reg_live=#{uscf_rating_reg_live}"
-    uscf_rating_reg_live
+    logger.info "#{last_name}, #{first_name} uscf_rating_reg_live=#{live_rating}"
+    self.uscf_rating_reg_live = live_rating
   end
 
 end

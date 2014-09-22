@@ -1,5 +1,21 @@
 PawnParade::Application.routes.draw do
 
+  if Rails.env.production?
+
+    match '*path' => redirect { | params, req | "https://www.rackspacechess.com/#{params[:path]}" },
+      :constraints => { :protocol => 'http://' }
+
+    match '*path' => redirect { | params, req | "https://www.rackspacechess.com/#{params[:path]}" },
+      :constraints => { :subdomain => '' }
+
+  else
+
+    match '*path' => redirect { | params, req | "http://www.devchess.com:3000/#{params[:path]}" },
+      :constraints => { :subdomain => '' }
+
+  end
+
+
   resources :players, :only => [:create, :new, :index, :show, :edit, :update] do
     member do
       post 'register'
@@ -18,6 +34,7 @@ PawnParade::Application.routes.draw do
       post 'create_player'
       get 'create_player'
       post 'search'
+      post 'freshen_uscf'
     end
   end
 

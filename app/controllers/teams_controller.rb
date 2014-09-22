@@ -55,6 +55,12 @@ class TeamsController < ApplicationController
     player
   end
 
+  def freshen_uscf
+    team_by_slug
+    @team.freshen_uscf
+    render :action => :show
+  end
+
   def search
     team_by_slug
     @upcoming_tournaments = view_context.upcoming_tournaments

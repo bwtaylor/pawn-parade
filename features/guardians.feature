@@ -3,6 +3,7 @@ Feature: Player's Guardians
   I want to specify my guardians via email address
   So that they can edit my record as users
 
+  @wip
   Scenario: Guardians see their Player on their dashboard
     Given user dad@example.com exists with password "password"
       And no user mom@example.com exists

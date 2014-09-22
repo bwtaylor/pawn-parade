@@ -7,6 +7,11 @@
   <% if @team.uscf_affiliate_id %>
     (<a href="http://www.uschess.org/msa/AffDtlMain.php?<%= @team.uscf_affiliate_id %>"><%= @team.uscf_affiliate_id %></a>)
   <% end %>
+  <% if current_user.admin? %>
+    <%= form_tag(controller: "teams", action: "freshen_uscf") do %>
+      <%= submit_tag("Freshen Ratings") %>
+    <% end %>
+  <% end %>
 <p/>
 
 <h2>Upcoming Tournaments</h2>

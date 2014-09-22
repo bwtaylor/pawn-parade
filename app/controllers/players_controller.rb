@@ -51,20 +51,25 @@ class PlayersController < ApplicationController
 
   def create
 
-    if params[:player]['team_id'].empty?
+    #if params[:player]['team_id'].empty?
+    if params[:creation_type].eql?('guardian')
       @player = Player.new(params[:player])
+      @team = Team.find_by_slug( params[:player][:team_id] )
+      if @team
+        @player.team_id = @team.id
+        @player.school = @team.name
+      end
     else
-      @team = Team.find_by_slug( params[:player]['team_id'] )
+      @team = Team.find_by_slug( params[:player][:team_id] )
       @player = @team.players.build(params[:player])
     end
 
     if @player.save and @player.errors.empty?
-      @player.add_guardians(current_user.email) if @team.nil? and @player.guardians.empty?
       flash[:notice] = "Player #{@player.first_name} #{@player.last_name} has been created "
-      if @team
+      if params[:creation_type].eql?('team')
         redirect_to @team
-        #redirect_to @player, :action => :show
       else
+        @player.add_guardians(current_user.email)
         redirect_to @player, :action => :show
       end
     else

@@ -27,8 +27,11 @@
             <%= f.text_field :last_name %>
           </li>
           <li>
-            <%= f.label :school %>
-            <%= f.text_field :school %>
+            <%= f.label :date_of_birth, 'Date of Birth'%>
+            <% year = Time.new.year %>
+            <%= f.date_select :date_of_birth,
+                              {:include_blank => true, :default => nil, start_year: year-19, end_year: year-4},
+                              :order => [:month, :day, :year] %>
           </li>
           <li>
             <%= f.label :grade %>
@@ -44,17 +47,17 @@
         <ol>
           <li id="message" />
           <li>
-            <%= f.label :date_of_birth, 'Date of Birth'%>
-            <% year = Time.new.year %>
-            <%= f.date_select :date_of_birth,
-                              {:include_blank => true, :default => nil, start_year: year-19, end_year: year-4},
-                              :order => [:month, :day, :year] %>
+            <%= f.label :team_id, 'Team'%>
+            <%= collection_select :player, :team_id, Team.all(:order => :full_name), :id, :full_name, {include_blank: true} %>
+          </li>
+          <li>
+            <%= f.label :school, 'School (if team not found)'%>
+            <%= f.text_field :school %>
           </li>
           <li>
             <%= f.label :uscf_id, 'USCF Id'%>
             <%= f.text_field :uscf_id %>
-          </li>
-        </ol>
+          </li>        </ol>
       </div>
       <div class="column_block">
         <ol>

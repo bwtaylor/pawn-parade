@@ -5,7 +5,7 @@
 <h2>Registrations</h2>
 <% unless @registrations.empty? %>
     <ul>
-      <% @registrations.each do |registration| %>
+      <% @registrations.select { |r| !%w(withdraw duplicate).include?(r.status) }.each do |registration| %>
       <li>
         <%= registration.tournament.name %>: <%= registration.get_section.name %>
       </li>

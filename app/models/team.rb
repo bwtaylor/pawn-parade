@@ -9,4 +9,11 @@ class Team < ActiveRecord::Base
     slug
   end
 
+  def freshen_uscf
+    self.players.each do |p|
+      p.uscf
+      p.save
+    end
+  end
+
 end

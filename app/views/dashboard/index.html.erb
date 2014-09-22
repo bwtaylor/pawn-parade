@@ -1,5 +1,7 @@
 <h1>Dashboard for <%= current_user.email %></h1>
 <h2>Teams you Manage:</h2>
+If you are a coach and your team doesn't exist in the system yet, email Bryan Taylor at
+btaylor@rackspace.com to request that it be added.
 <% if @teams.size > 0 %>
     <table>
       <tr>
@@ -33,14 +35,17 @@
 <% end %>
 
 <h2>Upcoming Tournaments</h2>
+To register a player for a tournament, you must first create them with you as the guardian (below) or add them to your
+team roster (above). <br/>
 
 <% unless upcoming_tournaments.empty?  %>
     <ul>
       <% upcoming_tournaments.each do |tournament| %>
           <li>
-            <%= tournament.name %> (<%= tournament.event_date %>)
-            <%= link_to 'Manage Registrations', guardian_show_tournament_path(tournament) %>
-            <%= link_to 'Registration Status', tournament_registrations_path(tournament) %>
+            <h3><%= tournament.name %> (<%= tournament.event_date %>)
+            <%= link_to 'Register Players', guardian_show_tournament_path(tournament) %>
+            <%= link_to 'Show Entrants', tournament_registrations_path(tournament) %>
+            </h3>
           </li>
       <% end %>
     </ul>
@@ -49,6 +54,7 @@
 <% end %>
 
 <h2>Players you are Guardian for:</h2>
+You should be a parent, family member, or legal guardian for these players
 <% if @players.size > 0 %>
     <table class="player-roster grid" border="1">
       <thead>
