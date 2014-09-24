@@ -13,4 +13,8 @@ class User < ActiveRecord::Base
   has_many :guardians, :primary_key => :email, :foreign_key => :email
   has_many :players, :through => :guardians
 
+  def after_password_reset
+    confirm!
+  end
+
 end

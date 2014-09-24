@@ -22,6 +22,12 @@ class Tournament < ActiveRecord::Base
     regs.reject{ |r| excluded_statuses.include?(r.status) }.length
   end
 
+  def total_quota
+    quotas = self.sections.collect{|s| s.max}
+    all_positive = quotas.all? { |m| !m.nil? and m > 0}
+    all_positive ? quotas.inject(:+) : nil
+  end
+
   def open_adults?
     adult_sections = self.sections.select { |section| section.open_adults? }
     ! adult_sections.empty?

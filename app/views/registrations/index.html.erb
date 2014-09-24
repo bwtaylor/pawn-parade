@@ -1,5 +1,5 @@
 <h1>Registrations for <%= @tournament.name %>
-  <%= "[#{@tournament.registration_count} players]" %>
+  <%= "[#{@tournament.registration_count} players" %><%= " of #{@tournament.total_quota} max" if @tournament.total_quota %>]
 </h1>
 
 <p/>
