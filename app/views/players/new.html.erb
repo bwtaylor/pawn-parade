@@ -47,7 +47,7 @@
           <li id="message" />
           <li>
             <%= f.label :team_id, 'School'%>
-            <%= collection_select :player, :team_id, Team.all(:order => :full_name), :slug, :name, {include_blank: true} %>
+            <%= collection_select :player, :team_id, Team.all(:order => :name), :slug, :name, {include_blank: true} %>
           </li>
           <li>
             <%= f.label :school, 'School (if not in list)'%>
