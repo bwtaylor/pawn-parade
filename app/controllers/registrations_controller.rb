@@ -132,6 +132,7 @@ class RegistrationsController < ApplicationController
     r.guardian_emails = p.guardian_emails.join ' '
     r.address = p.address
     r.city = p.city
+    r.state = p.state
     r.zip_code = p.zip_code
     r.player = player
   end
