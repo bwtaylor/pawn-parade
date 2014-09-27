@@ -16,4 +16,8 @@ class Team < ActiveRecord::Base
     end
   end
 
+  def candidates
+    Player.where('team_id is null and school like :search', search: "%#{self.name}%")
+  end
+
 end

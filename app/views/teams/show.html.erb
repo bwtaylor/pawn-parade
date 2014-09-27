@@ -110,4 +110,14 @@
 <% if current_user.admin? %>
   <%= link_to 'Edit', edit_team_path(@team) %> |
 <% end %>
-<%= link_to 'Refresh ' + @team.name, team_path %>
+<%= link_to 'Refresh ' + @team.name, team_path %> <p/>
+
+<% if current_user.admin? %>
+  Candidate Team Matches:
+  <ul>
+    <% @team.candidates.each do |p| %>
+      <li><%= link_to "#{p.last_name}, #{p.first_name} (#{p.grade}) - #{p.school}", edit_player_path(p) %></li>
+    <% end %>
+  </ul>
+<% end %>
+
