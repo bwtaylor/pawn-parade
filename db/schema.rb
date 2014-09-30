@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140921011739) do
+ActiveRecord::Schema.define(:version => 20140930050456) do
 
   create_table "guardians", :force => true do |t|
     t.integer  "player_id",  :null => false
@@ -104,6 +104,22 @@ ActiveRecord::Schema.define(:version => 20140921011739) do
     t.integer  "grade_max"
   end
 
+  create_table "tag_defs", :force => true do |t|
+    t.string   "entity_class", :limit => 32
+    t.string   "tag",          :limit => 32
+    t.string   "meaning",      :limit => 80
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+  end
+
+  create_table "tags", :force => true do |t|
+    t.string   "entity_class", :limit => 32
+    t.integer  "target_id"
+    t.string   "tag",          :limit => 32
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+  end
+
   create_table "team_managers", :force => true do |t|
     t.integer  "user_id",    :null => false
     t.integer  "team_id",    :null => false
@@ -122,6 +138,15 @@ ActiveRecord::Schema.define(:version => 20140921011739) do
     t.string   "uscf_affiliate_id", :limit => 12
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
+  end
+
+  create_table "templates", :force => true do |t|
+    t.string   "name",         :limit => 48
+    t.string   "body",         :limit => 4000
+    t.string   "base_class",   :limit => 32
+    t.string   "content_type", :limit => 32
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
   end
 
   create_table "tournaments", :force => true do |t|
