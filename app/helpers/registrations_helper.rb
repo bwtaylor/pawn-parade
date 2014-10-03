@@ -9,7 +9,10 @@ module RegistrationsHelper
     full_team = "#{r.player.team.full_name if r.player.team}"
     guardian_emails = Guardian.find_all_by_player_id(r.player.id).map{|g| g.email}.join(',')
     team_slug = r.player.team.nil? ? team(r.school) : r.player.team.slug
+
+    mpa = TagDef.find_by_entity_class_and_tag('Player','mpa')
     problem = ''
+    problem += 'nompa' unless mpa.tagged?(r.player_id)
 
     reg_dump = "#{r.id}\t#{r.player_id}\t#{r.section}\t#{r.last_name}, #{r.first_name}\t#{r.player.team.name if r.player.team}\t"
     reg_dump += "#{r.school}\t#{r.grade}\t#{r.uscf_member_id}\t#{r.status}\t#{r.rating}\t#{r.gender}\t#{r.date_of_birth}\t"

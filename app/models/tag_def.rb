@@ -14,11 +14,15 @@ class TagDef < ActiveRecord::Base
   end
 
   def tag!(target_id)
-    Tag.create!(entity_class: self.entity_class, tag: self.tag, target_id: target_id)
+    Tag.create!(entity_class: self.entity_class, tag: self.tag, target_id: target_id) unless tagged?(target_id)
   end
 
   def untag!(target_id)
     Tag.where(entity_class: self.entity_class, tag: self.tag, target_id: target_id).destroy_all
+  end
+
+  def tagged?(target_id)
+    ! Tag.where(entity_class: self.entity_class, tag: self.tag, target_id: target_id).empty?
   end
 
 end

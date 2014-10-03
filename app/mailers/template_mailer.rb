@@ -9,7 +9,7 @@ class TemplateMailer < ActionMailer::Base
     template = Template.find_by_name(template_name)
     email_body = ERB.new(template.body).result(binding)
 
-    mail(to: email, body: email_body, content_type: template.content_type, subject: 'Test', from: 'nospam@rackspacechess.com')
+    mail(to: email, body: email_body, content_type: template.content_type, subject: 'Test', from: 'chessregistration@rackspacechess.com')
 
   end
 
