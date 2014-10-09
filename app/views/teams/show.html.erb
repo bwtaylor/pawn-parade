@@ -1,5 +1,11 @@
 <h2><%= @team.name %> Team Roster</h2>
 
+<b>Team Managers</b><br/>
+
+<% @team.managers.each do |manager| %>
+  <%= "#{manager.email}" %><br/>
+<% end %><p/>
+
 <b><%= @team.full_name %> (<%= @team.name %>)</b>
 <%= @team.city %>, <%= @team.state %>
   <%= " - #{@team.county} County" if @team.county %>
