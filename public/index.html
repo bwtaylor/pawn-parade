@@ -1,35 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-  <title>Rackspace Chess</title>
-      <!--
-                                     ______
-                                 ______________
-                              ___________________
-                           ________________   _____
-                      _________  __________   _______
-                   __________  ____  _____   _________
-                 ___________  ___     ___  ____________
-               ____________  ___     ___  _____________
-             _____________   __     __   _______________
-           ______________    _______    ________________
-          ______________      ___      ________  _____            _
-         ______________               _________ |  __ \          | |
-        ______________                _________ | |__) |__ _  ___| | _____ _ __   __ _  ___ ___
-       ______________                __________ |  _  // _` |/ __| |/ / __| '_ \ / _` |/ __/ _ \
-       _____________                 __________ | | \ \ (_| | (__|   <\__ \ |_) | (_| | (_|  __/
-      ______________     ______      __________ |_|  \_\__,_|\___|_|\_\___/ .__/ \__,_|\___\___|
-      _____________    __________    _______________                      | |
-      _____________   ____________    _____________                       | |
-      ____________   ______________   ____________                        |_|
-      ____________   _______________  __________
-       __________   ________________   _______
-        _________   _________________  _____      Site Development: Bryan Taylor
-         ________  ______________________
-          _______  __________________
-           _____   ____________
-               __
-      -->
+  <title>Castle Chess</title>
   <style type="text/css">
 
 div.page {
@@ -57,12 +29,12 @@ div.right-half {
     text-align: right;
 }
 
-div.raxlogo {
-  width: 21%;
+div.logo {
+  width: 200px;
   height: 55px;
   background-repeat: no-repeat;
   background-position: top left;
-  background-image: url(images/raxlogo.jpg);
+  background-image: url(images/CastleChessLogoSlogan195x55.png);
 }
 
 div.banner-text {
@@ -73,13 +45,14 @@ div.banner-text {
 
 div #centerpiece {
   position: relative;
-  width: 100%;
+  float: right;
+  width: 65%;
   height: 225px;
   vertical-align: bottom;
   display: inline-block;
   background-repeat: no-repeat;
-  background-position: center top;
-  background-image: url(images/pawn900.jpg);
+  background-position: left;
+  background-image: url(images/CastleChessBanner470x225.png);
 }
 
 div.main-content { 
@@ -100,7 +73,7 @@ div.main-right {
 
 div.main-left {
   float: left;
-  width: 20%;
+  width: 195px;
   margin-right: 2%;
 }
 
@@ -133,7 +106,7 @@ div.left-nav {
   margin: 0;
   background-color: #903030;
   color: white;
-  height: 500px;
+  height: 600px;
 }
 
 div.nav-label {
@@ -183,7 +156,7 @@ div.vision-text h3 {
     font-size: 16px;
 }
 
-div.vision-text p {
+div.vision-text p, div.vision-text ul li {
     font: ariel;
     font-size: 16px;
 }
@@ -195,19 +168,20 @@ div.vision-text p {
     <div class="page">
     
     <div class="ceiling">
-      <div class="left-half raxlogo"></div>
-      <div class="banner-text">Rackspace Chess
+      <div class="left-half logo"></div>
+      <div class="banner-text">
       <div class="right-half"><a href="/users/sign_in"><img src="images/sign_in.png" alt="Sign In" height="50"></a></div>
     </div>
-    <div id="centerpiece"></div>
     
+    <div id="centerpiece"></div>
     <div class="main-content">
     
       <div class="main-left">
         <div class="left-nav">
           <div class="nav-label">Chess Resources</div>
           <ul>
-            <li><a href="/tournaments/rax3">Rackspace Chess Tournament</a></li>
+            <li><a href="/tournaments/knights_fall_2014">Knights of Columbus Tournament</a></li>
+			<li><a href="http://www.sacastle.org/activities.html">Read More About Our Activities</a></li>
           </ul>
           <div class="nav-label">Scholastic Chess Tournament Schedules</div>
           <ul>
@@ -218,26 +192,38 @@ div.vision-text p {
           <ul>
             <li><a href="http://www.chesskid.com/learn-how-to-play-chess.html">Video from Chesskid.com</a></li>
             <li><a href="http://www.uschess.org/content/view/7324/28/">US Chess Federation: Learn to Play Chess</a></li>
+			<div class="nav-label">About Us</div>
+			<li><a href="http://www.sacastle.org/staff.html">Find Out More About Our Staff</a></li>
           </ul>
         </div>
       </div>
     
       <div id="vision-wrapper">
       <div id="vision" class="vision-text main-central">
-      <h3>Why Rackspace Supports Scholastic Chess</h3>
-      <p>As a leader in the technology industry, Rackspace wants to build a 
-      culture around chess as a scholastic mind sport, so that our young
-      adults enter the workforce with the technical thinking skills that matter 
-      to us.</p>
-      <p>If a kid can throw a ball well or swim across the pool quickly, 
-      they can, at a young age, join a community that will cultivate and coach 
-      their athletic talents and reward them well with a deserved sense of 
-      accomplishment. The results are spectacular, and our top atheletes can 
-      compete with anyone in the world. </p>
-      <p>Unfortunately, athletic skills aren't what makes a tech company like 
-      Rackspace successful. We need people with logical thinking skills, 
-      problem solving ability, and technical creativity. Chess develops all 
-      these skills.</p>
+      <p>Castle Chess is a nonprofit organization whose mission is to to enrich the logical 
+thinking skills of citizens by promoting mind sports such as chess 
+in scholastic and community settings.</p>
+	  <h3>Upcoming Events</h3>
+	  <p><b>Oct-25 Knights of Columbus Scholastic Chess Tournament</b></p>
+
+	  <p>Castle Chess is hosting the Knights of Columbus scholastic chess tournament at
+	  the Resurrection of the Lord Catholic Parish Hall, 7990 W Military Dr, 
+	  San Antonio, TX 78227. For details, see the 
+	  <a href="https://www.rackspacechess.com/tournaments/knights_fall_2014">registration</a> flyer.</p>
+
+	  <p>We are very exited to conduct a drawing at this event. Top prizes are:</p>
+	  <ul>
+	   <li>A pair of Spurs Season tickets</li>
+	   <li>$500 worth of chess lessons</li>
+	   <li>A gift certificate to Twin Peaks</li>
+	  </ul>
+
+	  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+	  <input type="hidden" name="cmd" value="_s-xclick">
+	  <input type="hidden" name="hosted_button_id" value="KAGXBCW5QUZAQ">
+	  <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+	  <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+	  </form>
       </div>
       </div>
       
@@ -245,11 +231,11 @@ div.vision-text p {
         <div class="image-link">
           <p/>
           <a href="/tournaments/rax3">
-            <img border="0" src="images/rchesslogo250.png" height="319px" width="250px"/>
+            <img border="0" src="images/KofC_250.png" height="250px" width="250px"/>
           </a>
         </div>
-        <div class="headline"><p>3rd Rackspace Scholastic<br/>Chess
-        Tournament<br/>Oct 4, 2014</p></div>
+        <div class="headline"><p>Knights of Columbus<br/>Scholastic Chess
+        Tournament<br/>Oct 25, 2014</p></div>
       </div>
     
     </div>
