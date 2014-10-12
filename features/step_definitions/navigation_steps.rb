@@ -65,7 +65,7 @@ end
 
 page_check = {
     'sign in' => 'Sign in',
-    'home' => 'Why Rackspace Supports Scholastic Chess',
+    'home' => 'Castle Chess is a nonprofit',
     'personal home' => 'Dashboard for',
     'team' => 'Listing teams'
 }
