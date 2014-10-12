@@ -1,16 +1,13 @@
-# SQLite version 3.x
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem 'sqlite3'
+
 development:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: pawn_parade_dev
+  database: <%= "#{ENV['RAILS_DB'] || 'pawn_parade_dev'}" %>
   pool: 5
-  username: root
-  password: mydb
+  username: <%= "#{ENV['DB_USER'] || 'root'}" %>
+  password: <%= "#{ENV['DB_PASSWORD']}" %>
+
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
@@ -18,20 +15,20 @@ test: &test
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: pawn_parade_test
+  database: <%= "#{ENV['RAILS_DB'] || 'pawn_parade_test'}" %>
   pool: 5
-  username: root
-  password: mydb
+  username: <%= "#{ENV['DB_USER'] || 'root'}" %>
+  password: <%= "#{ENV['DB_PASSWORD']}" %>
 
 production:
   adapter: mysql2
-  username: rails_app
-  password: <%= begin IO.read("/home/rails/.rails_db.pwd") rescue "" end %>
-  host: backend01
+  username: <%= "#{ENV['DB_USER'] || 'rails'}" %>
+  password: <%= "#{ENV['DB_PASSWORD']}" %>
+  host: <%= "#{ENV['DB_HOST'] || 'localhost' }" %>
   encoding: utf8
   reconnect: false
-  database: rails_db
+  database: <%= "#{ENV['RAILS_DB'] || 'pawn_parade'}" %>
   pool: 5
-
+  
 cucumber:
   <<: *test
