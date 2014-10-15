@@ -8,17 +8,16 @@ require "bundler/capistrano"
 require "rvm/capistrano"
 
 
-set :deploy_to, "/home/rails/rackspacechess.com"
-set :application, "rackspacechess.com"
+set :deploy_to, ENV['PAWN_PARADE_HOME']
+set :application, ENV['CANONICAL_HOST']
 set :user, "rails"
-# ssh_options[:forward_agent] = true
 set :ssh_options, { :forward_agent => true }
 set :use_sudo, false
 set :default_shell, :bash
 
 set :scm, :git
 set :repository,  "git@github.com:bwtaylor/pawn-parade.git"
-set :branch, 'rax'
+set :branch, 'castle'
 set :scm_verbose, true
 
 role :web, "app01.rackspacechess.com", "app02.rackspacechess.com"

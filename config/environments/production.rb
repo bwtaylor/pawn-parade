@@ -67,7 +67,7 @@ PawnParade::Application.configure do
 
   # Devise needs to know the app url for user emails
   config.action_mailer.default_url_options = { :host => ENV['CANONICAL_HOST'] }
-  config.action_mailer.perform_deliveries = !!(ENV['PERFORM_DELIVERES'] =~ /^(true|on|yes|y|1)$/i)
+  config.action_mailer.perform_deliveries = !!(ENV['PERFORM_DELIVERIES'] =~ /^(true|on|yes|y|1)$/i)
   config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.delivery_method = :smtp
