@@ -1,6 +1,15 @@
 <h1>Player Page for <%= @player.first_name %> <%= @player.last_name%></h1>
 
-<%= button_to 'Edit Player Details', edit_player_path(@player), :method => 'get' %>
+<%= button_to 'Edit Player Details', edit_player_path(@player), :method => 'get' %><p/>
+
+USCF Rating: <%= @player.uscf_rating_reg %> => <%= @player.uscf_rating_reg_live %><br/>
+USCF Status: <%= @player.uscf_status %> (expires: <%= @player.uscf_expires %>)<br/>
+  <% if current_user.admin? %>
+    <%= form_tag(controller: "players", action: "freshen_uscf") do %>
+      <%= submit_tag("Freshen Ratings") %>
+    <% end %>
+  <% end %>
+
 
 <h2>Registrations</h2>
 <% unless @registrations.empty? %>

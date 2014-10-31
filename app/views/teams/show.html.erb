@@ -72,7 +72,8 @@
           <% if !player.new_record?   %>
           <tr>
             <td><%= player.grade %></td>
-            <td><%= link_to "#{player.last_name}, #{player.first_name}", edit_player_path(player) %></td>
+            <td><%= link_to "#{player.last_name}, #{player.first_name}", player %>
+                <%= link_to 'Edit', edit_player_path(player) %></td>
             <td><%= player.uscf_rating_reg == 0 ? 'UNR' : player.uscf_rating_reg %>
                 <% unless player.uscf_rating_reg_live.nil?  %>
                    =&gt; <%= player.uscf_rating_reg_live == 0 ? 'UNR' : player.uscf_rating_reg_live %>

@@ -48,6 +48,13 @@ class PlayersController < ApplicationController
     end
     respond_with(@player)
   end
+  
+  def freshen_uscf
+    @player = Player.find(params[:id])
+    @player.uscf
+    show
+    render :show
+  end
 
   def create
 

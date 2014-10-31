@@ -20,6 +20,7 @@ PawnParade::Application.routes.draw do
   resources :players, :only => [:create, :new, :index, :show, :edit, :update] do
     member do
       post 'register'
+      post 'freshen_uscf'
     end
     resources :tournaments do
       post 'section', to: 'registrations#change_section'

@@ -66,7 +66,7 @@ PawnParade::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   # Devise needs to know the app url for user emails
-  config.action_mailer.default_url_options = { :host => ENV['CANONICAL_HOST'] }
+  config.action_mailer.default_url_options = { :host => ENV['CANONICAL_HOST'] , :protocol => 'https'}
   config.action_mailer.perform_deliveries = !!(ENV['PERFORM_DELIVERIES'] =~ /^(true|on|yes|y|1)$/i)
   config.action_mailer.raise_delivery_errors = true
 
