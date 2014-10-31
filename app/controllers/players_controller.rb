@@ -52,8 +52,8 @@ class PlayersController < ApplicationController
   def freshen_uscf
     @player = Player.find(params[:id])
     @player.uscf
-    show
-    render :show
+    @player.save!
+    redirect_to action: :show, id: params[:id]
   end
 
   def create
