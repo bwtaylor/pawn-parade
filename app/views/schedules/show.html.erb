@@ -1,6 +1,7 @@
 <p/>
 <h2>Chess Schedule: <%= @schedule.name %> </h2>
 <p/>
+<b>Upcoming Tournaments</b>
 <table class="tournament-schedule grid" border="1">
   <thead>
   <tr>
@@ -13,7 +14,43 @@
 
   <tbody>
 <% rownum = 0 %>
-<% @schedule.tournaments.sort_by!{|t| t[:event_date]}.each do |tournament| %>
+<% @schedule.tournaments
+     .select {|t| t[:event_date].to_datetime > Time.now() - 24*60*60 }
+     .sort_by!{|t| t[:event_date]}
+     .each do |tournament| %>
+<% rownum += 1 %>
+<% if rownum%2 == 1 %>
+<tr>
+<% else %>
+<tr class="alt">
+<% end %>
+  <td><%= tournament.event_date %></td>
+  <td><%= link_to "#{tournament.name}", tournament%></td>
+  <td><%= tournament.location %></td>
+  <td><%= tournament.short_description %></td>
+</tr>
+<% end %>
+  </tbody>
+
+</table>
+
+<b>Past Tournaments</b>
+<table class="tournament-schedule grid" border="1">
+  <thead>
+  <tr>
+    <th>Date</th>
+    <th>Tournament</th>
+    <th>Location</th>
+    <th>Description</th>
+  </tr>
+  </thead>
+
+  <tbody>
+<% rownum = 0 %>
+<% @schedule.tournaments
+     .select {|t| t[:event_date].to_datetime <= Time.now() - 24*60*60 }
+     .sort_by!{|t| t[:event_date]}.reverse!
+     .each do |tournament| %>
 <% rownum += 1 %>
 <% if rownum%2 == 1 %>
 <tr>
