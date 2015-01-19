@@ -57,6 +57,13 @@
             <%= f.label :uscf_id, 'USCF Id'%>
             <%= f.text_field :uscf_id %>
           </li>
+          <li>
+            <%= f.label :guardian_emails, 'Guardian Emails'%>
+            <%= f.text_area :guardian_emails, :cols => 32, :rows => 4 %>
+          </li>
+          <li>
+            <span class="info">Users with these email addresses can control player registrations and data. Supports lists.</span>
+          </li>
         </ol>
       </div>
       <div class="column_block">

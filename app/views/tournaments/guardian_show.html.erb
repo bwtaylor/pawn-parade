@@ -1,4 +1,9 @@
-<h2>Registration of Your players for <%= @tournament.name %></h2>
+<h2>Register for <%= @tournament.name %></h2>
+
+To Register: pick a student, assign the section from the dropdown, and hit "Submit".<br/>
+To Withdraw: update the section to empty, and hit "Submit".<p/>
+
+<% hide_fees = (@tournament.fee.nil? or @tournament.fee == 0.00) %>
 
 <table class='tournament-player-sections'>
   <tr>
@@ -6,10 +11,15 @@
     <th class='grade'>Grade</th>
     <th class='rating' colspan='3'>Rating</th>
     <th class='section'>Section</th>
+    <% unless hide_fees %>
+    <th class='fee'>Fee</th>
+    <th class='paid'>Paid</th>
+    <th class='cart_button'></th>
+    <% end %>
   </tr>
   <% @players.sort_by { |p| [ p.last_name, p.first_name] }.each do |player| %>
       <% p = player %>
-      <% r = @player_registrations[p] %>
+      <% r = @player_registrations[p] || Registration.new %>
       <% section_names = @tournament.sections.collect{|section| section.name} %>
       <tr id='<%= p.uscf_id %>' >
         <td><%= p.last_name %>, <%= p.first_name %> </td>
@@ -19,12 +29,11 @@
           <td class='spacer'>=&gt;</td>
           <td class='spacer'><%= p.uscf_rating_reg_live %></td>
         <% else %>
-            <td class='spacer'></td>
-            <td class='spacer'></td>
+          <td class='spacer'></td>
+          <td class='spacer'></td>
         <% end %>
         <td>
-          <% if r.nil? %>
-              <% r = Registration.new %>
+          <% if r.new_record? %>
               <%= form_for r, url: "/tournaments/#{@tournament.slug}/registrations",
                            html: {class: 'section_change_form'} do |f| %>
                   <%= f.select :section, section_names, {:include_blank => true}, :style => 'width: 25em;' %>
@@ -42,8 +51,32 @@
               <% end %>
           <% end %>
         </td>
+        <% unless hide_fees %>
+        <td><%= dollars(r.fee)  %></td>
+        <td><%= dollars(r.paid) %></td>
+        <td>
+          <% unless r.fee.nil? or (r.paid >= r.fee) %>
+              <% sandbox = Rails.env != 'production' %>
+              <% merchant = ENV['PAYPAL_MERCHANT'] %>
+              <% callback_url = ENV['PAYPAL_IPN_CALLBACK_URL'] %>
+              <script async="async"
+                      src="/<%= 'sandbox-' if sandbox %>paypal-button-minicart.min.js?merchant=<%= merchant %>"
+                      data-button="cart"
+                      data-name="<%= p.last_name %>, <%=p.first_name %>: <%= @tournament.name %> [<%= r.id %>]"
+                      data-number="<%= r.id %>"
+                      data-amount="<%= r.fee %>"
+                      data-quantity='1'
+                      data-custom='<%= r.tournament.id %>'
+                      data-transaction_subject='<%= r.tournament.name %>'
+                      data-size='small'
+                      data-callback='<%= callback_url %>'
+                      <%= 'data-env=sandbox' if sandbox %>
+                      data-return="<%= request.original_url %>" >
+              </script>
+          <% end %>
+        </td>
+        <% end %>
       </tr>
   <% end %>
-
-
 </table>
+<p/>

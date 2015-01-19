@@ -14,7 +14,7 @@ Feature: Preregister for Tournament
      When I navigate to "/tournaments/rax"
       And I click the "Register" link
      Then I should see content matching
-        | Dashboard for dad@example.com |
+        | Register for Rackspace Chess Tournament |
 
   Scenario: Can't Navigate to Tournament Registration Page if Registrations are Off
     Given a tournament exists:

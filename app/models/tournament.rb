@@ -1,7 +1,7 @@
 class Tournament < ActiveRecord::Base
 
   attr_accessible :slug, :name, :location, :event_date, :short_description,
-                  :description_asciidoc, :registration, :registration_uri, :rating_type
+                  :description_asciidoc, :registration, :registration_uri, :rating_type, :fee
 
   has_many :registrations, :class_name => 'Registration', :foreign_key => 'tournament_id'
   has_many :sections, :class_name => 'Section', :foreign_key => 'tournament_id'

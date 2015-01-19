@@ -1,12 +1,16 @@
-<p/>
+<% if @schedule.page.nil? %>
 <h2>Chess Schedule: <%= @schedule.name %> </h2>
-<p/>
-<b>Upcoming Tournaments</b>
+<% else %>
+<%= @schedule.page.render %>
+<% end %>
+
+<% if @schedule.future_events.size > 0 %>
+<b>Upcoming Events</b>
 <table class="tournament-schedule grid" border="1">
   <thead>
   <tr>
     <th>Date</th>
-    <th>Tournament</th>
+    <th>Event</th>
     <th>Location</th>
     <th>Description</th>
   </tr>
@@ -14,10 +18,7 @@
 
   <tbody>
 <% rownum = 0 %>
-<% @schedule.tournaments
-     .select {|t| t[:event_date].to_datetime > Time.now() - 24*60*60 }
-     .sort_by!{|t| t[:event_date]}
-     .each do |tournament| %>
+<% @schedule.future_events.sort_by{|t| t[:event_date]}.each do |tournament| %>
 <% rownum += 1 %>
 <% if rownum%2 == 1 %>
 <tr>
@@ -33,13 +34,15 @@
   </tbody>
 
 </table>
+<% end %>
 
-<b>Past Tournaments</b>
+<% if @schedule.past_events.size > 0 %>
+<b>Past Events</b>
 <table class="tournament-schedule grid" border="1">
   <thead>
   <tr>
     <th>Date</th>
-    <th>Tournament</th>
+    <th>Event</th>
     <th>Location</th>
     <th>Description</th>
   </tr>
@@ -47,10 +50,7 @@
 
   <tbody>
 <% rownum = 0 %>
-<% @schedule.tournaments
-     .select {|t| t[:event_date].to_datetime <= Time.now() - 24*60*60 }
-     .sort_by!{|t| t[:event_date]}.reverse!
-     .each do |tournament| %>
+<% @schedule.past_events.sort_by{|t| t[:event_date]}.reverse.each do |tournament| %>
 <% rownum += 1 %>
 <% if rownum%2 == 1 %>
 <tr>
@@ -66,4 +66,4 @@
   </tbody>
 
 </table>
-
+<% end %>

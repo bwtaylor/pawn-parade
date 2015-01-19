@@ -11,13 +11,51 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140930050456) do
+ActiveRecord::Schema.define(:version => 20150115161508) do
 
   create_table "guardians", :force => true do |t|
     t.integer  "player_id",  :null => false
     t.string   "email",      :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "pages", :force => true do |t|
+    t.string   "slug"
+    t.string   "page_type",  :limit => 32
+    t.string   "syntax",     :limit => 24
+    t.string   "content",    :limit => 4000
+    t.string   "source"
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+  end
+
+  create_table "payments", :force => true do |t|
+    t.string   "txn_id",               :limit => 24
+    t.datetime "payment_date"
+    t.decimal  "amount",                               :precision => 6, :scale => 2
+    t.string   "payer_email",          :limit => 64
+    t.string   "first_name",           :limit => 32
+    t.string   "last_name",            :limit => 32
+    t.string   "receiver_email",       :limit => 64
+    t.decimal  "fee",                                  :precision => 6, :scale => 2
+    t.string   "payment_status",       :limit => 24
+    t.string   "transaction_subject",  :limit => 128
+    t.integer  "num_cart_items"
+    t.string   "payer_id",             :limit => 16
+    t.string   "receiver_id",          :limit => 16
+    t.string   "ipn_track_id",         :limit => 16
+    t.string   "verify_sign",          :limit => 64
+    t.string   "address_street",       :limit => 128
+    t.string   "address_city",         :limit => 32
+    t.string   "address_state",        :limit => 6
+    t.string   "address_zip",          :limit => 12
+    t.string   "address_country_code", :limit => 8
+    t.integer  "event_id"
+    t.string   "raw_body",             :limit => 4000
+    t.string   "ipn_status",           :limit => 16
+    t.datetime "created_at",                                                         :null => false
+    t.datetime "updated_at",                                                         :null => false
   end
 
   create_table "players", :force => true do |t|
@@ -72,6 +110,10 @@ ActiveRecord::Schema.define(:version => 20140930050456) do
     t.string   "county",          :limit => 32
     t.string   "gender",          :limit => 1
     t.string   "team_slug",       :limit => 6
+    t.decimal  "fee",                            :precision => 6, :scale => 2
+    t.decimal  "paid",                           :precision => 6, :scale => 2
+    t.string   "payment_method",  :limit => 24
+    t.string   "payment_note",    :limit => 48
   end
 
   create_table "schedule_tournaments", :force => true do |t|
@@ -150,17 +192,18 @@ ActiveRecord::Schema.define(:version => 20140930050456) do
   end
 
   create_table "tournaments", :force => true do |t|
-    t.string   "slug",                                 :null => false
-    t.string   "name",                                 :null => false
-    t.string   "location",                             :null => false
-    t.date     "event_date",                           :null => false
-    t.string   "short_description",                    :null => false
+    t.string   "slug",                                                               :null => false
+    t.string   "name",                                                               :null => false
+    t.string   "location",                                                           :null => false
+    t.date     "event_date",                                                         :null => false
+    t.string   "short_description",                                                  :null => false
     t.string   "description_asciidoc", :limit => 4000
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
+    t.datetime "created_at",                                                         :null => false
+    t.datetime "updated_at",                                                         :null => false
     t.string   "registration",         :limit => 8
     t.string   "registration_uri"
     t.string   "rating_type",          :limit => 16
+    t.decimal  "fee",                                  :precision => 8, :scale => 2
   end
 
   create_table "users", :force => true do |t|

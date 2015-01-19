@@ -15,7 +15,8 @@ def create_tournament(tournament)
       :event_date => Date::strptime(tournament['event_date'], '%Y-%m-%d'),
       :short_description => tournament['short_description'],
       :registration => tournament['registration'],
-      :rating_type => tournament['rating_type']
+      :rating_type => tournament['rating_type'],
+      :fee => tournament['fee']
   )
 end
 

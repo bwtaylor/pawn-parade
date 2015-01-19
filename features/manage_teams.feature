@@ -44,7 +44,7 @@ Feature: Manage Team List
         | first_name | last_name | uscf_id   | grade | gender |
         | Hari       | Tunga     | 15157042  | 4     | M      |
         | Jackson    | Taylor    | 15127606  | 2     | M      |
-      And I have an authenticated session as bob@sacastle.org with password "password1"
+      And I have an authenticated session as "bob@sacastle.org"
       And bob@sacastle.org manages blattm
       And a schedule named "testschedule" exists with tournaments:
           | slug            | name                                 | location                 | event_date | registration | short_description |
@@ -68,11 +68,11 @@ Feature: Manage Team List
       And the blattm team has players:
         | first_name | last_name | uscf_id   | grade | gender |
         | JACKSON    | TAYLOR    |           | 2     | M      |
-      And I have an authenticated session as bob@sacastle.org with password "password1"
+      And I have an authenticated session as bob@sacastle.org with password "testpassword"
       And bob@sacastle.org manages blattm
      When I navigate to the team page for Blattman
      Then I should see content "TAYLOR, JACKSON"
-      And I click the "TAYLOR, JACKSON" link
+      And I click the "Edit" link
       And I enter "15127606" into the player uscf id field
       And I click the "Update" button
       And I navigate to the team page for Blattman

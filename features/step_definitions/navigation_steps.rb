@@ -10,6 +10,8 @@ def page_template(page_name, id)
      'team' => "/teams/#{team_slug_from_name(id)}",
      'edit team' => "/teams/#{team_slug_from_name(id)}/edit",
      'player' => "/players/#{player_id_from_name(id)}",
+     'edit player' => "/players/#{player_id_from_name(id)}/edit",
+     'schedule' => "schedules/#{id}",
      'team registration' => "/teams/#{team_slug_from_name(id.split(/\s+and\s+/)[0])}/tournaments/#{id.split(/\s+and\s+/)[1]}",
      'registration status' => "/tournaments/#{id}/registrations"
    }[page_name]
@@ -42,6 +44,9 @@ When(/^I navigate to the (.*?) page for (.*)$/) do |page_name, id|
   page ? visit(page) : raise("#{page_name} has no testing uri_path template associated with it")
 end
 
+When(/^I click on the "(.*)" link$/) do |link_name|
+  all('a').select {|a| a.text == link_name}.first.click
+end
 
 When(/^I click the "(.*)" (?:link or button|button or link|link|button)$/) do |button_name|
   click_link_or_button(button_name)

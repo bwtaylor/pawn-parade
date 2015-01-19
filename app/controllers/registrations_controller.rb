@@ -129,7 +129,7 @@ class RegistrationsController < ApplicationController
     r.gender = p.gender
     r.date_of_birth = p.date_of_birth
     r.uscf_member_id = p.uscf_id
-    r.guardian_emails = p.guardian_emails.join ' '
+    r.guardian_emails = p.guardian_emails
     r.address = p.address
     r.city = p.city
     r.state = p.state

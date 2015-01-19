@@ -17,4 +17,3 @@ Scenario: See the list of schedules
         | Northside ISD |
         | San Antonio   |
 
-

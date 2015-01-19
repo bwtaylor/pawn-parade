@@ -1,5 +1,8 @@
 <h2>Sign up</h2>
 
+Enter an email and a password. You will receive a <b>confirmation email message</b> at the address you enter.
+Follow the instructions in the email to validate your account.  <p/>
+
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
 
@@ -13,6 +16,6 @@
   <%= f.password_field :password_confirmation %></div>
 
   <div><%= f.submit "Sign up" %></div>
-<% end %>
+<% end %><p/>
 
 <%= render "devise/shared/links" %>

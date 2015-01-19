@@ -17,6 +17,11 @@ Given(/^I have an authenticated session as (.*) with password "(.*)"$/) do |user
   login_as(user, :scope=>:user)
 end
 
+Given(/^I have an authenticated session as "(.*)"$/) do |user_email|
+  password = 'testpassword'
+  step "I have an authenticated session as #{user_email} with password \"#{password}\""
+  end
+
 Given(/^I authenticate as (.*)$/) do |user_email|
   user = User.find_by_email(user_email)
   login_as(user, :scope=>:user)

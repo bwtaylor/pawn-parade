@@ -1,8 +1,5 @@
 <h2>Sign in</h2>
-You must Sign In to Register for a Tournament. If you don't have credentials, click "Sign up" below.
-<h4>Email confirmation is retroactively required of all accounts. </h4>If you have trouble logging in, click
-"Didn't receive confirmation instructions?" below to resend username validation. <br/>
-Automated password resets are also available now.
+You must Sign In to register for an event.
 
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   <div><%= f.label :email %><br />
@@ -17,5 +14,11 @@ Automated password resets are also available now.
 
   <div><%= f.submit "Sign in" %></div>
 <% end %>
+
+If you don't have credentials, then
+<a href="/users/sign_up"><img src="/images/sign_up.png" alt="Sign up"/></a>.
+<h4>All user accounts now require email confirmation. </h4>If you have trouble logging in, click
+"Didn't receive confirmation instructions?" below to resend username validation. <br/>
+Automated password resets are also available now. <p/>
 
 <%= render "devise/shared/links" %>

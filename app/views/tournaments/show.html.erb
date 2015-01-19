@@ -4,7 +4,7 @@
 <h1> <%= @tournament.name %>
   <div class="registration-link">
     <% if @tournament.registration == 'on' %>
-      <%= link_to 'Register',  '/users/sign_in', :class => 'btn', :id => 'Register' %>
+      <%= link_to 'Register',  "/tournaments/#{@tournament.slug}/guardian_show", :class => 'btn', :id => 'Register' %>
     <% end %>
   </div>
 </h1>

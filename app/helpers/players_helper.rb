@@ -4,4 +4,11 @@ module PlayersHelper
     grade == 'K' ? 0 : grade.to_i
   end
 
+  def freshen_ratings
+    Player.all.each do |p|
+      p.uscf
+      p.save!
+    end
+  end
+
 end

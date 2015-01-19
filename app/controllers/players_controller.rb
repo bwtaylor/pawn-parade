@@ -22,11 +22,13 @@ class PlayersController < ApplicationController
 
   def edit
     @player = Player.find(params[:id])
+    @player.add_guardians params[:guardian_emails]
   end
 
   def update
     @player = Player.find(params[:id])
-    @player.update_attributes(params[:player])
+    @player.update_attributes(params[:player].except(:guardian_emails))
+    @player.add_guardians(params[:player]['guardian_emails'])
     if @player.save and @player.errors.empty?
       flash[:notice] = "Player #{@player.first_name} #{@player.last_name} has been updated "
       if @player.team.nil?
@@ -59,7 +61,7 @@ class PlayersController < ApplicationController
   def create
 
     if params[:creation_type].eql?('guardian')
-      @player = Player.new(params[:player])
+      @player = Player.new(params[:player].except(:guardian_emails))
       @team = Team.find_by_slug( params[:player][:team_id] )
       if @team
         @player.team_id = @team.id
@@ -67,10 +69,11 @@ class PlayersController < ApplicationController
       end
     else
       @team = Team.find_by_slug( params[:add_to_team] )
-      @player = @team.players.build(params[:player])
+      @player = @team.players.build(params[:player].except(:guardian_emails))
     end
 
     if @player.save and @player.errors.empty?
+      @player.add_guardians(params[:player]['guardian_emails'])
       flash[:notice] = "Player #{@player.first_name} #{@player.last_name} has been created "
       if params[:creation_type].eql?('team')
         redirect_to @team

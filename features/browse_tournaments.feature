@@ -13,7 +13,7 @@ Scenario: See upcoming tournaments on a schedule
    When the date is "2013-7-7"
     And I navigate to "/schedules/testschedule"
    Then I should see the tournament-schedule table matching
-     | Date       | Tournament                           | Location                 | Description                                                    |
+     | Date       | Event                           | Location                 | Description                                                    |
      | 2013-09-14 | Bricscoe MS Scholastic Tournament    | Briscoe Middle School    | One-day scholastic tournament with rated and unrated sections. |
      | 2013-09-28 | John Jay Scholastic Chess Tournament | John Jay High School     | One day, 5SS, G/30 d5, in 4 sections                           |
      | 2013-10-19 | Fall-2013 Harmony Hills Tournament   | Harmony Hills Elementary | 5-SS, Rd. 1 and 2 G/90, Rds. 3-5 30/90 S/D1.                   |

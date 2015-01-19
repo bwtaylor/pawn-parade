@@ -20,6 +20,40 @@ Feature: Player's Guardians
      Then I should see text "ANT, ART"
       And I should see text "ANT, ADAM"
 
+  Scenario: Guardians can find their Players via Registration Links
+    Given I have an authenticated session as "dad@example.com"
+      And these players exist:
+        | first_name | last_name | school | uscf_id   | grade | gender | guardians |
+        | Adam       | Ant       | West   | 00005678  | 1     | M      | mom@example.com dad@example.com |
+        | Art        | Ant       | West   |           | 2     | M      | dad@example.com                 |
+        | Alice      | Ant       | West   |           | 2     | M      | mom@example.com                 |
+      And a tournament exists:
+        | slug | name                       | location     | event_date | short_description                                              |
+        | rax  | Rackspace Chess Tournament | Rackspace    | 2013-10-26 | One-day scholastic tournament with rated and unrated sections. |
+      And the date is "2013-7-7"
+      And registration for the tournament is on
+     When I navigate to the dashboard page
+      And I click on the "Register Players" link
+     Then I should see content matching
+        | Register for Rackspace Chess Tournament |
+        | ANT, ADAM                               |
+        | ANT, ART                                |
+      And I should not see content "ANT, ALICE"
+  @wip
+  Scenario: Guardians can add to a Player's Guardian List
+    Given I have an authenticated session as "dad@example.com"
+      And these players exist:
+        | first_name | last_name | school | uscf_id   | grade | gender | guardians       |
+        | Adam       | Ant       | West   | 00005678  | 1     | M      | dad@example.com |
+     When I navigate to the edit player page for Adam Ant
+      And I enter the following:
+        | player_guardian_emails | dad@example.com mom@example.com |
+      And I click the "Update" button
+      And I logout as dad@example.com
+      And I sign up and login as mom@example.com
+      And I navigate to the dashboard page
+     Then I should see text "ANT, ADAM"
+
 # This is failing b/c there is js to submit the form after the Tournament is selected
 @broken
 Scenario: Guardians Player pages show Tournaments

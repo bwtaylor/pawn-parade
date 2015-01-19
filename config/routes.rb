@@ -53,4 +53,6 @@ PawnParade::Application.routes.draw do
     resources :sections, :only => [:index, :show, :edit, :update]
   end
 
+  post '/payment', to: 'payments#paypal_ipn_callback'
+
 end

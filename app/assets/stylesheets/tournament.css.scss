@@ -89,3 +89,28 @@ table.tournament-player-sections tr th.player  {width: 15%;}
 table.tournament-player-sections tr th.grade   {width: 5%;}
 table.tournament-player-sections tr th.rating  {width: 5%}
 
+#PPMiniCart ul {
+//  height: auto !important;
+}
+
+#PPMiniCart li .quantity {
+//  visibility: collapse !important;
+}
+
+#PPMiniCart li a {
+//  width: 400px !important ;
+//  color: $lightred !important ;
+}
+
+#PPMiniCart li a span {
+//  display: none  !important;
+}
+
+#PPMiniCart form {
+//  right: 185px  !important ;
+//  width: 500px  !important ;
+}
+
+#PPMiniCart p .shipping {
+//  visibility: collapse !important;
+}

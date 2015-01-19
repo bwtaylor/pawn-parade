@@ -84,5 +84,10 @@ module RegistrationsHelper
     freshen_uscf(regs)
   end
 
+  def dollars(amount)
+    amount_with_cents = number_with_precision(amount, :precision => 2)
+    amount_with_cents.nil? ? '' : "$#{amount_with_cents}"
+  end
+
 
 end

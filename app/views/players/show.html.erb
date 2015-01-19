@@ -1,3 +1,4 @@
+<% require 'uri' %>
 <h1>Player Page for <%= @player.first_name %> <%= @player.last_name%></h1>
 
 <%= button_to 'Edit Player Details', edit_player_path(@player), :method => 'get' %><p/>
@@ -15,8 +16,31 @@ USCF Status: <%= @player.uscf_status %> (expires: <%= @player.uscf_expires %>)<b
 <% unless @registrations.empty? %>
     <ul>
       <% @registrations.select { |r| !%w(withdraw duplicate).include?(r.status) }.each do |registration| %>
+      <% hide_fees = (registration.tournament.fee.nil? or registration.tournament.fee == 0.00) %>
       <li>
         <%= registration.tournament.name %>: <%= registration.get_section.name %>
+        <% unless hide_fees %>
+          <%= "(fee=#{dollars(registration.fee)}, paid=#{dollars(registration.paid)})" %>
+            <% unless registration.fee.nil? or (registration.paid >= registration.fee) %>
+                <% sandbox = Rails.env != 'production' %>
+                <% merchant = ENV['PAYPAL_MERCHANT'] %>
+                <% callback_url = ENV['PAYPAL_IPN_CALLBACK_URL'] %>
+                <script async="async"
+                        src="/<%= 'sandbox-' if sandbox %>paypal-button-minicart.min.js?merchant=<%= merchant %>"
+                        data-button="cart"
+                        data-name="<%= @player.last_name %>, <%= @player.first_name %>: <%= registration.tournament.name %> [<%= registration.id %>]"
+                        data-number="<%= registration.id %>"
+                        data-amount="<%= registration.fee %>"
+                        data-quantity='1'
+                        data-custom='<%= registration.tournament.id %>'
+                        data-transaction_subject='<%= registration.tournament.name %>'
+                        data-size='small'
+                        data-callback='<%= callback_url %>'
+                        <%= 'data-env=sandbox' if sandbox %>
+                        data-return="<%= request.original_url %>" >
+                </script>
+            <% end %>
+      <% end %>
       </li>
       <% end %>
     </ul>
@@ -24,7 +48,7 @@ USCF Status: <%= @player.uscf_status %> (expires: <%= @player.uscf_expires %>)<b
     This player is not registered for any tournaments.
 <% end %>
 
-<h2>Register for Tournaments</h2>
+<h2>Register for Event</h2>
 
 <div class="player_tournament_registration">
 <% unless @tournaments.empty? %>

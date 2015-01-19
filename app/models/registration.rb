@@ -19,7 +19,11 @@ class Registration < ActiveRecord::Base
                   :zip_code,
                   :county,
                   :gender,
-                  :rating
+                  :rating,
+                  :fee,
+                  :paid,
+                  :payment_method,
+                  :payment_note
 
 
   belongs_to :tournament, :foreign_key => 'tournament_id' #, :class_name => 'Tournament'
@@ -36,6 +40,7 @@ class Registration < ActiveRecord::Base
 
   validates_inclusion_of :grade,  :in => Registration::GRADE_LIST
   validates_inclusion_of :gender, :in => %w(M F)
+  validates_inclusion_of :payment_method, :allow_nil => true, :in => %w(cash check paypal)
 
   validates_inclusion_of :shirt_size, :allow_nil => true,
     :in => ['Youth Small (6-8)', 'Youth Medium (10-12)', 'Youth Large (14-16)', 'Adult Small', 'Adult Medium', 'Adult Large', 'Adult XL']
@@ -44,12 +49,12 @@ class Registration < ActiveRecord::Base
       'request',                 # submitted through website, needing admin approval
       'waiting list',            # section is full
       'duplicate',               # automated or manually discarded as duplicate
-      'preregistered',           # approved preregistration request, spot is held for player
+      'preregistered',           # approved preregistration request, spot is held for player, may need to pay
       'uscf membership expired', # request for rated section, but USCF membership is expired: must renew by tny time or withdraw
       'uscf id needed',          # request for rated section, but no valid USCF member id provided: provide or withdraw
       'uscf problem',            # data provided to enable renewal/purchase of USCF membership has a problem
       'spam',                    # moderator discarded as junk
-      'registered',              # checked in at tny, will play in section
+      'registered',              # paid, checked in, no USCF issues, will be paired
       'no show',                 # preregistered by has not check in by end of check in
       'withdraw'                 # voluntarily withdraw, before or after playing
   ]
@@ -87,12 +92,14 @@ class Registration < ActiveRecord::Base
 
   def section_status
     case self.status
-    when 'withdraw'
-    when 'duplicate'
-    when 'spam'
+    when 'withdraw', 'duplicate', 'spam'
+        self.fee = 0.00
     when 'no show'
     else
-        errors.add(:section, 'Section can\'t be blank.') if self.section.nil? or self.section.empty?
+      self.fee = self.tournament.fee
+      self.fee ||= 0.00
+      self.paid ||= 0.00
+      errors.add(:section, 'Section can\'t be blank.') if self.section.nil? or self.section.empty?
     end
   end
 

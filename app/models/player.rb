@@ -54,14 +54,16 @@ class Player < ActiveRecord::Base
   end
 
   def add_guardians(guardian_emails)
-    email_list = guardian_emails.kind_of?(Array) ? guardian_emails : guardian_emails.split( /[\s,;:]+/ )
-    email_list.each do |email|
-      self.guardians.build(:email=>email, :player_id=>self.id).save! if Guardian.find_by_email_and_player_id(email, self.id).nil?
+    unless guardian_emails.nil?
+      email_list = guardian_emails.kind_of?(Array) ? guardian_emails : guardian_emails.split( /[\s,;:]+/ )
+      email_list.each do |email|
+        self.guardians.build(:email=>email, :player_id=>self.id).save! if Guardian.find_by_email_and_player_id(email, self.id).nil?
+      end
     end
   end
 
   def guardian_emails
-    self.guardians.collect { |guardian| guardian.email }
+    self.guardians.collect { |guardian| guardian.email }.join("\n")
   end
 
   def uscf
