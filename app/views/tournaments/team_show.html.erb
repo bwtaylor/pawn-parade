@@ -23,7 +23,7 @@
     <% sum_fees += r.fee unless r.fee.nil? %>
     <% sum_paid += r.paid unless r.fee.nil? %>
     <tr id='<%= p.uscf_id %>' >
-      <td><%= p.last_name %>, <%= p.first_name %> </td>
+      <td><%= link_to "#{player.last_name}, #{player.first_name}", player %></td>
       <td><%= p.grade %></td>
       <td class='spacer'><%= p.uscf_rating_reg == 0 ? 'UNR' : p.uscf_rating_reg%></td>
       <% if p.uscf_rating_reg_live != p.uscf_rating_reg %>
@@ -55,7 +55,7 @@
       <% unless hide_fees %>
           <td><%= dollars(r.fee)  %></td>
           <td><%= dollars(r.paid) %></td>
-          <td>                                                                     p
+          <td>
             <% unless r.fee.nil? or (r.paid >= r.fee) %>
                 <% sandbox = Rails.env != 'production' %>
                 <% merchant = ENV['PAYPAL_MERCHANT'] %>
@@ -67,8 +67,7 @@
                         data-number="<%= r.id %>"
                         data-amount="<%= r.fee %>"
                         data-quantity='1'
-                        data-custom='<%= r.tournament.id %>'
-                        data-transaction_subject='<%= r.tournament.name %>'
+                        data-custom='<%= "Event Entry: #{r.tournament.name} [#{r.tournament.id}]" %>'
                         data-size='small'
                         data-callback='<%= callback_url %>'
                         <%= 'data-env=sandbox' if sandbox %>

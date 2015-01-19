@@ -22,7 +22,7 @@ To Withdraw: update the section to empty, and hit "Submit".<p/>
       <% r = @player_registrations[p] || Registration.new %>
       <% section_names = @tournament.sections.collect{|section| section.name} %>
       <tr id='<%= p.uscf_id %>' >
-        <td><%= p.last_name %>, <%= p.first_name %> </td>
+        <td><%= link_to "#{player.last_name}, #{player.first_name}", player %></td>
         <td><%= p.grade %></td>
         <td class='spacer'><%= p.uscf_rating_reg == 0 ? 'UNR' : p.uscf_rating_reg%></td>
         <% if p.uscf_rating_reg_live != p.uscf_rating_reg %>
@@ -66,8 +66,7 @@ To Withdraw: update the section to empty, and hit "Submit".<p/>
                       data-number="<%= r.id %>"
                       data-amount="<%= r.fee %>"
                       data-quantity='1'
-                      data-custom='<%= r.tournament.id %>'
-                      data-transaction_subject='<%= r.tournament.name %>'
+                      data-custom='<%= "Event Entry: #{r.tournament.name} [#{r.tournament.id}]" %>'
                       data-size='small'
                       data-callback='<%= callback_url %>'
                       <%= 'data-env=sandbox' if sandbox %>
@@ -80,3 +79,6 @@ To Withdraw: update the section to empty, and hit "Submit".<p/>
   <% end %>
 </table>
 <p/>
+<%= button_to 'Create Player', new_player_path, :method => 'get' %>
+
+

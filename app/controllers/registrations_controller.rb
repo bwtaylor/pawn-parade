@@ -59,7 +59,7 @@ class RegistrationsController < ApplicationController
 
   def index
     @tournament = Tournament.find_by_slug(params[:tournament_id])
-    reject = ['duplicate', 'withdraw', 'spam']
+    reject = %w(duplicate withdraw spam)
     @registrations = @tournament.registrations.reject { |r| reject.include? r.status }
     respond_to do |format|
       format.html

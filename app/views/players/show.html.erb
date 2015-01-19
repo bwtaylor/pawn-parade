@@ -32,8 +32,7 @@ USCF Status: <%= @player.uscf_status %> (expires: <%= @player.uscf_expires %>)<b
                         data-number="<%= registration.id %>"
                         data-amount="<%= registration.fee %>"
                         data-quantity='1'
-                        data-custom='<%= registration.tournament.id %>'
-                        data-transaction_subject='<%= registration.tournament.name %>'
+                        data-custom='<%= "Event Entry: #{registration.tournament.name} [#{registration.tournament.id}]" %>'
                         data-size='small'
                         data-callback='<%= callback_url %>'
                         <%= 'data-env=sandbox' if sandbox %>
