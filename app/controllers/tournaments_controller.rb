@@ -23,6 +23,7 @@ class TournamentsController < ApplicationController
   def group_show(players)
     @tournament = Tournament.find_by_slug(params[:id])
     @registrations = Registration.where(player_id: players.map{|p| p.id}).where(tournament_id: @tournament.id)
+    @registrations.select!{|r| ! %w(duplicate spam withdraw).include? r.status }
     @player_registrations = Hash.new
     @registrations.each {|r| @player_registrations[r.player]=r}
   end

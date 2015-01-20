@@ -53,6 +53,8 @@ class PaymentsController < ApplicationController
       puts "PAID: #{r.first_name} #{r.last_name} for #{paid}"
       r.paid ||= 0.00
       r.paid += paid
+      r.payment_method='paypal'
+      r.status = 'registered' if %w(request preregistered).include?(r.status)
       r.save!
     end
   end
