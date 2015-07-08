@@ -65,7 +65,7 @@ You should be a parent, family member, or legal guardian for these players
       <% @players.each do |player| %>
           <% if !player.new_record?   %>
               <tr>
-                <td><%= player.grade%></td>
+                <td><%= player.grade_display%></td>
                 <td>
                   <%= link_to "#{player.last_name}, #{player.first_name}", player %>
                   <%= link_to 'Edit', edit_player_path(player) %>

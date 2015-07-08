@@ -29,12 +29,12 @@
             <%= f.label :date_of_birth, 'Date of Birth'%>
             <% year = Time.new.year %>
             <%= f.date_select :date_of_birth,
-                              {:include_blank => true, :default => nil, start_year: year-19, end_year: year-4},
+                              {:include_blank => true, :default => nil, start_year: year-4, end_year: year-80},
                               :order => [:month, :day, :year] %>
           </li>
           <li>
             <%= f.label :grade %>
-            <%= f.select :grade, %w(K 1 2 3 4 5 6 7 8 9 10 11 12), {:include_blank => true} %>
+            <%= f.select :grade, Registration::GRADE_OPTIONS_FOR_SELECT, {:include_blank => true} %>
           </li>
           <li>
             <%= f.label :gender %>

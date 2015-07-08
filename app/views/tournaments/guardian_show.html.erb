@@ -23,7 +23,7 @@ To Withdraw: update the section to empty, and hit "Submit".<p/>
       <% section_names = @tournament.sections.collect{|section| section.name} %>
       <tr id='<%= p.uscf_id %>' >
         <td><%= link_to "#{player.last_name}, #{player.first_name}", player %></td>
-        <td><%= p.grade %></td>
+        <td><%= p.grade_display %></td>
         <td class='spacer'><%= p.uscf_rating_reg == 0 ? 'UNR' : p.uscf_rating_reg%></td>
         <% if p.uscf_rating_reg_live != p.uscf_rating_reg %>
           <td class='spacer'>=&gt;</td>

@@ -36,7 +36,7 @@ class Registration < ActiveRecord::Base
   validates :uscf_member_id, :allow_blank => true, format: { with: /^\d{8}$/, message: "id must be 8 digits" }
 
   GRADE_LIST = %w(K 1 2 3 4 5 6 7 8 9 10 11 12 99)
-  GRADE_OPTIONS_FOR_SELECT= %w(K 1 2 3 4 5 6 7 8 9 10 11 12).map {|g| [g,g]} + ['99','Adult']
+  GRADE_OPTIONS_FOR_SELECT= %w(K 1 2 3 4 5 6 7 8 9 10 11 12).map {|g| [g,g]} + [%w(Adult 99)]
 
   validates_inclusion_of :grade,  :in => Registration::GRADE_LIST
   validates_inclusion_of :gender, :in => %w(M F)

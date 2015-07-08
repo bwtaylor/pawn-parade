@@ -45,6 +45,10 @@ class Player < ActiveRecord::Base
     self.school = self.team.name if self.team
   end
 
+  def grade_display
+    grade.eql?('99') ? 'Adult' : grade
+  end
+
   def fetch_rating
     changed = self.changed_attributes.has_key? 'uscf_id'
     mock_data = !Rails.env.production? && self.uscf_id.starts_with?('0000')

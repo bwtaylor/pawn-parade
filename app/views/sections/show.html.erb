@@ -1,6 +1,9 @@
 <h2>Section <%= @section.name %> Registration for <%= @tournament.name %></h2>
 
-<%= link_to 'Back to Tournament' , @tournament %>
+Back to:
+<%= link_to 'Flyer' , @tournament %>
+<%= link_to 'Registrations', tournament_registrations_path(@tournament) %>
+<%= link_to 'Sections', tournament_sections_path(@tournament) %>
 <p/>
 
 <% section_names = @tournament.sections.collect{|section| section.name} %>
