@@ -7,7 +7,7 @@ Back to:
 <p/>
 
 <% section_names = @tournament.sections.collect{|section| section.name} %>
-<table class='=section'>
+<table class='section'>
   <tr>
     <th class='player'>Player</th>
     <th class='team'>Team/School</th>
@@ -15,6 +15,10 @@ Back to:
     <th class='rating' colspan='3'>Rating</th>
     <th class='section'>Section</th>
     <th class='status'>Status</th>
+    <th/>
+    <th class='paid'>Paid</th>
+    <th class='payment_method'>Payment Method</th>
+    <th class='payment_note'>Payment Note</th>
   </tr>
 
   <% @registrations.sort_by { |r| [ r.last_name, r.first_name] }.each do |r| %>
@@ -38,6 +42,9 @@ Back to:
           <%= hidden_field_tag :return_to, tournament_section_path(@tournament, @section) %>
           <td><%= f.submit 'Submit' %></td>
       <% end %>
+      <td><%= dollars(r.paid) %></td>
+      <td><%= r.payment_method %></td>
+      <td><%= r.payment_note %></td>
     </tr>
   <% end %>
 </table>
