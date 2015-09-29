@@ -1,7 +1,10 @@
 <h1>Dashboard for <%= current_user.email %></h1>
+<% if current_user.try(:admin?) %>
+    <%= button_to 'Create Tournament', new_tournament_path, :method => 'get' %>
+<% end %>
 <h2>Teams you Manage:</h2>
 If you are a coach and your team doesn't exist in the system yet, email Bryan Taylor at
-btaylor@rackspace.com to request that it be added.
+bryan.taylor@sacastle.org to request that it be added.
 <% if @teams.size > 0 %>
     <table>
       <tr>

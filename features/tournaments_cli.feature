@@ -20,7 +20,7 @@ Feature: Manage Tournaments via CLI
     3 tournaments found
     """
 
-  Scenario: Create new tournament listing
+  Scenario: Create new tournament listing via CLI
     Given the tournament with slug "briscoe-fall-2013" does not exist
     When I run `pawn tournament create Briscoe-fall-2013 "Bricscoe MS Scholastic Tournament" "Briscoe Middle School" 2013-9-14 "One-day scholastic tournament with rated and unrated sections."`
     Then the output should contain "tournament briscoe-fall-2013 created"

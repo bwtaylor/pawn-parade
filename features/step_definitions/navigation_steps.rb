@@ -2,7 +2,8 @@ pages = {
     'home' => '/',
     'sign in' => '/user/sign_in',
     'team' => '/teams',
-    'dashboard' => '/dashboard/index'
+    'dashboard' => '/dashboard/index',
+    'create tournament' => '/tournaments/new'
 }
 
 def page_template(page_name, id)
@@ -13,7 +14,8 @@ def page_template(page_name, id)
      'edit player' => "/players/#{player_id_from_name(id)}/edit",
      'schedule' => "schedules/#{id}",
      'team registration' => "/teams/#{team_slug_from_name(id.split(/\s+and\s+/)[0])}/tournaments/#{id.split(/\s+and\s+/)[1]}",
-     'registration status' => "/tournaments/#{id}/registrations"
+     'registration status' => "/tournaments/#{id}/registrations",
+     'edit tournament' => "/tournaments/#{id}/edit"
    }[page_name]
 end
 
@@ -70,7 +72,7 @@ end
 
 page_check = {
     'sign in' => 'Sign in',
-    'home' => 'Castle Chess is a nonprofit',
+    'home' => 'Castle Chess is a 501(c)(3) nonprofit',
     'personal home' => 'Dashboard for',
     'team' => 'Listing teams'
 }

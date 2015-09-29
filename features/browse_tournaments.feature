@@ -1,5 +1,5 @@
 
-Feature: Browse Tournaments
+Feature: Browse Tournament Schedules
   As a web user
   I want to browse a chess tournament schedule
   So that I can discover tournaments I may be interested in

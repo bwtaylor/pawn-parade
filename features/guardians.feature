@@ -39,7 +39,7 @@ Feature: Player's Guardians
         | ANT, ADAM                               |
         | ANT, ART                                |
       And I should not see content "ANT, ALICE"
-  @wip
+
   Scenario: Guardians can add to a Player's Guardian List
     Given I have an authenticated session as "dad@example.com"
       And these players exist:

@@ -6,8 +6,11 @@ class Tournament < ActiveRecord::Base
   has_many :registrations, :class_name => 'Registration', :foreign_key => 'tournament_id'
   has_many :sections, :class_name => 'Section', :foreign_key => 'tournament_id'
 
-  validates_inclusion_of :registration, :in => %w(on off), :allow_nil => true
-  validates_inclusion_of :rating_type, :in => %w(regular regular-live), :allow_nil => true #@todo: add quick and blitz
+  REGISTRATION_STATES =  %w(off on)
+  RATING_TYPES = %w(regular regular-live)
+
+  validates_inclusion_of :registration, :in => REGISTRATION_STATES, :allow_nil => true
+  validates_inclusion_of :rating_type, :in => RATING_TYPES, :allow_nil => true #@todo: add quick and blitz
 
   before_save :default_values
 

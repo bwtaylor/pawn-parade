@@ -6,7 +6,7 @@ module PlayersHelper
 
   def freshen_ratings
     Player.all.each do |p|
-      p.uscf
+      p.uscf if p.uscf_id.length = 8
       p.save!
     end
   end

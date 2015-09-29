@@ -1,11 +1,33 @@
 class TournamentsController < ApplicationController
 
-  before_filter :authenticate_user!, :only => [:group_show, :guardian_show]
+  before_filter :authenticate_user!, :only => [:new, :create, :update, :group_show, :guardian_show]
+  before_filter :authorize_admin, :only => [:new, :create, :edit, :update]
+
+  respond_to :html
 
   def show
     @tournament = Tournament.find_by_slug(params[:id])
     asciidoc = @tournament.description_asciidoc
     @description = asciidoc.nil? ? @tournament.short_description : ::Asciidoctor.render(asciidoc)
+  end
+
+  def new
+    @tournament = Tournament.new
+    respond_with(@tournament)
+  end
+
+  def create
+    @tournament = Tournament.new(params[:tournament])
+    if @tournament.save and @tournament.errors.empty?
+      flash[:notice] = "Tournament #{@tournament.name} has been created with slug #{@tournament.slug}"
+      redirect_to @tournament
+    else
+      render :new
+    end
+  end
+
+  def edit
+    @tournament = Tournament.find_by_slug(params[:id])
   end
 
   def team_show

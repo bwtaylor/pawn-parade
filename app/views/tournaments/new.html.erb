@@ -1,0 +1,56 @@
+<h1>Create Tournament</h1>
+
+<%= form_for @tournament,
+             url: {controller: 'tournaments', action: 'create'},
+             html: {multipart: true, class: 'tournament_form'} do |f| %>
+
+    <fieldset>
+      <legend>Tournament Information: Create a Tournament</legend>
+      <% @tournament.errors.full_messages.each do |msg| %>
+          <p><%= msg %></p>
+      <% end %>
+      <div class="column_block">
+        <ol>
+          <li>
+            <%= f.label :slug %>
+            <%= f.text_field :slug %>
+          </li>
+          <li>
+            <%= f.label :name %>
+            <%= f.text_field :name %>
+          </li>
+          <li>
+            <%= f.label :location %>
+            <%= f.text_field :location %>
+          </li>
+          <li>
+            <%= f.label :event_date %>
+            <%= f.date_select :event_date %>
+          </li>
+          <li>
+            <%= f.label :short_description %>
+            <%= f.text_field :short_description, :size => 255 %>
+          </li>
+        </ol>
+      </div>
+      <div class="column_block">
+        <ol>
+          <li>
+            <%= f.label :registration %>
+            <%= f.select :registration, Tournament::REGISTRATION_STATES,
+                         {:include_blank => FALSE} %>
+          </li>
+          <li>
+            <%= f.label :rating_type %>
+            <%= f.select :rating_type, Tournament::RATING_TYPES,
+                         {:include_blank => FALSE, :selected => 'regular'} %>
+          </li>
+          <li>
+            <%= f.label :fee %>
+            <%= f.text_field :fee, :value => number_with_precision( (f.object.fee || 0), :precision => 2) %>
+          </li>
+        </ol>
+      </div>
+    </fieldset><br class="column-stop"/>
+    <%= f.submit 'Create Tournament' %>
+<% end %>
