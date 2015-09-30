@@ -1,7 +1,7 @@
 class TournamentsController < ApplicationController
 
   before_filter :authenticate_user!, :only => [:new, :create, :update, :group_show, :guardian_show]
-  before_filter :authorize_admin, :only => [:new, :create, :edit, :update]
+  before_filter :authorize_admin, :only => [:new, :create, :edit, :update, :index]
 
   respond_to :html
 
@@ -28,6 +28,11 @@ class TournamentsController < ApplicationController
 
   def edit
     @tournament = Tournament.find_by_slug(params[:id])
+  end
+
+  def index
+    @upcoming = Tournament.upcoming
+    @past = Tournament.past
   end
 
   def team_show

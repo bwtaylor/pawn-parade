@@ -3,7 +3,8 @@ pages = {
     'sign in' => '/user/sign_in',
     'team' => '/teams',
     'dashboard' => '/dashboard/index',
-    'create tournament' => '/tournaments/new'
+    'create tournament' => '/tournaments/new',
+    'tournaments' => '/tournaments'
 }
 
 def page_template(page_name, id)

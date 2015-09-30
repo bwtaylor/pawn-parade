@@ -49,5 +49,17 @@ class Tournament < ActiveRecord::Base
   def to_param
     slug
   end
+
+  def self.upcoming
+    Tournament.all.select {|t| t[:event_date].to_datetime > Time.now() - 24*60*60 }
+  end
+
+  def self.past
+    Tournament.all.select {|t| t[:event_date].to_datetime <= Time.now() - 24*60*60 }
+  end
+
+
+
+
 end
 

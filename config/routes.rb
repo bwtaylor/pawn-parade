@@ -29,7 +29,7 @@ PawnParade::Application.routes.draw do
 
   resources :schedules, :only => [:show, :index]
 
-  resources :tournaments, :only => [:show, :new, :create, :edit, :update] do
+  resources :tournaments, :only => [:show, :new, :create, :edit, :update, :index] do
     get 'guardian_show', on: :member
     get 'uscf', on: :member
     resources :registrations, :only => [:create, :new, :index]

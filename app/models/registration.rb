@@ -63,6 +63,7 @@ class Registration < ActiveRecord::Base
   after_initialize :guardians
   before_validation :school_for_adults
   validate :upcase, :section_status, :guardian_emails_format, :name_matches_player, :section_eligibility
+
   before_create :no_duplicates
   before_save :default_values
 

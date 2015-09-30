@@ -1,0 +1,49 @@
+<b>Administrate Tournaments</b>
+<table class="tournament-schedule grid" border="1">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Event</th>
+      <th/>
+      <th/>
+      <th/>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% if @upcoming.size > 0 %>
+
+    <% @upcoming.sort_by{|t| t.event_date }.each do |tournament| %>
+
+    <tr>
+      <td><%= tournament.event_date %></td>
+      <td><%= link_to "#{tournament.name}", edit_tournament_path(tournament) %></td>
+      <td><%= link_to 'Flyer' , tournament %></td>
+      <td><%= link_to 'Registrations', tournament_registrations_path(tournament) %></td>
+      <td><%= link_to 'Sections', tournament_sections_path(tournament) %></td>
+    </tr>
+
+    <% end %>
+
+  <% end %>
+
+  <tr>
+    <td/>
+  </tr>
+
+  <% if @past.size > 0 %>
+
+    <% @past.sort_by{|t| t.event_date }.reverse.each do |tournament| %>
+
+      <tr>
+        <td><%= tournament.event_date %></td>
+        <td><%= link_to "#{tournament.name}", edit_tournament_path(tournament) %></td>
+        <td><%= link_to 'Flyer' , tournament %></td>
+        <td><%= link_to 'Registrations', tournament_registrations_path(tournament) %></td>
+        <td><%= link_to 'Sections', tournament_sections_path(tournament) %></td>
+      </tr>
+
+    <% end %>
+  </tbody>
+</table>
+<% end %>

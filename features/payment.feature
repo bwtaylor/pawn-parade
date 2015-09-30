@@ -55,15 +55,3 @@ Feature: Dynamic Content on Schedule
       | ANT, ART                                |
     And I should not see content "ANT, ALICE"
 
-  Scenario: Registration shows amount due, amount paid, and payment method
-    Given The existing schedules are:
-      | slug        | name          |
-      | san_antonio | San Antonio   |
-      | austin      | Austin        |
-      | nisd_tx     | Northside ISD |
-    When I navigate to "/schedules"
-    Then I should see the schedules table matching
-      | Schedule      |
-      | Austin        |
-      | Northside ISD |
-      | San Antonio   |
