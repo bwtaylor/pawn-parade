@@ -97,7 +97,7 @@ class Registration < ActiveRecord::Base
         self.fee = 0.00
     when 'no show'
     else
-      self.fee = self.tournament.fee
+      self.fee = (self.get_section.fee if self.get_section) || self.tournament.fee
       self.fee ||= 0.00
       self.paid ||= 0.00
       errors.add(:section, 'Section can\'t be blank.') if self.section.nil? or self.section.empty?

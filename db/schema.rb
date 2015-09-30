@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150115161508) do
+ActiveRecord::Schema.define(:version => 20150930051213) do
 
   create_table "guardians", :force => true do |t|
     t.integer  "player_id",  :null => false
@@ -133,17 +133,18 @@ ActiveRecord::Schema.define(:version => 20150115161508) do
   end
 
   create_table "sections", :force => true do |t|
-    t.integer  "tournament_id",               :null => false
-    t.string   "name",          :limit => 80, :null => false
-    t.string   "slug",          :limit => 80, :null => false
-    t.boolean  "rated",                       :null => false
-    t.string   "status",        :limit => 40, :null => false
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
+    t.integer  "tournament_id",                                             :null => false
+    t.string   "name",          :limit => 80,                               :null => false
+    t.string   "slug",          :limit => 80,                               :null => false
+    t.boolean  "rated",                                                     :null => false
+    t.string   "status",        :limit => 40,                               :null => false
+    t.datetime "created_at",                                                :null => false
+    t.datetime "updated_at",                                                :null => false
     t.integer  "max"
     t.integer  "rating_cap"
     t.integer  "grade_min"
     t.integer  "grade_max"
+    t.decimal  "fee",                         :precision => 8, :scale => 2
   end
 
   create_table "tag_defs", :force => true do |t|

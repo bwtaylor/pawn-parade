@@ -1,7 +1,7 @@
 <h1>Dashboard for <%= current_user.email %></h1>
 <% if current_user.try(:admin?) %>
-    <%= link_to 'Create Tournament', new_tournament_path, :method => 'get' %>
-    <%= link_to 'View Tournaments', tournaments_path, :method => 'get' %>
+    <%= link_to 'Create Tournament', new_tournament_path %>
+    <%= link_to 'View Tournaments', tournaments_path %>
 <% end %>
 <h2>Teams you Manage:</h2>
 If you are a coach and your team doesn't exist in the system yet, email Bryan Taylor at

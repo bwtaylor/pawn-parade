@@ -1,5 +1,5 @@
 class Section < ActiveRecord::Base
-  attr_accessible :name, :slug, :rated, :status, :max, :rating_cap, :grade_max, :grade_min
+  attr_accessible :name, :slug, :rated, :status, :max, :rating_cap, :grade_max, :grade_min, :fee
   belongs_to :tournament
 
   validates_inclusion_of :status, :allow_nil => true,
