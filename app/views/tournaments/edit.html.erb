@@ -1,7 +1,7 @@
 <h1>Edit Tournament</h1>
 
 <%= form_for @tournament,
-             url: {controller: 'tournaments', action: 'create'},
+             url: {controller: 'tournaments', action: 'update'},
              html: {multipart: true, class: 'tournament_form'} do |f| %>
 
     <fieldset>

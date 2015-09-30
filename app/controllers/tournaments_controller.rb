@@ -30,6 +30,17 @@ class TournamentsController < ApplicationController
     @tournament = Tournament.find_by_slug(params[:id])
   end
 
+  def update
+    @tournament = Tournament.find_by_slug(params[:id])
+    @tournament.update_attributes(params[:tournament])
+    if @tournament.save and @tournament.errors.empty?
+      flash[:notice] = "Tournament #{@tournament.name} [#{@tournament.slug}] has been updated "
+      redirect_to tournaments_path, :action => :show
+    else
+      render :edit
+    end
+  end
+
   def index
     @upcoming = Tournament.upcoming
     @past = Tournament.past
