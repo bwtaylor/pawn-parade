@@ -1,7 +1,7 @@
 module RegistrationsHelper
 
   def reg_dump_header
-    "id\tplayer_id\tsection\tname\tteam\tschool\tgrade\tuscf_id\tstatus\trating\tgender\tdob\tstreet\tcity\tstate\tzip_code\tfull_team\tbye_requests\tguardian_emails\tteam_slug\tproblem\n"
+    "id\tplayer_id\tsection\tname\tteam\tschool\tgrade\tuscf_id\tstatus\trating\tpaid\tfee\tmethod\tnote\tgender\tdob\tstreet\tcity\tstate\tzip_code\tfull_team\tbye_requests\tguardian_emails\tteam_slug\tproblem\n"
   end
 
   def reg_dump(registration)
@@ -10,12 +10,13 @@ module RegistrationsHelper
     guardian_emails = Guardian.find_all_by_player_id(r.player.id).map{|g| g.email}.join(',')
     team_slug = r.player.team.nil? ? team(r.school) : r.player.team.slug
 
-    mpa = TagDef.find_by_entity_class_and_tag('Player','mpa')
+    # mpa = TagDef.find_by_entity_class_and_tag('Player','mpa')
     problem = ''
-    problem += 'nompa' unless mpa.tagged?(r.player_id)
+    # problem += 'nompa' unless mpa.tagged?(r.player_id)
 
     reg_dump = "#{r.id}\t#{r.player_id}\t#{r.section}\t#{r.last_name}, #{r.first_name}\t#{r.player.team.name if r.player.team}\t"
-    reg_dump += "#{r.school}\t#{r.grade}\t#{r.uscf_member_id}\t#{r.status}\t#{r.rating}\t#{r.gender}\t#{r.date_of_birth}\t"
+    reg_dump += "#{r.school}\t#{r.grade}\t#{r.uscf_member_id}\t#{r.status}\t#{r.rating}\t"
+    reg_dump += "#{dollars(r.paid)}\t#{dollars(r.fee)}\t#{r.payment_method}\t#{r.payment_note}\t#{r.gender}\t#{r.date_of_birth}\t"
     reg_dump += "#{r.address}\t#{r.city}\t#{r.state}\t#{r.zip_code}\t#{full_team}\t0\t#{guardian_emails}\t#{team_slug}\t#{problem}\n"
     reg_dump
   end

@@ -17,7 +17,8 @@
 
     <tr>
       <td><%= tournament.event_date %></td>
-      <td><%= link_to "#{tournament.name}", edit_tournament_path(tournament) %></td>
+      <td><%= link_to "#{tournament.name}",  tournament_registrations_path(tournament) %>
+          <%= link_to "Edit", edit_tournament_path(tournament) %></td>
       <td><%= link_to 'Flyer' , tournament %></td>
       <td><%= link_to 'Registrations', tournament_registrations_path(tournament) %></td>
       <td><%= link_to 'Sections', tournament_sections_path(tournament) %></td>

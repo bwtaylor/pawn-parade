@@ -78,6 +78,7 @@ class RegistrationsController < ApplicationController
     player.pull_live_rating
     player.save!
     @return_to = params[:return_to]
+
     registrations = Registration.find_all_by_tournament_id_and_player_id(@tournament.id,player.id)
     @registration = registrations[0]
     dup_registrations = registrations[1..-1]
