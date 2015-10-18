@@ -19,7 +19,7 @@ module ApplicationHelper
       else
         sep = ",\n"
     end
-    emails.join(sep)
+    emails.reject{|email| !(User::EMAIL_REGEX =~ email) }.join(sep)
 
   end
 
