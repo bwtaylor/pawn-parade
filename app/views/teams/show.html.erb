@@ -1,7 +1,13 @@
 <h2><%= @team.name %> Team Roster</h2>
 
 <b>Team Managers</b><br/>
-
+<% if current_user.admin? %>
+    <%= form_tag(controller: :teams, action: :add_manager) do %>
+        <%= label_tag :manager_email, 'Manager Email:' %>
+        <%= text_field_tag :manager_email, nil, :size => 80 %>
+        <%= submit_tag 'Add' %>
+    <% end %>
+<% end %>
 <% @team.managers.each do |manager| %>
   <%= "#{manager.email}" %><br/>
 <% end %><p/>

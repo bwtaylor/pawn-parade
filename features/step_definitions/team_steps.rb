@@ -17,6 +17,7 @@ end
 
 Given(/^(.*) manages (.*)$/) do |user_email, team_slug|
   user = User.find_by_email(user_email)
+  user = User.create!(:email => user_email, :password => 'passw0rd') if user.nil?
   team = Team.find_by_slug(team_slug)
   raise "no team has slug #{team_slug}" if team.nil?
   user.managed_teams << team unless user.managed_teams.include? team

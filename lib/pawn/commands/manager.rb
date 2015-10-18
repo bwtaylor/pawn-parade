@@ -15,9 +15,8 @@ ________
     user_email=args[0]
     team = Team.find_by_slug(team_slug)
     raise "no slug #{team_slug} found" if team.nil?
-    user = User.find_by_email(user_email)
+    user = team.add_manager(user_email)
     raise "no user #{user_email} found" if user.nil?
-    team.managers << user
     team.save!
     puts "made #{user.email} team manager for #{team.name}"
   end

@@ -57,9 +57,22 @@ dev.powered_by {
   margin-right: 10px;
 }
 
-div.flash-registered {
+div.flash-success {
   height: 32px;
   background: url('/images/check.jpg') no-repeat;
+  background-color: $faintyellow;
+  padding: 5px 0 5px 50px;
+  color: black;
+  display: block;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: left;
+}
+
+div.flash-alert {
+  height: 32px;
+  background: url('/images/alert.jpg') no-repeat;
   background-color: $faintyellow;
   padding: 5px 0 5px 50px;
   color: black;

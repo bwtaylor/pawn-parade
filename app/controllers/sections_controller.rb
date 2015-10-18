@@ -34,6 +34,21 @@ class SectionsController < ApplicationController
     end
   end
 
+  def email
+    tournament = Tournament.find_by_slug(params[:tournament_id])
+    section = Section.find_by_tournament_id_and_slug(tournament.id, params[:section_id])
+    emails = ( section.team_managers.collect { |m| m.email unless m.nil? } + section.guardian_emails ).uniq
+
+    @title = "Section #{section.name} of #{tournament.name}"
+    @content = view_context.format_email_list(emails,params[:sep])
+
+    respond_to do |format|
+      format.html {render :template => 'shared/email'}
+      format.txt  {render :template => 'shared/email'}
+    end
+
+  end
+
   def edit
   end
 

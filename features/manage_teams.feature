@@ -17,6 +17,18 @@ Feature: Manage Team List
      Then the output should contain "made bob@sacastle.org team manager for Blattman"
       And bob@sacastle.org should manage blattm
 
+  Scenario: Admin makes User a Team Manager via UI
+    Given team Blattman exists with slug blattm
+      And user bob@sacastle.org exists with password "password1"
+      And bob@sacastle.org does not manage a team
+      And I have an authenticated admin session
+     When I navigate to the team page for Blattman
+      And I enter the following:
+          | manager email | bob@sacastle.org |
+      And I click the "Add" button
+     Then bob@sacastle.org should manage blattm
+      And I should see content "bob@sacastle.org"
+
   Scenario: Dashboard lists teams I manages
     Given team Blattman exists with slug blattm
       And I have an authenticated session as bob@sacastle.org with password "password1"

@@ -1,0 +1,13 @@
+<h2>Emails for <%= @title %></h2>
+Separators:
+<%= link_to 'comma', url_for(:sep => 'comma') %>
+<%= link_to 'comma-break', url_for(:sep => 'comma-break') %>
+<%= link_to 'semicolon', url_for(:sep => 'semicolon') %>
+<%= link_to 'semicolon-break', url_for(:sep => 'semicolon-break') %>
+<%= link_to 'break', url_for(:sep => 'break') %>
+
+<hr/>
+<pre><%= @content %></pre>
+<hr/>
+<%= link_to 'raw', url_for(:format => 'txt') %>
+

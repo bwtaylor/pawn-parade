@@ -16,6 +16,12 @@ class Team < ActiveRecord::Base
     end
   end
 
+  def add_manager(email)
+    user = User.find_by_email(email)
+    managers << user unless (managers.include?(user) || user.nil?)
+    user
+  end
+
   def candidates
     Player.where('team_id is null and school like :search', search: "%#{self.name}%")
   end

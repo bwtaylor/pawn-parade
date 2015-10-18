@@ -11,9 +11,11 @@ def page_template(page_name, id)
    pages_for_id = {
      'team' => "/teams/#{team_slug_from_name(id)}",
      'edit team' => "/teams/#{team_slug_from_name(id)}/edit",
+     'team' => "/teams/#{team_slug_from_name(id)}",
      'player' => "/players/#{player_id_from_name(id)}",
      'edit player' => "/players/#{player_id_from_name(id)}/edit",
      'schedule' => "schedules/#{id}",
+     'email' => "tournaments/#{tournament_slug(id)}/sections/#{id}/email",
      'team registration' => "/teams/#{team_slug_from_name(id.split(/\s+and\s+/)[0])}/tournaments/#{id.split(/\s+and\s+/)[1]}",
      'registration status' => "/tournaments/#{id}/registrations",
      'edit tournament' => "/tournaments/#{id}/edit"
@@ -29,6 +31,11 @@ end
 def team_slug_from_name(name)
   team = Team.find_by_name(name)
   team.nil? ? '' : team.slug
+end
+
+def tournament_slug(section_slug)
+  slug = @tournament.slug if @tournament
+  slug ||= ''
 end
 
 When(/^I navigate to "(.*?)"$/) do |uri_path|

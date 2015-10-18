@@ -168,7 +168,7 @@ Feature: Preregister for Tournament
       And the tournament has sections:
         | Primary Rated Open         |
       And registration for the tournament is on
-      And the quota for section "Primary Rated Open" is 30
+      And the quota for section "Primary Rated Open" is 1
       And no registrations exist for the tournament
      When I navigate to "/tournaments/rax/registrations/new"
       And I select "Primary Rated Open" for registration_section

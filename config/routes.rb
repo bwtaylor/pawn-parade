@@ -20,6 +20,7 @@ PawnParade::Application.routes.draw do
       get 'create_player'
       post 'search'
       post 'freshen_uscf'
+      post 'add_manager'
     end
   end
 
@@ -32,8 +33,11 @@ PawnParade::Application.routes.draw do
   resources :tournaments, :only => [:show, :new, :create, :edit, :update, :index] do
     get 'guardian_show', on: :member
     get 'uscf', on: :member
+    get 'email'
     resources :registrations, :only => [:create, :new, :index]
-    resources :sections, :only => [:index, :show, :edit, :update]
+    resources :sections, :only => [:index, :show, :edit, :update] do
+      get 'email'
+    end
   end
 
   post '/payment', to: 'payments#paypal_ipn_callback'

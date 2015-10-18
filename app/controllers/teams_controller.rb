@@ -38,6 +38,18 @@ class TeamsController < ApplicationController
     end
   end
 
+  def add_manager
+    team_by_slug
+    email = params[:manager_email]
+    user = @team.add_manager(email)
+    if user.nil?
+      flash[:alert] = "No User found with email #{email}"
+    else
+      flash[:success] = "Added #{email} as team manager"
+    end
+    redirect_to @team
+  end
+
   def extract_player(hit)
     player = Player.new
     player.uscf_id = hit[0].content.strip[0,8]
@@ -58,7 +70,7 @@ class TeamsController < ApplicationController
   def freshen_uscf
     team_by_slug
     @team.freshen_uscf
-    render :action => :show
+    redirect_to @team
   end
 
   def search

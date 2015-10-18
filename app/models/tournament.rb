@@ -19,11 +19,24 @@ class Tournament < ActiveRecord::Base
     self.rating_type  ||= 'regular'
   end
 
-  def registration_count
+  def active_registrations
     excluded_statuses = ['withdraw', 'spam', 'duplicate', 'no show']
     regs = Registration.find_all_by_tournament_id(self.id)
-    regs.reject{ |r| excluded_statuses.include?(r.status) }.length
+    regs.reject{ |r| excluded_statuses.include?(r.status) }
   end
+
+  def registration_count
+    active_registrations.length
+  end
+
+  def guardian_emails
+    active_registrations.collect{|r| r.guardians}.flatten.uniq
+  end
+
+  def team_managers
+    active_registrations.collect{|r| r.player.team.managers if r.player.team }.flatten.uniq
+  end
+
 
   def total_quota
     quotas = self.sections.collect{|s| s.max}

@@ -57,6 +57,20 @@ class TournamentsController < ApplicationController
     group_show(@players)
   end
 
+  def email
+    tournament = Tournament.find_by_slug(params[:tournament_id])
+    emails = ( tournament.team_managers.collect { |m| m.email unless m.nil? } + tournament.guardian_emails ).uniq
+
+    @title = "Tournament #{tournament.name}"
+    @content = view_context.format_email_list(emails,params[:sep])
+
+    respond_to do |format|
+      format.html {render :template => 'shared/email'}
+      format.txt  {render :template => 'shared/email'}
+    end
+
+  end
+
 
   def group_show(players)
     @tournament = Tournament.find_by_slug(params[:id])

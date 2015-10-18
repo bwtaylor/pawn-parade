@@ -8,6 +8,8 @@
 <%= link_to 'Sections', tournament_sections_path(@tournament) %>
 <%= link_to 'USCF Membership File', uscf_tournament_path(@tournament, :format => :tsv) %>
 <%= link_to 'Roster File', tournament_registrations_path(@tournament, :format => :txt) %>
+<%= link_to 'Emails', tournament_email_path(@tournament) %>
+
 <p/>
 
 

@@ -37,16 +37,16 @@ class RegistrationsController < ApplicationController
 
     if @registration.save
       if @registration.status.eql? 'request'
-       flash[:registered] = "#{@registration.first_name} #{@registration.last_name} is preregistered " +
+       flash[:success] = "#{@registration.first_name} #{@registration.last_name} is preregistered " +
                             " in the \"#{@registration.section}\" section of #{@tournament.name}"
       elsif @registration.status.eql? 'uscf id needed'
-        flash[:registered] = "#{@registration.first_name} #{@registration.last_name} is preregistered " +
+        flash[:success] = "#{@registration.first_name} #{@registration.last_name} is preregistered " +
             " in the \"#{@registration.section}\" section of #{@tournament.name}, but NEEDS USCF MEMBERSHIP"
       elsif @registration.status.eql? 'uscf membership expired'
-        flash[:registered] = "#{@registration.first_name} #{@registration.last_name} is preregistered " +
+        flash[:success] = "#{@registration.first_name} #{@registration.last_name} is preregistered " +
             " in the \"#{@registration.section}\" section of #{@tournament.name}, but NEEDS TO RENEW USCF MEMBERSHIP"
       elsif @registration.status == 'waiting list'
-        flash[:registered] = "SECTION FULL!! #{@registration.first_name} #{@registration.last_name} is on the waiting list " +
+        flash[:alert] = "SECTION FULL!! #{@registration.first_name} #{@registration.last_name} is on the waiting list " +
             " in the \"#{@registration.section}\" section of #{@tournament.name}"
       end
       player.add_guardians @registration.guardians
@@ -96,13 +96,13 @@ class RegistrationsController < ApplicationController
 
     if @registration.save
       if @registration.status == 'request'
-        flash[:registered] = "#{@registration.first_name} #{@registration.last_name} is preregistered " +
+        flash[:success] = "#{@registration.first_name} #{@registration.last_name} is preregistered " +
             " in the \"#{@registration.section}\" section of #{@tournament.name}"
       elsif @registration.status == 'waiting list'
-        flash[:registered] = "SECTION FULL!! #{@registration.first_name} #{@registration.last_name} is on the waiting list " +
+        flash[:alert] = "SECTION FULL!! #{@registration.first_name} #{@registration.last_name} is on the waiting list " +
             " in the \"#{@registration.section}\" section of #{@tournament.name}"
       elsif @registration.status == 'withdraw'
-        flash[:registered] = "#{@registration.first_name} #{@registration.last_name} has withdrawn from #{@tournament.name}"
+        flash[:alert] = "#{@registration.first_name} #{@registration.last_name} has withdrawn from #{@tournament.name}"
       end
       dup_registrations.each do |r|
         r.status = 'duplicate'

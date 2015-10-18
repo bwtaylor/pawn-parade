@@ -45,11 +45,21 @@ class Section < ActiveRecord::Base
   end
 
   def full?
-    full_by_fiat = self.status=='full'
+    full_by_fiat = (self.status=='full')
     maxnil = self.max.nil?
     count = self.registration_count
-    at_capacity = !maxnil && count >= self.max
+    at_capacity = !maxnil && (count >= self.max)
     full_by_fiat | at_capacity
+  end
+
+  def guardian_emails
+    regs = Registration.find_all_by_tournament_id_and_section(self.tournament_id,self.name)
+    regs.collect{|r| r.guardians}.flatten.uniq
+  end
+
+  def team_managers
+    regs = Registration.find_all_by_tournament_id_and_section(self.tournament_id,self.name)
+    regs.collect{|r| r.player.team.managers if r.player.team }.flatten.uniq
   end
 
   def to_param
