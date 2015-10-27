@@ -83,7 +83,8 @@ class Registration < ActiveRecord::Base
 
   def guardians
     @guardians = self.guardian_emails.downcase.split /[\s,;:]+/ if @guardians.nil? && self.guardian_emails
-    @guardians.reject! {|email| !email.include?('@')}
+    @guardians = [] if @guardians.nil?
+    @guardians.reject! {|email| !(User::EMAIL_REGEX =~ email) }
     @guardians
   end
 
