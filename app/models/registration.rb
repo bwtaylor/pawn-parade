@@ -1,3 +1,5 @@
+require 'date'
+
 class Registration < ActiveRecord::Base
 
   attr_accessible :tournament_id,
@@ -232,6 +234,13 @@ class Registration < ActiveRecord::Base
     else
       p.team.slug
     end
+  end
+
+  def need_payment?
+    r = self
+    paid = r.fee.nil? or (r.paid >= r.fee)
+    unexpired = (Date.today - 30) < r.tournament.event_date
+    unexpired and !paid
   end
 
 end

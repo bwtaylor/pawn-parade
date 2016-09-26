@@ -21,7 +21,7 @@ USCF Status: <%= @player.uscf_status %> (expires: <%= @player.uscf_expires %>)<b
         <%= registration.tournament.name %>: <%= registration.get_section.name %>
         <% unless hide_fees %>
           <%= "(fee=#{dollars(registration.fee)}, paid=#{dollars(registration.paid)})" %>
-            <% unless registration.fee.nil? or (registration.paid >= registration.fee) %>
+            <% if registration.need_payment? %>
                 <% sandbox = Rails.env != 'production' %>
                 <% merchant = ENV['PAYPAL_MERCHANT'] %>
                 <% callback_url = ENV['PAYPAL_IPN_CALLBACK_URL'] %>
@@ -74,5 +74,3 @@ USCF Status: <%= @player.uscf_status %> (expires: <%= @player.uscf_expires %>)<b
 <% else %>
     There are no tournaments that you can registered for.
 <% end %>
-
-
